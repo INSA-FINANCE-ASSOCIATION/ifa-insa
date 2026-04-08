@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos événements | INSA Finance Association</title>
+    <meta name="description" content="Découvrez tous les événements de l'INSA Finance Association à l'INSA Lyon.">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="inner-page">
+    <!-- Mobile Menu Overlay -->
+    <div id="navOverlay" class="nav-overlay"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo" title="IFA - INSA Finance Association - Accueil">
+                <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img">
+                <span class="logo-text">I.F.A.</span>
+            </a>
+            <ul class="nav-links">
+                <li class="has-submenu">
+                    <a href="index.html">Accueil</a>
+                    <ul class="submenu">
+                        <li><a href="index.html#apropos">À propos de nous</a></li>
+                        <li><a href="index.html#newsletter">Notre newsletter</a></li>
+                        <li><a href="index.html#rejoindre">Nous rejoindre</a></li>
+                        <li><a href="index.html#actualites">Nos actus</a></li>
+                        <li><a href="index.html#equipe">Qui sommes-nous</a></li>
+                        <li><a href="index.html#contact">Nous contacter</a></li>
+                    </ul>
+                </li>
+                <li><a href="evenements.html" class="active">Nos événements</a></li>
+                <li><a href="intervenant.html">Devenir intervenant</a></li>
+                <li><a href="soutenir.html">Nous soutenir</a></li>
+            </ul>
+            <div class="nav-social">
+                <a href="https://www.instagram.com/insa.finance.asso?igsh=cHZ6cHI5bWo3a3Jp" target="_blank" class="instagram-link" rel="noopener" aria-label="Instagram IFA INSA Finance">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/insa-finance-association" target="_blank" class="linkedin-link" rel="noopener" aria-label="LinkedIn IFA INSA Finance">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="page-hero-content">
+            <h1>Nos événements</h1>
+            <p>Conférences, afterworks, visites et tables rondes</p>
+            <div class="page-hero-breadcrumb">
+                <a href="index.html">Accueil</a>
+                <span>/</span>
+                <span>Nos événements</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="evenements" class="programme" aria-labelledby="evenements-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="evenements-title">Nos événements</h2>
+                <div class="underline"></div>
+                <p class="section-subtitle">Découvrez les événements à venir que nous proposons.</p>
+            </div>
+            <div class="timeline" id="timeline-container">
+                <p id="events-loading" style="text-align:center;color:#888;">Chargement des événements...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img">
+                        <span>I.F.A.</span>
+                    </div>
+                    <p>IFA - INSA Finance Association Lyon - L'association de finance de l'INSA Lyon qui sensibilise les étudiants-ingénieurs aux marchés financiers et à l'économie.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="evenements.html">Nos événements</a></li>
+                        <li><a href="intervenant.html">Devenir intervenant</a></li>
+                        <li><a href="soutenir.html">Nous soutenir</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 IFA - INSA Finance Association Lyon. Tous droits réservés. | Association finance étudiants INSA</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut de page">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <script src="script.js"></script>
+</body>
+</html>

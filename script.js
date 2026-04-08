@@ -1,0 +1,1069 @@
+/* =============================================
+   IFA - INSA Finance Association
+   JavaScript principal
+   ============================================= */
+
+// =========================================
+// Données dynamiques depuis Google Sheet
+// =========================================
+const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby2-LIVHfWSChiuc8gYC42BlfFClFIkgNKRcIgp3KzQNZYWj27xIHclL_40YhbsAMZmYg/exec';
+
+function toTypeCode(typeNom) {
+    return (typeNom || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-');
+}
+
+// --- Événements ---
+(function loadEvents() {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+
+    fetch(SHEET_API_URL + '?sheet=Ev%C3%A9nements')
+        .then(r => r.json())
+        .then(rawRows => {
+            const rows = rawRows.map(normalizeRow);
+            if (!rows.length) {
+                container.innerHTML = `
+                    <div class="events-empty">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Aucun événement à venir pour le moment.</p>
+                        <span>Suivez-nous sur les réseaux pour ne rien manquer !</span>
+                    </div>`;
+                return;
+            }
+
+            // Séparer à venir / passés (si colonne Année présente, sinon tout en "à venir")
+            const now = new Date();
+            const upcoming = [], past = [];
+            rows.forEach(ev => {
+                const moisMap = {janvier:0,février:1,mars:2,avril:3,mai:4,juin:5,juillet:6,août:7,septembre:8,octobre:9,novembre:10,décembre:11};
+                const moisIdx = moisMap[(ev['Mois']||'').toLowerCase()];
+                const jour = parseInt(ev['Jour']) || 1;
+                const annee = parseInt(ev['Année']) || now.getFullYear();
+                const evDate = (moisIdx !== undefined) ? new Date(annee, moisIdx, jour) : null;
+                if (!evDate || evDate >= now) upcoming.push(ev);
+                else past.push(ev);
+            });
+
+            // Abréviation du mois en français
+            const moisAbbr = {
+                'janvier':'JAN','février':'FÉV','mars':'MAR','avril':'AVR',
+                'mai':'MAI','juin':'JUI','juillet':'JUI','août':'AOÛ',
+                'septembre':'SEP','octobre':'OCT','novembre':'NOV','décembre':'DÉC'
+            };
+
+            function renderTimeline(list, isPast) {
+                return list.map(ev => {
+                    const typeNom  = (ev['typeNom'] || ev['Type'] || '').trim();
+                    const typeCode = toTypeCode(typeNom);
+                    const imgUrl   = getDriveImageUrl(ev['Image'] || '');
+                    const imgUrl2  = getDriveImageUrl(ev['Image 2'] || ev['Image2'] || '');
+                    const intervenant = ev['Intervenant'] ? `<div class="tl-meta"><i class="fas fa-user-tie"></i><span>${ev['Intervenant']}</span></div>` : '';
+                    const heure       = ev['Heure']       ? `<div class="tl-meta"><i class="fas fa-clock"></i><span>${ev['Heure']}</span></div>` : '';
+                    const lieuTexte   = ev['Lieu'] || '';
+                    const lieuUrl     = lieuTexte ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lieuTexte)}` : '';
+                    const lieu        = lieuTexte ? `<div class="tl-meta"><i class="fas fa-map-marker-alt"></i><a href="${lieuUrl}" target="_blank" rel="noopener" class="tl-lieu-link">${lieuTexte}</a></div>` : '';
+                    const titre        = (ev['Titre'] || '').trim();
+                    const infosRaw     = (ev['Infos'] || '').trim();
+                    const descRaw      = (ev['Description'] || '').trim();
+                    const infos        = (infosRaw && infosRaw !== titre) ? `<div class="tl-meta"><i class="fas fa-info-circle"></i><span>${infosRaw}</span></div>` : '';
+                    const description  = (descRaw && descRaw !== titre)  ? `<p class="tl-description">${descRaw}</p>` : '';
+                    const lienBtn     = ev['Lien']        ? `<a href="${ev['Lien']}" class="tl-btn" target="_blank" rel="noopener">S'inscrire <i class="fas fa-arrow-right"></i></a>` : '';
+                    const jourNum     = ev['Jour'] || '—';
+                    const moisNom     = (ev['Mois'] || '').toLowerCase();
+                    const moisText    = moisAbbr[moisNom] || (ev['Mois'] || '').substring(0,3).toUpperCase();
+
+                    // Cercles photos (haut droite) — uniquement si photo existe
+                    const circle1 = imgUrl  ? `<div class="tl-circle" style="background-image:url('${imgUrl}')"></div>`  : '';
+                    const circle2 = imgUrl2 ? `<div class="tl-circle" style="background-image:url('${imgUrl2}')"></div>` : '';
+
+                    return `
+                    <div class="tl-item${isPast ? ' tl-past' : ''}">
+                        <div class="tl-date">
+                            <span class="tl-day">${jourNum}</span>
+                            <span class="tl-month">${moisText}</span>
+                        </div>
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <div class="tl-content-top">
+                                <span class="tl-badge ${typeCode}">${typeNom}</span>
+                                <div class="tl-circles">${circle1}${circle2}</div>
+                            </div>
+                            <h3 class="tl-title">${titre}</h3>
+                            <div class="tl-metas">${intervenant}${heure}${lieu}${infos}</div>
+                            ${description}
+                            ${lienBtn}
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            let html = '';
+            if (upcoming.length) {
+                html += `<div class="tl-section-label"><i class="fas fa-calendar-check"></i> Événements à venir</div>
+                         <div class="tl-timeline">${renderTimeline(upcoming, false)}</div>`;
+            }
+            if (past.length) {
+                html += `<div class="tl-section-label tl-past-label"><i class="fas fa-history"></i> Événements passés</div>
+                         <div class="tl-timeline">${renderTimeline(past, true)}</div>`;
+            }
+            container.innerHTML = html;
+        })
+        .catch(() => {
+            container.innerHTML = '<p style="text-align:center;color:#888;">Impossible de charger les événements.</p>';
+        });
+})();
+
+// Convertit un lien Google Drive "view" en lien image direct
+function getDriveImageUrl(url) {
+    if (!url) return '';
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (match) return `https://lh3.googleusercontent.com/d/${match[1]}=w800`;
+    return url; // URL directe (non-Drive) : on la retourne telle quelle
+}
+
+// Formate une date en "Mardi ; 8 ; avril 2026"
+function formatDate(raw) {
+    if (!raw) return '';
+    const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const mois  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    let d = null;
+    // Format DD/MM/YYYY
+    const dmyMatch = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (dmyMatch) d = new Date(parseInt(dmyMatch[3]), parseInt(dmyMatch[2]) - 1, parseInt(dmyMatch[1]));
+    // Format YYYY-MM-DD
+    if (!d) { const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})/); if (isoMatch) d = new Date(parseInt(isoMatch[1]), parseInt(isoMatch[2]) - 1, parseInt(isoMatch[3])); }
+    // Format JS toString : "Wed Oct 22 2025 00:00:00 GMT+..."
+    if (!d) { const parsed = new Date(raw); if (!isNaN(parsed)) d = parsed; }
+    if (d && !isNaN(d)) return `${jours[d.getDay()]} ${d.getDate()} ${mois[d.getMonth()]} ${d.getFullYear()}`;
+    return raw;
+}
+
+// Normalise les clés JSON (supprime les espaces autour des noms de colonnes)
+function normalizeRow(row) {
+    const n = {};
+    Object.keys(row).forEach(k => { n[k.trim()] = typeof row[k] === 'string' ? row[k].trim() : row[k]; });
+    return n;
+}
+
+// --- Actualités ---
+(function loadActualites() {
+    const container = document.getElementById('actualites-container');
+    if (!container) return;
+
+    fetch(SHEET_API_URL + '?sheet=Actualit%C3%A9s')
+        .then(r => r.json())
+        .then(rawRows => {
+            const rows = rawRows.map(normalizeRow).sort((a, b) => {
+                const da = new Date(a['Date'] || 0), db = new Date(b['Date'] || 0);
+                return db - da;
+            });
+            if (!rows.length) {
+                container.innerHTML = '<p style="text-align:center;color:#888;">Aucune actualité pour le moment.</p>';
+                return;
+            }
+
+            const cards = rows.map(actu => {
+                const imgUrl = getDriveImageUrl(actu['Image']);
+                const lien   = actu['Lien'] || '#';
+                const imageBlock = imgUrl
+                    ? `<div class="article-image"><img src="${imgUrl}" alt="${actu['Titre']}" loading="lazy"><span class="article-category">${actu['Catégorie'] || ''}</span></div>`
+                    : `<div class="article-no-image"><span class="article-category">${actu['Catégorie'] || ''}</span></div>`;
+                return `
+                    <article class="article-card" onclick="window.open('${lien}','_blank')" style="cursor:pointer;">
+                        ${imageBlock}
+                        <div class="article-content">
+                            <span class="article-date"><i class="far fa-calendar"></i> ${formatDate(actu['Date'])}</span>
+                            <h3>${actu['Titre'] || ''}</h3>
+                            <p class="article-description">${actu['Description'] || ''}</p>
+                            <a href="${lien}" class="read-more" target="_blank" rel="noopener" onclick="event.stopPropagation()">Lire la suite <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>`;
+            }).join('');
+
+            container.style.display = 'block'; // override articles-grid
+            container.innerHTML = `
+                <div class="actu-carousel-outer">
+                    <button class="actu-nav-btn actu-prev" id="actuPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                    <div class="actu-track-wrapper" id="actuTrackWrapper">
+                        <div class="actu-track" id="actuTrack">${cards}</div>
+                    </div>
+                    <button class="actu-nav-btn actu-next" id="actuNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="actu-dots" id="actuDots"></div>`;
+
+            initActuCarousel(rows.length);
+        })
+        .catch(() => {
+            container.innerHTML = '<p style="text-align:center;color:#888;">Impossible de charger les actualités.</p>';
+        });
+})();
+
+function initActuCarousel(total) {
+    const wrapper  = document.getElementById('actuTrackWrapper');
+    const track    = document.getElementById('actuTrack');
+    const prevBtn  = document.getElementById('actuPrev');
+    const nextBtn  = document.getElementById('actuNext');
+    const dotsWrap = document.getElementById('actuDots');
+    if (!wrapper || !track) return;
+
+    let current = 0;
+    let autoTimer = null;
+
+    function getVisible() {
+        if (window.innerWidth < 640)  return 1;
+        if (window.innerWidth < 1024) return 2;
+        return 3;
+    }
+
+    function getMax() { return Math.max(0, total - getVisible()); }
+
+    function goTo(idx) {
+        const max = getMax();
+        if (idx < 0) idx = max;
+        if (idx > max) idx = 0;
+        current = idx;
+
+        // Calcul du déplacement basé sur la largeur réelle d'une carte + gap
+        const cards = track.querySelectorAll('.article-card');
+        if (!cards.length) return;
+        const gap  = parseInt(getComputedStyle(track).gap) || 24;
+        const step = cards[0].offsetWidth + gap;
+        track.style.transform = `translateX(-${current * step}px)`;
+
+        // Mise à jour des points
+        dotsWrap.querySelectorAll('.actu-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startAuto() {
+        stopAuto();
+        autoTimer = setInterval(() => goTo(current + 1), 5000);
+    }
+    function stopAuto() { clearInterval(autoTimer); }
+
+    // Créer les points indicateurs
+    const max = getMax();
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i <= max; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'actu-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => { goTo(i); startAuto(); });
+        dotsWrap.appendChild(dot);
+    }
+
+    prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+    nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+
+    // Swipe tactile
+    let tx = 0;
+    track.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; stopAuto(); }, { passive: true });
+    track.addEventListener('touchend',   e => {
+        const diff = tx - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+        startAuto();
+    }, { passive: true });
+
+    wrapper.addEventListener('mouseenter', stopAuto);
+    wrapper.addEventListener('mouseleave', startAuto);
+
+    // Recalcul au resize
+    window.addEventListener('resize', () => {
+        // Reconstruire les dots si le nombre de slides visibles change
+        const newMax = getMax();
+        if (dotsWrap.children.length !== newMax + 1) {
+            dotsWrap.innerHTML = '';
+            for (let i = 0; i <= newMax; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'actu-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => { goTo(i); startAuto(); });
+                dotsWrap.appendChild(dot);
+            }
+        }
+        goTo(Math.min(current, newMax));
+    });
+
+    goTo(0);
+    startAuto();
+}
+
+// --- Équipe ---
+(function loadEquipe() {
+    const carousel = document.getElementById('bureauCarousel');
+    if (!carousel) return;
+
+    fetch(SHEET_API_URL + '?sheet=%C3%89quipe')
+        .then(r => r.json())
+        .then(rawRows => {
+            const rows = rawRows.map(normalizeRow);
+            if (!rows || !rows.length) {
+                initBureauCarousel();
+                return;
+            }
+            carousel.innerHTML = rows.map((member, index) => {
+                const photo = member['Photo']
+                    ? `<img src="${member['Photo']}" alt="${member['Nom'] || 'Membre'}" loading="lazy">`
+                    : `<div class="member-placeholder"><i class="fas fa-user fa-3x" style="color:var(--primary-color);"></i></div>`;
+                return `
+                    <div class="bureau-member${index === 0 ? ' active' : ''}">
+                        <div class="member-image">${photo}</div>
+                        <div class="member-info">
+                            <h3>${member['Nom'] || ''}</h3>
+                            <span class="member-role">${member['Rôle'] || ''}</span>
+                            <blockquote class="member-quote">
+                                <i class="fas fa-quote-left"></i>
+                                <p>« ${member['Citation'] || ''} »</p>
+                            </blockquote>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            const indicatorsContainer = document.querySelector('.carousel-indicators');
+            if (indicatorsContainer) {
+                indicatorsContainer.innerHTML = rows.map((_, i) =>
+                    `<span class="indicator${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
+                ).join('');
+            }
+            initBureauCarousel();
+        })
+        .catch(() => initBureauCarousel());
+})();
+
+// --- Stats ---
+(function loadStats() {
+    const grid = document.getElementById('stats-grid');
+    if (!grid) return;
+
+    fetch(SHEET_API_URL + '?sheet=Stats')
+        .then(r => r.json())
+        .then(rawRows => {
+            const rows = rawRows.map(normalizeRow);
+            if (!rows || !rows.length) return;
+            grid.innerHTML = rows.map(stat => `
+                <div class="stat-item">
+                    <span class="stat-number">${stat['Valeur'] || ''}</span>
+                    <span class="stat-label">${stat['Label'] || ''}</span>
+                </div>`
+            ).join('');
+        })
+        .catch(() => {}); // Garde les stats codées en dur si erreur
+})();
+
+// =========================================
+// Bureau Members Carousel - initialisation
+// =========================================
+function initBureauCarousel() {
+    const carousel = document.getElementById('bureauCarousel');
+    if (!carousel) return;
+
+    const members = carousel.querySelectorAll('.bureau-member');
+    const indicators = document.querySelectorAll('.carousel-indicators .indicator');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    let currentIndex = 0;
+    let autoSlideInterval;
+    const autoSlideDelay = 3000;
+
+    function showMember(index) {
+        if (index < 0) index = members.length - 1;
+        if (index >= members.length) index = 0;
+        currentIndex = index;
+        members.forEach(m => m.classList.remove('active'));
+        members[currentIndex].classList.add('active');
+        indicators.forEach((ind, i) => ind.classList.toggle('active', i === currentIndex));
+    }
+
+    function nextMember() { showMember(currentIndex + 1); }
+    function prevMember() { showMember(currentIndex - 1); }
+
+    function startAutoSlide() {
+        stopAutoSlide();
+        autoSlideInterval = setInterval(nextMember, autoSlideDelay);
+    }
+    function stopAutoSlide() {
+        if (autoSlideInterval) clearInterval(autoSlideInterval);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function() { prevMember(); startAutoSlide(); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { nextMember(); startAutoSlide(); });
+
+    indicators.forEach((indicator, idx) => {
+        indicator.addEventListener('click', function() { showMember(idx); startAutoSlide(); });
+    });
+
+    let touchStartX = 0, touchEndX = 0;
+    carousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        stopAutoSlide();
+    }, { passive: true });
+    carousel.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) { diff > 0 ? nextMember() : prevMember(); }
+        startAutoSlide();
+    }, { passive: true });
+
+    carousel.addEventListener('mouseenter', stopAutoSlide);
+    carousel.addEventListener('mouseleave', startAutoSlide);
+
+    showMember(0);
+    startAutoSlide();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    // =========================================
+    // Modal Functions for Adhesion
+    // =========================================
+    window.openAdhesionModal = function(type) {
+        const modal = document.getElementById('adhesion-modal');
+        const hiddenInput = document.getElementById('type-membre-hidden');
+        const title = document.getElementById('modal-form-title');
+        const poleGroup = document.getElementById('pole-group');
+        const poleInput = document.getElementById('pole-choisi');
+        
+        if(modal) {
+            modal.classList.add('active');
+            
+            // Set dynamic title and hidden field based on button clicked
+            if(type) {
+                hiddenInput.value = type;
+                title.textContent = "Candidature : Membre " + type;
+            } else {
+                hiddenInput.value = "Adhérent"; // Fallback default
+                title.textContent = "Formulaire d'adhésion";
+            }
+            
+            // Handle display and requirement of Pole dropdown
+            if (hiddenInput.value === 'Actif' && poleGroup && poleInput) {
+                poleGroup.style.display = 'block';
+                poleInput.required = true;
+            } else if (poleGroup && poleInput) {
+                poleGroup.style.display = 'none';
+                poleInput.required = false;
+                poleInput.value = ''; // Reset value
+            }
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    window.closeAdhesionModal = function() {
+        const modal = document.getElementById('adhesion-modal');
+        if(modal) {
+            modal.classList.remove('active');
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+            // Clear messages
+            document.getElementById('form-message').style.display = 'none';
+        }
+    };
+
+    // Close modal on click outside
+    const modalOverlay = document.getElementById('adhesion-modal');
+    if(modalOverlay) {
+        modalOverlay.addEventListener('click', function(e) {
+            if(e.target === modalOverlay) {
+                closeAdhesionModal();
+            }
+        });
+    }
+
+    // =========================================
+    // Navigation
+    // =========================================
+    
+    const navbar = document.querySelector('.navbar');
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    
+    // Scroll effect on navbar (throttled)
+    window.addEventListener('scroll', throttle(function() {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    }, 100));
+    
+    // Mobile menu toggle
+    hamburger.addEventListener('click', function() {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+    
+    // =========================================
+    // Smooth scroll for anchor links
+    // =========================================
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                let offsetTop = target.offsetTop - 80;
+
+                if (target.id === 'newsletter-inscription') {
+                    const targetRect = target.getBoundingClientRect();
+                    const absoluteTop = window.pageYOffset + targetRect.top;
+                    offsetTop = absoluteTop - (window.innerHeight / 2) + (targetRect.height / 2);
+                    offsetTop = Math.max(0, offsetTop);
+                }
+
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // =========================================
+    // Animate elements on scroll
+    // =========================================
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe elements
+    const animateElements = document.querySelectorAll('.timeline-item, .article-card, .video-card, .membership-card');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+    
+    // Add animate-in class styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // =========================================
+    // Poll functionality
+    // =========================================
+    
+    const pollForm = document.getElementById('poll-form');
+    if (pollForm) {
+        const pollOptions = pollForm.querySelectorAll('.poll-option');
+        
+        pollOptions.forEach(option => {
+            const bar = option.querySelector('.poll-bar');
+            const percentage = getComputedStyle(bar).getPropertyValue('--percentage');
+            
+            // Show results on hover
+            option.addEventListener('mouseenter', function() {
+                bar.style.width = percentage;
+            });
+            
+            option.addEventListener('mouseleave', function() {
+                if (!option.querySelector('input').checked) {
+                    bar.style.width = '0';
+                }
+            });
+        });
+        
+        pollForm.addEventListener('submit', function(e) {
+            const selected = pollForm.querySelector('input[name="reponse"]:checked');
+            if (!selected) {
+                e.preventDefault();
+                alert('Veuillez sélectionner une option');
+                return;
+            }
+            
+            // Show all bars before submit
+            pollOptions.forEach(option => {
+                const bar = option.querySelector('.poll-bar');
+                const percentage = getComputedStyle(bar).getPropertyValue('--percentage');
+                bar.style.width = percentage;
+            });
+            
+            // Change button text
+            pollForm.querySelector('button').textContent = 'Envoi en cours...';
+        });
+    }
+    
+    // =========================================
+    // Form validation and submission
+    // =========================================
+    
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(form => {
+        // Skip poll form and newsletter (handled separately with custom validation)
+        if (form.id === 'poll-form') return;
+        if (form.id === 'newsletter-inscription') return;
+        
+        form.addEventListener('submit', function(e) {
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('error');
+                    field.style.borderColor = '#e53e3e';
+                } else {
+                    field.classList.remove('error');
+                    field.style.borderColor = '';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                return;
+            }
+
+            // Custom handling for contact form
+            if (form.classList.contains('contact-form')) {
+                e.preventDefault();
+
+                // Sync _replyto with email field if present
+                const emailField  = form.querySelector('input[type="email"]');
+                const replytoField = form.querySelector('#replyto-field');
+                if (emailField && replytoField) replytoField.value = emailField.value;
+
+                const btn = form.querySelector('button[type="submit"]');
+                const originalText = btn.textContent;
+                btn.textContent = 'Envoi en cours...';
+                btn.disabled = true;
+
+                const formData = new FormData(form);
+
+                fetch(form.action.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/"), {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('http_' + response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    // FormSubmit renvoie success comme string "true" ou booléen true
+                    if (data.success === true || data.success === 'true') {
+                        form.innerHTML = `
+                            <div style="text-align:center; padding: 40px 20px;">
+                                <i class="fas fa-check-circle" style="font-size:3rem; color:var(--gold); margin-bottom:16px; display:block;"></i>
+                                <p style="font-size:1.2rem; font-weight:600; color:var(--primary-color); margin:0 0 8px;">Message envoyé !</p>
+                                <p style="color:var(--text-light); margin:0;">Nous vous répondrons dans les plus brefs délais.</p>
+                            </div>`;
+                    } else {
+                        throw new Error('formsubmit_error');
+                    }
+                })
+                .catch(err => {
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    let msg = 'Une erreur est survenue. Veuillez réessayer.';
+                    if (err.message === 'formsubmit_error') {
+                        msg = 'Envoi échoué. Vérifiez votre connexion ou réessayez.';
+                    }
+                    let errEl = form.querySelector('.contact-error');
+                    if (!errEl) {
+                        errEl = document.createElement('p');
+                        errEl.className = 'contact-error';
+                        errEl.style.cssText = 'color:#e53e3e; margin-top:12px; font-weight:600;';
+                        btn.after(errEl);
+                    }
+                    errEl.textContent = msg;
+                });
+            }
+        });
+        
+        // Remove error style on input
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                this.classList.remove('error');
+                this.style.borderColor = '';
+            });
+        });
+    });
+    
+    // Newsletter : le spinner est géré dans le handler de validation ci-dessous
+    
+    // =========================================
+    // Membership form - type selection highlight
+    // =========================================
+    
+    const membershipRadios = document.querySelectorAll('.radio-option input[name="type_membre"]');
+    membershipRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            membershipRadios.forEach(r => {
+                r.closest('.radio-option').style.borderColor = '';
+                r.closest('.radio-option').style.background = '';
+            });
+            
+            if (this.checked) {
+                this.closest('.radio-option').style.borderColor = '#3182ce';
+                this.closest('.radio-option').style.background = 'rgba(49, 130, 206, 0.05)';
+            }
+        });
+    });
+    
+    // =========================================
+    // Active navigation link on scroll
+    // =========================================
+    
+    const sections = document.querySelectorAll('section[id]');
+    
+    window.addEventListener('scroll', throttle(function() {
+        let current = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+
+            if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    }, 150));
+    
+    // =========================================
+    // Video cards click handler
+    // =========================================
+    
+    const videoCards = document.querySelectorAll('.video-card');
+    videoCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // You can add YouTube embed functionality here
+            alert('La vidéo sera bientôt disponible !');
+        });
+    });
+    
+    // =========================================
+    // Article read more functionality
+    // =========================================
+    // Les liens ouvrent directement l'URL définie dans Google Sheets
+    
+    // =========================================
+    // Counter animation for stats
+    // =========================================
+    
+    function animateCounter(element, target, duration = 2000) {
+        let start = 0;
+        const increment = target / (duration / 16);
+        
+        function updateCounter() {
+            start += increment;
+            if (start < target) {
+                element.textContent = Math.floor(start);
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+            }
+        }
+        
+        updateCounter();
+    }
+    
+    // =========================================
+    // Lazy loading for images
+    // =========================================
+    
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    lazyImages.forEach(img => imageObserver.observe(img));
+    
+    // =========================================
+    // Print current year in footer
+    // =========================================
+
+    const yearSpan = document.querySelector('.footer-bottom p');
+    if (yearSpan) {
+        const currentYear = new Date().getFullYear();
+        yearSpan.innerHTML = yearSpan.innerHTML.replace('2026', currentYear);
+    }
+
+    // =========================================
+    // Scroll to Top Button
+    // =========================================
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', throttle(function() {
+            if (window.scrollY > 400) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }, 100));
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // =========================================
+    // Mobile Menu Nav Overlay
+    // =========================================
+    const navOverlay = document.getElementById('navOverlay');
+    if (navOverlay && hamburger) {
+        hamburger.addEventListener('click', function() {
+            navOverlay.classList.toggle('active');
+        });
+
+        navOverlay.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            navOverlay.classList.remove('active');
+        });
+    }
+
+});
+
+// =========================================
+// Utility functions
+// =========================================
+
+// Debounce function for performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Throttle function for scroll events
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// =========================================
+// Google Sheets Integration for Adhesion + Newsletter
+// =========================================
+document.addEventListener('DOMContentLoaded', function() {
+    // =========================================
+    // Google Sheets Integration for Adhesion
+    // =========================================
+    const adhesionForm = document.getElementById('adhesion-form');
+    if (adhesionForm) {
+        adhesionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-adhesion');
+            const msg = document.getElementById('form-message');
+            const memberTypeField = document.getElementById('type-membre-hidden');
+            const memberType = memberTypeField ? memberTypeField.value : '';
+            
+            btn.textContent = 'Envoi en cours...';
+            btn.disabled = true;
+            
+            const formData = new FormData(adhesionForm);
+
+            // Membre Actif -> Google Sheet (Google Apps Script)
+            if (memberType === 'Actif') {
+                const sheetApiUrl = 'https://script.google.com/macros/s/AKfycbzVXGfwjoGDTK6bbewNBE3DAHk_ClOdrjmB2sXifkO3p4iuGM_IuzeNEfhp27sCIaCX/exec';
+                const dataObject = {};
+
+                formData.forEach((value, key) => {
+                    dataObject[key] = value;
+                });
+
+                dataObject['Horodateur'] = new Date().toLocaleString('fr-FR');
+                dataObject['Ajouter commu'] = '';
+
+                fetch(sheetApiUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(dataObject)
+                })
+                    .then(() => {
+                        msg.style.display = 'block';
+                        msg.style.color = 'green';
+                        msg.textContent = '✅ Votre candidature membre Actif a bien été envoyée !';
+                        adhesionForm.reset();
+                        btn.textContent = 'Envoyer ma candidature';
+                        btn.disabled = false;
+
+                        setTimeout(() => {
+                            window.closeAdhesionModal();
+                            msg.style.display = 'none';
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        msg.style.display = 'block';
+                        msg.style.color = 'red';
+                        msg.textContent = '❌ Une erreur est survenue. Veuillez réessayer.';
+                        btn.textContent = 'Envoyer ma candidature';
+                        btn.disabled = false;
+                        console.error('Error!', error.message);
+                    });
+
+                return;
+            }
+
+            // Membre Adhérent -> Google Sheet (Google Apps Script)
+            const adherentApiUrl = 'https://script.google.com/macros/s/AKfycbwx-zvKOpyySTwMNuSS0xxxMbUpsq8IJKP0-a-uMLjMLEghZKUsuHS3Mx7T56kWuLro/exec';
+            const adherentData = {};
+
+            formData.forEach((value, key) => {
+                adherentData[key] = value;
+            });
+
+            adherentData['Horodateur'] = new Date().toLocaleString('fr-FR');
+
+            fetch(adherentApiUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(adherentData)
+            })
+                .then(() => {
+                    msg.style.display = 'block';
+                    msg.style.color = 'green';
+                    msg.textContent = '✅ Votre demande d\'adhésion a bien été envoyée !';
+                    adhesionForm.reset();
+                    btn.textContent = 'Envoyer ma candidature';
+                    btn.disabled = false;
+
+                    setTimeout(() => {
+                        window.closeAdhesionModal();
+                        msg.style.display = 'none';
+                    }, 3000);
+                })
+                .catch(error => {
+                    msg.style.display = 'block';
+                    msg.style.color = 'red';
+                    msg.textContent = '❌ Une erreur est survenue. Veuillez réessayer.';
+                    btn.textContent = 'Envoyer ma candidature';
+                    btn.disabled = false;
+                    console.error('Error!', error.message);
+                });
+        });
+    }
+
+    // =========================================
+    // Custom Validation for Newsletter Form
+    // =========================================
+    const newsletterForm = document.getElementById('newsletter-inscription');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            const emailInput = document.getElementById('newsletter-email');
+            const rgpdCheckbox = document.getElementById('newsletter-rgpd');
+            const emailError = document.getElementById('newsletter-email-error');
+            const rgpdError = document.getElementById('newsletter-rgpd-error');
+            
+            // Reset errors
+            emailError.style.display = 'none';
+            rgpdError.style.display = 'none';
+            emailInput.style.border = 'none';
+            
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput.value || !emailRegex.test(emailInput.value)) {
+                emailError.style.display = 'block';
+                emailInput.style.border = '2px solid #ff6b6b';
+                isValid = false;
+            }
+            
+            // Validate Checkbox
+            if (!rgpdCheckbox.checked) {
+                rgpdError.style.display = 'block';
+                isValid = false;
+            }
+            
+            // Toujours empêcher la redirection Brevo
+            e.preventDefault();
+
+            if (!isValid) return;
+
+            // Validation OK : soumettre via fetch (pas de redirection)
+            const btn = newsletterForm.querySelector('button[type="submit"]');
+            if (btn) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                btn.disabled = true;
+            }
+
+            fetch(newsletterForm.action, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: new FormData(newsletterForm)
+            })
+            .then(() => {
+                // Remplacer le contenu du formulaire par un message de succès
+                newsletterForm.innerHTML = `
+                    <div style="text-align:center; padding: 20px 0;">
+                        <i class="fas fa-check-circle" style="font-size:2.5rem; color:#c9a227; margin-bottom:12px; display:block;"></i>
+                        <p style="font-size:1.1rem; font-weight:600; color:#fff; margin:0 0 6px;">Inscription confirmée !</p>
+                        <p style="color:#fff; margin:0;">Vous recevrez bientôt notre newsletter. Merci !</p>
+                    </div>`;
+            })
+            .catch(() => {
+                if (btn) {
+                    btn.innerHTML = "S'inscrire";
+                    btn.disabled = false;
+                }
+                alert('Erreur lors de l\'inscription. Veuillez réessayer.');
+            });
+        });
+
+        // Hide error when user starts typing/clicking
+        const emailInput = document.getElementById('newsletter-email');
+        const rgpdCheckbox = document.getElementById('newsletter-rgpd');
+        
+        emailInput.addEventListener('input', function() {
+            document.getElementById('newsletter-email-error').style.display = 'none';
+            this.style.border = 'none';
+        });
+        
+        rgpdCheckbox.addEventListener('change', function() {
+            document.getElementById('newsletter-rgpd-error').style.display = 'none';
+        });
+    }
+});

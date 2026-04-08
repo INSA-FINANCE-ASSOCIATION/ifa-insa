@@ -1,0 +1,15 @@
+# Fichiers à ignorer
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Dépendances (si vous ajoutez npm plus tard)
+node_modules/
+
+# Logs
+*.log
