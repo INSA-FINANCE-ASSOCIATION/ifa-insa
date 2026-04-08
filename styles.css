@@ -716,6 +716,27 @@ img {
 .tl-btn:hover { background: var(--gold); gap: 12px; }
 
 /* État vide */
+.construction-banner {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+.construction-banner i {
+    font-size: 3.5rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: block;
+}
+.construction-banner p {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.construction-banner span {
+    font-size: 0.95rem;
+}
+
 .events-empty {
     text-align: center;
     padding: 80px 20px;
