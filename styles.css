@@ -49,6 +49,9 @@ body {
     background-color: var(--bg-color);
     line-height: 1.6;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -617,17 +620,11 @@ img {
 }
 .tl-content:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.11); }
 
-/* En-tête de la carte : badge à gauche, cercles à droite */
-.tl-content-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+/* Cercles photos entre badge et titre */
 .tl-circles {
     display: flex;
-    gap: 8px;
-    flex-shrink: 0;
+    gap: 12px;
+    margin: 12px 0;
 }
 .tl-circle {
     width: 125px;

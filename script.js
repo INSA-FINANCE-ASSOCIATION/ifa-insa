@@ -86,10 +86,8 @@ function toTypeCode(typeNom) {
                         </div>
                         <div class="tl-dot"></div>
                         <div class="tl-content">
-                            <div class="tl-content-top">
-                                <span class="tl-badge ${typeCode}">${typeNom}</span>
-                                <div class="tl-circles">${circle1}${circle2}</div>
-                            </div>
+                            <span class="tl-badge ${typeCode}">${typeNom}</span>
+                            ${(circle1 || circle2) ? `<div class="tl-circles">${circle1}${circle2}</div>` : ''}
                             <h3 class="tl-title">${titre}</h3>
                             <div class="tl-metas">${intervenant}${heure}${lieu}${infos}</div>
                             ${description}
