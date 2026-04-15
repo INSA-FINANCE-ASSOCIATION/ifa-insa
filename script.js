@@ -313,39 +313,48 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
     }
 
     // ── Touch (mobile) ──────────────────────────────────────────
-    let touchStartX = 0, touchStartY = 0, touchDragging = false;
+    let touchStartX = 0, touchStartY = 0;
+    let swipeDir = null; // null=indécis, true=horizontal, false=vertical
 
+    // passive: false OBLIGATOIRE pour que preventDefault() dans touchmove soit respecté
     wrapper.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-        touchDragging = false;
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+        swipeDir = null;
         stopAuto();
-    }, { passive: true });
+    }, { passive: false });
 
     wrapper.addEventListener('touchmove', e => {
-        const dx = e.changedTouches[0].screenX - touchStartX;
-        const dy = e.changedTouches[0].screenY - touchStartY;
-        // Si le mouvement est plus vertical qu'horizontal → scroll normal
-        if (!touchDragging && Math.abs(dx) < Math.abs(dy)) return;
-        touchDragging = true;
-        e.preventDefault(); // bloque le scroll page pendant le swipe horizontal
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+
+        // Décision initiale : horizontal ou vertical ?
+        if (swipeDir === null) {
+            swipeDir = Math.abs(dx) > Math.abs(dy);
+        }
+        if (!swipeDir) return; // scroll vertical → laisser faire
+
+        e.preventDefault();
         track.style.transition = 'none';
         track.style.transform = `translateX(${getBaseX() + dx}px)`;
     }, { passive: false });
 
     wrapper.addEventListener('touchend', e => {
-        const diff = touchStartX - e.changedTouches[0].screenX;
+        if (!swipeDir) { startAuto(); return; }
+        const diff = touchStartX - e.changedTouches[0].clientX;
         track.style.transition = '';
         goTo(Math.abs(diff) > 50 ? (diff > 0 ? current + 1 : current - 1) : current);
-        touchDragging = false;
+        swipeDir = null;
         startAuto();
     });
 
     // ── Drag souris (desktop) ────────────────────────────────────
-    let mouseStartX = 0, mouseDown = false;
+    let mouseStartX = 0, mouseDown = false, mouseDragged = false;
 
     wrapper.addEventListener('mousedown', e => {
+        if (e.button !== 0) return; // clic gauche uniquement
         mouseDown = true;
+        mouseDragged = false;
         mouseStartX = e.clientX;
         track.style.transition = 'none';
         wrapper.style.cursor = 'grabbing';
@@ -355,7 +364,9 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
 
     window.addEventListener('mousemove', e => {
         if (!mouseDown) return;
-        track.style.transform = `translateX(${getBaseX() + (e.clientX - mouseStartX)}px)`;
+        const dx = e.clientX - mouseStartX;
+        if (Math.abs(dx) > 5) mouseDragged = true;
+        track.style.transform = `translateX(${getBaseX() + dx}px)`;
     });
 
     window.addEventListener('mouseup', e => {
@@ -363,14 +374,16 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
         mouseDown = false;
         wrapper.style.cursor = '';
         track.style.transition = '';
-        const diff = mouseStartX - e.clientX;
-        goTo(Math.abs(diff) > 50 ? (diff > 0 ? current + 1 : current - 1) : current);
+        if (mouseDragged) {
+            const diff = mouseStartX - e.clientX;
+            goTo(Math.abs(diff) > 50 ? (diff > 0 ? current + 1 : current - 1) : current);
+        }
         startAuto();
     });
 
     // Empêche les clics sur les liens après un drag
     track.addEventListener('click', e => {
-        if (Math.abs(mouseStartX - e.clientX) > 5) e.preventDefault();
+        if (mouseDragged) { e.preventDefault(); e.stopPropagation(); }
     }, true);
 
     window.addEventListener('resize', () => {
