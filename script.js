@@ -304,16 +304,74 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
     prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
     nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
 
-    let tx = 0;
-    track.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; stopAuto(); }, { passive: true });
-    track.addEventListener('touchend',   e => {
-        const diff = tx - e.changedTouches[0].screenX;
-        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
-        startAuto();
+    // Retourne la position translateX de base (slide courant)
+    function getBaseX() {
+        const cards = track.querySelectorAll('.article-card');
+        if (!cards.length) return 0;
+        const gap = parseInt(getComputedStyle(track).gap) || 24;
+        return -(current * (cards[0].offsetWidth + gap));
+    }
+
+    // ── Touch (mobile) ──────────────────────────────────────────
+    let touchStartX = 0, touchStartY = 0, touchDragging = false;
+
+    wrapper.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        touchDragging = false;
+        stopAuto();
     }, { passive: true });
 
-    wrapper.addEventListener('mouseenter', stopAuto);
-    wrapper.addEventListener('mouseleave', startAuto);
+    wrapper.addEventListener('touchmove', e => {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        // Si le mouvement est plus vertical qu'horizontal → scroll normal
+        if (!touchDragging && Math.abs(dx) < Math.abs(dy)) return;
+        touchDragging = true;
+        e.preventDefault(); // bloque le scroll page pendant le swipe horizontal
+        track.style.transition = 'none';
+        track.style.transform = `translateX(${getBaseX() + dx}px)`;
+    }, { passive: false });
+
+    wrapper.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].screenX;
+        track.style.transition = '';
+        goTo(Math.abs(diff) > 50 ? (diff > 0 ? current + 1 : current - 1) : current);
+        touchDragging = false;
+        startAuto();
+    });
+
+    // ── Drag souris (desktop) ────────────────────────────────────
+    let mouseStartX = 0, mouseDown = false;
+
+    wrapper.addEventListener('mousedown', e => {
+        mouseDown = true;
+        mouseStartX = e.clientX;
+        track.style.transition = 'none';
+        wrapper.style.cursor = 'grabbing';
+        stopAuto();
+        e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', e => {
+        if (!mouseDown) return;
+        track.style.transform = `translateX(${getBaseX() + (e.clientX - mouseStartX)}px)`;
+    });
+
+    window.addEventListener('mouseup', e => {
+        if (!mouseDown) return;
+        mouseDown = false;
+        wrapper.style.cursor = '';
+        track.style.transition = '';
+        const diff = mouseStartX - e.clientX;
+        goTo(Math.abs(diff) > 50 ? (diff > 0 ? current + 1 : current - 1) : current);
+        startAuto();
+    });
+
+    // Empêche les clics sur les liens après un drag
+    track.addEventListener('click', e => {
+        if (Math.abs(mouseStartX - e.clientX) > 5) e.preventDefault();
+    }, true);
 
     window.addEventListener('resize', () => {
         const newMax = getMax();

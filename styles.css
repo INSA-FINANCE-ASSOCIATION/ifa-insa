@@ -981,7 +981,10 @@ img {
     overflow: hidden;
     flex: 1;
     min-width: 0;
+    cursor: grab;
+    user-select: none;
 }
+.actu-track-wrapper:active { cursor: grabbing; }
 
 .actu-track {
     display: flex;
