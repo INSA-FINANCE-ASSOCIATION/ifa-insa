@@ -37,8 +37,8 @@ function toTypeCode(typeNom) {
             const now = new Date();
             const upcoming = [], past = [];
             rows.forEach(ev => {
-                const moisMap = {janvier:0,février:1,mars:2,avril:3,mai:4,juin:5,juillet:6,août:7,septembre:8,octobre:9,novembre:10,décembre:11};
-                const moisIdx = moisMap[(ev['Mois']||'').toLowerCase()];
+                const moisMap = {janvier:0,fevrier:1,mars:2,avril:3,mai:4,juin:5,juillet:6,aout:7,septembre:8,octobre:9,novembre:10,decembre:11};
+                const moisIdx = moisMap[stripAccents((ev['Mois']||'').toLowerCase())];
                 const jour = parseInt(ev['Jour']) || 1;
                 const annee = parseInt(ev['Année']) || now.getFullYear();
                 const evDate = (moisIdx !== undefined) ? new Date(annee, moisIdx, jour) : null;
@@ -46,11 +46,11 @@ function toTypeCode(typeNom) {
                 else past.push(ev);
             });
 
-            // Abréviation du mois en français
+            // Abréviation du mois en français — clés sans accents pour compatibilité mobile
             const moisAbbr = {
-                'janvier':'JAN','février':'FÉV','mars':'MAR','avril':'AVR',
-                'mai':'MAI','juin':'JUI','juillet':'JUI','août':'AOÛ',
-                'septembre':'SEP','octobre':'OCT','novembre':'NOV','décembre':'DÉC'
+                'janvier':'JAN','fevrier':'FÉV','mars':'MAR','avril':'AVR',
+                'mai':'MAI','juin':'JUI','juillet':'JUI','aout':'AOÛ',
+                'septembre':'SEP','octobre':'OCT','novembre':'NOV','decembre':'DÉC'
             };
 
             function renderTimeline(list, isPast) {
@@ -71,8 +71,8 @@ function toTypeCode(typeNom) {
                     const description  = (descRaw && descRaw !== titre)  ? `<p class="tl-description">${descRaw}</p>` : '';
                     const lienBtn     = ev['Lien']        ? `<a href="${ev['Lien']}" class="tl-btn" target="_blank" rel="noopener">S'inscrire <i class="fas fa-arrow-right"></i></a>` : '';
                     const jourNum     = ev['Jour'] || '—';
-                    const moisNom     = (ev['Mois'] || '').toLowerCase();
-                    const moisText    = moisAbbr[moisNom] || (ev['Mois'] || '').substring(0,3).toUpperCase();
+                    const moisNom     = stripAccents((ev['Mois'] || '').toLowerCase());
+                    const moisText    = moisAbbr[moisNom] || stripAccents(ev['Mois'] || '').substring(0,3).toUpperCase();
 
                     // Cercles photos (haut droite) — uniquement si photo existe
                     const circle1 = imgUrl  ? `<div class="tl-circle" style="background-image:url('${imgUrl}')"></div>`  : '';
@@ -138,10 +138,19 @@ function formatDate(raw) {
     return raw;
 }
 
-// Normalise les clés JSON (supprime les espaces autour des noms de colonnes)
+// Supprime les accents d'une chaîne (robustesse multi-plateforme)
+function stripAccents(str) {
+    return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// Normalise les clés JSON (supprime les espaces) et force NFC sur les valeurs
+// NFC = forme composée standard (ex: é = \u00e9 et non e + \u0301)
+// Certains mobiles/WebView reçoivent du NFD depuis Google Sheets → les lookups échouent
 function normalizeRow(row) {
     const n = {};
-    Object.keys(row).forEach(k => { n[k.trim()] = typeof row[k] === 'string' ? row[k].trim() : row[k]; });
+    Object.keys(row).forEach(k => {
+        n[k.trim()] = typeof row[k] === 'string' ? row[k].trim().normalize('NFC') : row[k];
+    });
     return n;
 }
 

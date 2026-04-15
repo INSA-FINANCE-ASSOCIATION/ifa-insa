@@ -525,7 +525,7 @@ img {
     color: var(--primary-color);
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    margin: 48px 0 8px 80px;
+    margin: 48px 0 16px 92px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--gold);
 }
@@ -543,7 +543,7 @@ img {
     content: '';
     position: absolute;
     left: 62px;
-    top: 0;
+    top: 36px;
     bottom: 0;
     width: 2px;
     background: #e5e9f0;
@@ -745,8 +745,8 @@ img {
 
 /* Responsive timeline */
 @media (max-width: 640px) {
-    .tl-timeline::before { left: 44px; }
-    .tl-section-label { margin-left: 56px; }
+    .tl-timeline::before { left: 44px; top: 36px; }
+    .tl-section-label { margin-left: 64px; }
     .tl-date { width: 34px; }
     .tl-day { font-size: 1.25rem; }
     .tl-dot { width: 20px; }
