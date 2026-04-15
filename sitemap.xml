@@ -2,28 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://insa-finance-association.github.io/ifa-insa/</loc>
+        <loc>https://insa-finance.fr/</loc>
         <lastmod>2026-04-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
 
     <url>
-        <loc>https://insa-finance-association.github.io/ifa-insa/evenements.html</loc>
+        <loc>https://insa-finance.fr/evenements.html</loc>
         <lastmod>2026-04-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 
     <url>
-        <loc>https://insa-finance-association.github.io/ifa-insa/intervenant.html</loc>
+        <loc>https://insa-finance.fr/intervenant.html</loc>
         <lastmod>2026-04-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://insa-finance-association.github.io/ifa-insa/soutenir.html</loc>
+        <loc>https://insa-finance.fr/soutenir.html</loc>
         <lastmod>2026-04-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
