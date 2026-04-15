@@ -200,19 +200,71 @@ function normalizeRow(row) {
                 </div>
                 <div class="actu-dots" id="actuDots"></div>`;
 
-            initActuCarousel(rows.length);
+            initCarousel('actuTrackWrapper', 'actuTrack', 'actuPrev', 'actuNext', 'actuDots', rows.length);
         })
         .catch(() => {
             container.innerHTML = '<p style="text-align:center;color:#888;">Impossible de charger les actualités.</p>';
         });
 })();
 
-function initActuCarousel(total) {
-    const wrapper  = document.getElementById('actuTrackWrapper');
-    const track    = document.getElementById('actuTrack');
-    const prevBtn  = document.getElementById('actuPrev');
-    const nextBtn  = document.getElementById('actuNext');
-    const dotsWrap = document.getElementById('actuDots');
+// --- Articles ---
+(function loadArticles() {
+    const container = document.getElementById('articles-container');
+    if (!container) return;
+
+    fetch(SHEET_API_URL + '?sheet=Articles')
+        .then(r => r.json())
+        .then(rawRows => {
+            const rows = rawRows.map(normalizeRow).sort((a, b) => {
+                const da = new Date(a['Date'] || 0), db = new Date(b['Date'] || 0);
+                return db - da;
+            });
+            if (!rows.length) {
+                container.innerHTML = '<p style="text-align:center;color:#888;">Aucun article pour le moment.</p>';
+                return;
+            }
+
+            const cards = rows.map(article => {
+                const imgUrl = getDriveImageUrl(article['Image'] || '');
+                const imageBlock = imgUrl
+                    ? `<div class="article-image"><img src="${imgUrl}" alt="${article['Titre'] || ''}" loading="lazy"><span class="article-category">${article['Auteur'] || ''}</span></div>`
+                    : `<div class="article-no-image"><span class="article-category">${article['Auteur'] || ''}</span></div>`;
+                return `
+                    <article class="article-card">
+                        ${imageBlock}
+                        <div class="article-content">
+                            <span class="article-date"><i class="far fa-calendar"></i> ${formatDate(article['Date'])}</span>
+                            <h3>${article['Titre'] || ''}</h3>
+                            <p class="article-description">${article['Texte'] || ''}</p>
+                        </div>
+                    </article>`;
+            }).join('');
+
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div class="actu-carousel-outer">
+                    <button class="actu-nav-btn actu-prev" id="artPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+                    <div class="actu-track-wrapper" id="artTrackWrapper">
+                        <div class="actu-track" id="artTrack">${cards}</div>
+                    </div>
+                    <button class="actu-nav-btn actu-next" id="artNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="actu-dots" id="artDots"></div>`;
+
+            initCarousel('artTrackWrapper', 'artTrack', 'artPrev', 'artNext', 'artDots', rows.length);
+        })
+        .catch(() => {
+            container.innerHTML = '<p style="text-align:center;color:#888;">Impossible de charger les articles.</p>';
+        });
+})();
+
+// Carousel générique (utilisé pour Actus et Articles)
+function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
+    const wrapper  = document.getElementById(wrapperId);
+    const track    = document.getElementById(trackId);
+    const prevBtn  = document.getElementById(prevId);
+    const nextBtn  = document.getElementById(nextId);
+    const dotsWrap = document.getElementById(dotsId);
     if (!wrapper || !track) return;
 
     let current = 0;
@@ -223,7 +275,6 @@ function initActuCarousel(total) {
         if (window.innerWidth < 1024) return 2;
         return 3;
     }
-
     function getMax() { return Math.max(0, total - getVisible()); }
 
     function goTo(idx) {
@@ -231,28 +282,19 @@ function initActuCarousel(total) {
         if (idx < 0) idx = max;
         if (idx > max) idx = 0;
         current = idx;
-
-        // Calcul du déplacement basé sur la largeur réelle d'une carte + gap
         const cards = track.querySelectorAll('.article-card');
         if (!cards.length) return;
         const gap  = parseInt(getComputedStyle(track).gap) || 24;
         const step = cards[0].offsetWidth + gap;
         track.style.transform = `translateX(-${current * step}px)`;
-
-        // Mise à jour des points
         dotsWrap.querySelectorAll('.actu-dot').forEach((d, i) => d.classList.toggle('active', i === current));
     }
 
-    function startAuto() {
-        stopAuto();
-        autoTimer = setInterval(() => goTo(current + 1), 5000);
-    }
-    function stopAuto() { clearInterval(autoTimer); }
+    function startAuto() { stopAuto(); autoTimer = setInterval(() => goTo(current + 1), 5000); }
+    function stopAuto()  { clearInterval(autoTimer); }
 
-    // Créer les points indicateurs
-    const max = getMax();
     dotsWrap.innerHTML = '';
-    for (let i = 0; i <= max; i++) {
+    for (let i = 0; i <= getMax(); i++) {
         const dot = document.createElement('span');
         dot.className = 'actu-dot' + (i === 0 ? ' active' : '');
         dot.addEventListener('click', () => { goTo(i); startAuto(); });
@@ -262,7 +304,6 @@ function initActuCarousel(total) {
     prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
     nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
 
-    // Swipe tactile
     let tx = 0;
     track.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; stopAuto(); }, { passive: true });
     track.addEventListener('touchend',   e => {
@@ -274,9 +315,7 @@ function initActuCarousel(total) {
     wrapper.addEventListener('mouseenter', stopAuto);
     wrapper.addEventListener('mouseleave', startAuto);
 
-    // Recalcul au resize
     window.addEventListener('resize', () => {
-        // Reconstruire les dots si le nombre de slides visibles change
         const newMax = getMax();
         if (dotsWrap.children.length !== newMax + 1) {
             dotsWrap.innerHTML = '';
