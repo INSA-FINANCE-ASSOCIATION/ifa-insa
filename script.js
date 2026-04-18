@@ -143,6 +143,15 @@ function stripAccents(str) {
     return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+// Convertit un titre en slug URL-safe
+function slugify(str) {
+    return stripAccents(str || '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .slice(0, 80);
+}
+
 // Normalise les clés JSON (supprime les espaces) et force NFC sur les valeurs
 // NFC = forme composée standard (ex: é = \u00e9 et non e + \u0301)
 // Certains mobiles/WebView reçoivent du NFD depuis Google Sheets → les lookups échouent
@@ -226,16 +235,21 @@ function normalizeRow(row) {
 
             const cards = rows.map(article => {
                 const imgUrl = getDriveImageUrl(article['Image'] || '');
+                const titre = article['Titre'] || '';
+                const slug = slugify(titre);
+                const href = `article.html?id=${encodeURIComponent(slug)}`;
                 const imageBlock = imgUrl
-                    ? `<div class="article-image"><img src="${imgUrl}" alt="${article['Titre'] || ''}" loading="lazy"><span class="article-category">${article['Auteur'] || ''}</span></div>`
+                    ? `<div class="article-image"><img src="${imgUrl}" alt="${titre}" loading="lazy"><span class="article-category">${article['Auteur'] || ''}</span></div>`
                     : `<div class="article-no-image"><span class="article-category">${article['Auteur'] || ''}</span></div>`;
+                const excerpt = (article['Texte'] || '').replace(/<[^>]+>/g, '').slice(0, 220);
                 return `
-                    <article class="article-card">
+                    <article class="article-card" onclick="window.location.href='${href}'" style="cursor:pointer;">
                         ${imageBlock}
                         <div class="article-content">
                             <span class="article-date"><i class="far fa-calendar"></i> ${formatDate(article['Date'])}</span>
-                            <h3>${article['Titre'] || ''}</h3>
-                            <p class="article-description">${article['Texte'] || ''}</p>
+                            <h3>${titre}</h3>
+                            <p class="article-description">${excerpt}${excerpt.length >= 220 ? '…' : ''}</p>
+                            <a href="${href}" class="read-more" onclick="event.stopPropagation()">Lire l'article <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </article>`;
             }).join('');

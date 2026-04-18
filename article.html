@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- SEO : titre/description injectés dynamiquement par article.js -->
+    <title>Article | INSA Finance Association</title>
+    <meta name="description" content="Article rédigé par un membre de l'INSA Finance Association.">
+    <meta name="author" content="INSA Finance Association">
+    <meta name="robots" content="index, follow">
+
+    <link rel="icon" type="image/png" sizes="any" href="assets/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&subset=latin,latin-ext&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="inner-page">
+    <div id="navOverlay" class="nav-overlay"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo" title="IFA - INSA Finance Association - Accueil">
+                <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img">
+                <span class="logo-text">I.F.A.</span>
+            </a>
+            <ul class="nav-links">
+                <li class="has-submenu">
+                    <a href="index.html">Accueil</a>
+                    <ul class="submenu">
+                        <li><a href="index.html#apropos">À propos de nous</a></li>
+                        <li><a href="index.html#newsletter">Notre newsletter</a></li>
+                        <li><a href="index.html#rejoindre">Nous rejoindre</a></li>
+                        <li><a href="index.html#actualites">Nos actus</a></li>
+                        <li><a href="index.html#equipe">Qui sommes-nous</a></li>
+                        <li><a href="index.html#contact">Nous contacter</a></li>
+                    </ul>
+                </li>
+                <li><a href="evenements.html">Nos événements</a></li>
+                <li><a href="intervenant.html">Devenir intervenant</a></li>
+                <li><a href="partenaires.html">Nos partenaires</a></li>
+                <li><a href="soutenir.html">Nous soutenir</a></li>
+            </ul>
+            <div class="nav-social">
+                <a href="https://www.instagram.com/insa.finance.asso?igsh=cHZ6cHI5bWo3a3Jp" target="_blank" class="instagram-link" rel="noopener" aria-label="Instagram IFA INSA Finance">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/insa-finance-association" target="_blank" class="linkedin-link" rel="noopener" aria-label="LinkedIn IFA INSA Finance">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero article-hero">
+        <div class="page-hero-content">
+            <h1 id="article-title">Chargement…</h1>
+            <p id="article-meta"></p>
+            <div class="page-hero-breadcrumb">
+                <a href="index.html">Accueil</a>
+                <span>/</span>
+                <a href="index.html#articles">Articles</a>
+                <span>/</span>
+                <span id="article-breadcrumb">…</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="article-section">
+        <div class="container">
+            <article class="article-full" id="article-full">
+                <p style="text-align:center;color:#888;">Chargement de l'article…</p>
+            </article>
+
+            <div class="article-back">
+                <a href="index.html#articles" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Retour aux articles</a>
+            </div>
+
+            <div class="article-suggestions" id="article-suggestions" hidden>
+                <h2>Autres articles à découvrir</h2>
+                <div class="underline"></div>
+                <div class="articles-grid" id="article-suggestions-grid"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img">
+                        <span>I.F.A.</span>
+                    </div>
+                    <p>IFA - INSA Finance Association Lyon - L'association de finance de l'INSA Lyon qui sensibilise les étudiants-ingénieurs aux marchés financiers et à l'économie.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="evenements.html">Nos événements</a></li>
+                        <li><a href="intervenant.html">Devenir intervenant</a></li>
+                        <li><a href="partenaires.html">Nos partenaires</a></li>
+                        <li><a href="soutenir.html">Nous soutenir</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 IFA - INSA Finance Association Lyon. Tous droits réservés. | Association finance étudiants INSA</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut de page">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    <script src="script.js"></script>
+    <script src="article.js" defer></script>
+    <script src="modern.js" defer></script>
+    <script src="chatbot.js" defer></script>
+</body>
+</html>
