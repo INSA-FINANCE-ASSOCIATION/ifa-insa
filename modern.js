@@ -54,7 +54,64 @@
 
         initStatCounters();
         initHeroParallax();
+        initCursorHalo();
+        initMagneticButtons();
     });
+
+    // ---------- Cursor gold halo ----------
+    function initCursorHalo() {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        if (window.innerWidth < 900) return;
+
+        const halo = document.createElement('div');
+        halo.className = 'cursor-halo';
+        document.body.appendChild(halo);
+
+        let mx = 0, my = 0, cx = 0, cy = 0;
+        let visible = false;
+
+        window.addEventListener('mousemove', (e) => {
+            mx = e.clientX;
+            my = e.clientY;
+            if (!visible) {
+                halo.style.opacity = '1';
+                visible = true;
+            }
+        });
+
+        window.addEventListener('mouseout', (e) => {
+            if (!e.relatedTarget) {
+                halo.style.opacity = '0';
+                visible = false;
+            }
+        });
+
+        const animate = () => {
+            cx += (mx - cx) * 0.12;
+            cy += (my - cy) * 0.12;
+            halo.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+            requestAnimationFrame(animate);
+        };
+        animate();
+    }
+
+    // ---------- Magnetic buttons ----------
+    function initMagneticButtons() {
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+
+        const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .scroll-to-top, .tl-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.15}px, ${y * 0.25}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+    }
 
     // ---------- Stat counter animation ----------
     function initStatCounters() {
