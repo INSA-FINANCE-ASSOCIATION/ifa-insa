@@ -2084,6 +2084,14 @@ img {
 }
 
 @media (max-width: 768px) {
+    /* Sur mobile, on affiche "Membre Adhérent" avant "Membre Actif" */
+    .membership-types {
+        display: flex;
+        flex-direction: column;
+    }
+    .membership-card:nth-child(1) { order: 2; }
+    .membership-card:nth-child(2) { order: 1; }
+
     .nav-links {
         position: fixed;
         top: 0;
