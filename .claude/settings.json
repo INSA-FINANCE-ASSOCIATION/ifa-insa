@@ -10,7 +10,17 @@
       "Bash(curl -s -X POST https://formsubmit.co/ajax/insa.finance@asso-insa-lyon.fr -H 'Origin: http://localhost:8080' -H 'Referer: http://localhost:8080/intervenant.html' -F nom=Test -F email=test@test.com -F entreprise=Test -F poste=Directeur -F theme=Finance -F message=Test -F _subject=Test -F _captcha=false -w '\\\\nHTTP: %{http_code}')",
       "Bash(curl -s -X POST https://formsubmit.co/ajax/insa.finance@asso-insa-lyon.fr -H 'Origin: http://localhost:8080' -H 'Referer: http://localhost:8080/intervenant.html' -F nom=Test -F email=test@test.com -F _replyto= -F _captcha=false -F 'message=Test replyto vide' -w '\\\\nHTTP: %{http_code}')",
       "Bash(gh auth:*)",
-      "Bash(git --version)"
+      "Bash(git --version)",
+      "Bash(curl -s -o /dev/null -w \" %{http_code}\" http://localhost:8080/index.html)",
+      "Bash(npx --yes serve . -p 3000)",
+      "Bash(python -m http.server 3000)",
+      "Bash(python -m http.server 8765)",
+      "Bash(curl -s http://localhost:8765/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8765/modern.css)",
+      "Bash(curl -s \"http://localhost:8765/\")",
+      "Bash(curl -s \"http://localhost:8765/modern.css\")",
+      "Bash(curl -s -I -o - \"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920\")",
+      "Bash(pkill -f \"http.server 8765\")"
     ]
   }
 }
