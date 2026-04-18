@@ -36,4 +36,11 @@
         <priority>0.7</priority>
     </url>
 
+    <url>
+        <loc>https://insa-finance.fr/mentions-legales.html</loc>
+        <lastmod>2026-04-19</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
 </urlset>
