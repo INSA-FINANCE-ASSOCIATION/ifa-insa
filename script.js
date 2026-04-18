@@ -444,16 +444,23 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
                 return;
             }
 
+            const escapeHtml = s => String(s || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+            const nl2br = s => escapeHtml(s).replace(/\r\n|\r|\n/g, '<br>');
+
             const cards = rows.map(p => {
                 const logoUrl = getDriveImageUrl(p['Logo'] || '');
                 const logoBlock = logoUrl
-                    ? `<img src="${logoUrl}" alt="${p['Nom'] || ''}" class="partenaire-logo" loading="lazy">`
+                    ? `<img src="${logoUrl}" alt="${escapeHtml(p['Nom'])}" class="partenaire-logo" loading="lazy">`
                     : `<div class="partenaire-logo-placeholder"><i class="fas fa-building"></i></div>`;
                 return `
                     <div class="partenaire-card">
                         ${logoBlock}
-                        <div class="partenaire-nom">${p['Nom'] || ''}</div>
-                        <p class="partenaire-description">${p['Description'] || ''}</p>
+                        <div class="partenaire-nom">${escapeHtml(p['Nom'])}</div>
+                        <p class="partenaire-description">${nl2br(p['Description'])}</p>
                     </div>`;
             }).join('');
 
