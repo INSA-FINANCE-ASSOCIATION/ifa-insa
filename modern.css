@@ -1,0 +1,623 @@
+/* =============================================
+   IFA — Modern Premium Layer
+   Applied on top of styles.css for a futuristic finance look
+   ============================================= */
+
+:root {
+    --navy-900: #0a1230;
+    --navy-800: #0f1a3d;
+    --navy-700: #1a2a5e;
+    --navy-600: #2a3d7a;
+    --gold-bright: #e6c85a;
+    --gold-core: #c9a227;
+    --gold-deep: #8a6d0f;
+    --ink: #0b1020;
+    --glass-bg: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(201, 162, 39, 0.25);
+    --glow-gold: 0 0 0 1px rgba(201, 162, 39, 0.25), 0 10px 40px -10px rgba(201, 162, 39, 0.45);
+    --glow-navy: 0 10px 60px -15px rgba(26, 42, 94, 0.55);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =============================================
+   Global refinements
+   ============================================= */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #fafbfd;
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #eef1f7; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--navy-700), var(--navy-800));
+    border-radius: 10px;
+    border: 2px solid #eef1f7;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--gold-core), var(--navy-700));
+}
+
+/* Selection */
+::selection {
+    background: var(--gold-core);
+    color: #0a1230;
+}
+
+/* =============================================
+   Navbar — glass + refined
+   ============================================= */
+.navbar {
+    background: rgba(10, 18, 48, 0.72) !important;
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.15);
+    box-shadow: 0 8px 32px -12px rgba(10, 18, 48, 0.6) !important;
+    transition: all 0.4s var(--ease-out-quint);
+}
+
+.navbar.scrolled {
+    background: rgba(10, 18, 48, 0.85) !important;
+    border-bottom-color: rgba(201, 162, 39, 0.35);
+}
+
+.nav-links a {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links > li > a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-core), var(--gold-bright));
+    transition: all 0.35s var(--ease-out-quint);
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+.nav-links > li > a:hover::after {
+    width: 70%;
+}
+
+.nav-social a {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-social a:hover {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 4px 12px rgba(201, 162, 39, 0.6));
+}
+
+/* =============================================
+   Hero — immersive, animated
+   ============================================= */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 80% 60% at 20% 30%, rgba(201, 162, 39, 0.18) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 50% at 80% 70%, rgba(42, 61, 122, 0.35) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(10, 18, 48, 0.85) 0%, rgba(15, 26, 61, 0.75) 50%, rgba(26, 42, 94, 0.85) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.35;
+    z-index: 3;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+}
+
+.hero-title {
+    background: linear-gradient(135deg, #ffffff 0%, #f0e6c0 45%, #e6c85a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+    animation: heroTitleIn 1s var(--ease-out-quint) both;
+}
+
+.hero-subtitle {
+    opacity: 0;
+    animation: heroFadeIn 1s var(--ease-out-quint) 0.2s both;
+}
+
+.hero-buttons {
+    opacity: 0;
+    animation: heroFadeIn 1s var(--ease-out-quint) 0.4s both;
+}
+
+@keyframes heroTitleIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes heroFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-scroll i {
+    animation: scrollBounce 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.6));
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* =============================================
+   Buttons — premium with shimmer
+   ============================================= */
+.btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    letter-spacing: 0.02em;
+    transition: transform 0.3s var(--ease-out-quint), box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--gold-core) 0%, var(--gold-bright) 50%, var(--gold-core) 100%) !important;
+    background-size: 200% 100% !important;
+    color: #0a1230 !important;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 6px 20px -6px rgba(201, 162, 39, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transition: left 0.7s var(--ease-out-quint);
+    z-index: -1;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -8px rgba(201, 162, 39, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    background-position: 100% 0 !important;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(201, 162, 39, 0.55) !important;
+    color: #fff !important;
+    transition: all 0.3s var(--ease-out-quint);
+}
+
+.btn-secondary:hover {
+    background: rgba(201, 162, 39, 0.15) !important;
+    border-color: var(--gold-bright) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px -10px rgba(201, 162, 39, 0.55);
+}
+
+/* =============================================
+   Section headers — modern typography
+   ============================================= */
+.section-header h2,
+section h2 {
+    position: relative;
+    background: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-700) 50%, var(--gold-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.015em;
+}
+
+.newsletter h2,
+.stats-section h2,
+section.newsletter h2 {
+    background: linear-gradient(135deg, #ffffff 0%, #f0e6c0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.underline {
+    background: linear-gradient(90deg, var(--gold-core), var(--gold-bright), var(--gold-core));
+    background-size: 200% 100%;
+    animation: underlineShimmer 3s ease-in-out infinite;
+    height: 3px !important;
+    border-radius: 3px;
+    box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
+}
+
+@keyframes underlineShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* =============================================
+   Stats section — glowing numbers
+   ============================================= */
+.stats-section {
+    background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 50%, var(--navy-700) 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-section::before {
+    background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.18) 0%, transparent 60%) !important;
+    animation: glowPulse 8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+.stat-item {
+    position: relative;
+    transition: transform 0.4s var(--ease-out-quint);
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+}
+
+.stat-number {
+    background: linear-gradient(135deg, #ffffff 0%, #f0e6c0 40%, #c9a227 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(201, 162, 39, 0.35));
+    transition: filter 0.3s ease;
+}
+
+.stat-item:hover .stat-number {
+    filter: drop-shadow(0 0 50px rgba(230, 200, 90, 0.6));
+}
+
+/* =============================================
+   Newsletter — premium dark
+   ============================================= */
+.newsletter {
+    background:
+        radial-gradient(ellipse at 20% 20%, rgba(201, 162, 39, 0.12) 0%, transparent 50%),
+        linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.newsletter::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+.newsletter-form input[type="email"] {
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(201, 162, 39, 0.3) !important;
+    color: #fff !important;
+    transition: all 0.3s ease;
+}
+
+.newsletter-form input[type="email"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.newsletter-form input[type="email"]:focus {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: var(--gold-bright) !important;
+    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.15);
+    outline: none;
+}
+
+/* =============================================
+   Cards (articles, events, team, membership) — glass
+   ============================================= */
+.membership-card,
+.article-card,
+.event-card,
+.team-card,
+.tl-content,
+.about-card {
+    position: relative;
+    transition: transform 0.5s var(--ease-out-quint), box-shadow 0.5s ease, border-color 0.4s ease;
+    border: 1px solid rgba(26, 42, 94, 0.08);
+}
+
+.membership-card::before,
+.article-card::before,
+.event-card::before,
+.team-card::before,
+.about-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(135deg, transparent 30%, rgba(201, 162, 39, 0.6) 50%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.membership-card:hover,
+.article-card:hover,
+.event-card:hover,
+.team-card:hover,
+.about-card:hover,
+.tl-content:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px -15px rgba(10, 18, 48, 0.25), 0 0 0 1px rgba(201, 162, 39, 0.15);
+}
+
+.membership-card:hover::before,
+.article-card:hover::before,
+.event-card:hover::before,
+.team-card:hover::before,
+.about-card:hover::before {
+    opacity: 1;
+}
+
+.membership-icon,
+.about-card i {
+    background: linear-gradient(135deg, var(--navy-700), var(--navy-800)) !important;
+    box-shadow: 0 10px 30px -8px rgba(26, 42, 94, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.membership-icon::after,
+.about-card i::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent, rgba(201, 162, 39, 0.6), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+    animation: spin 4s linear infinite;
+}
+
+.membership-card:hover .membership-icon::after,
+.about-card:hover i::after {
+    opacity: 1;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Membership badge "Gratuit" — refine */
+.membership-free {
+    background: linear-gradient(135deg, var(--gold-core) 0%, var(--gold-bright) 100%) !important;
+    box-shadow: 0 4px 16px -4px rgba(201, 162, 39, 0.55);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* =============================================
+   Section dividers — subtle gradient lines
+   ============================================= */
+section + section {
+    position: relative;
+}
+
+/* =============================================
+   Forms (contact, adhesion) refinements
+   ============================================= */
+.form-group input,
+.form-group textarea,
+.form-group select,
+.membership-form input,
+.membership-form textarea,
+.membership-form select {
+    transition: all 0.3s ease;
+    border: 1.5px solid rgba(26, 42, 94, 0.12) !important;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.membership-form input:focus,
+.membership-form textarea:focus,
+.membership-form select:focus {
+    border-color: var(--gold-core) !important;
+    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12) !important;
+    outline: none;
+}
+
+/* =============================================
+   Footer — premium dark
+   ============================================= */
+.footer {
+    background: linear-gradient(180deg, var(--navy-900) 0%, var(--ink) 100%) !important;
+    position: relative;
+    border-top: 1px solid rgba(201, 162, 39, 0.2);
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-core), transparent);
+}
+
+.footer a {
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.footer a:hover {
+    color: var(--gold-bright) !important;
+    transform: translateX(3px);
+}
+
+/* =============================================
+   Scroll reveal animations
+   ============================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s var(--ease-out-quint), transform 0.9s var(--ease-out-quint);
+    will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--ease-out-quint), transform 0.8s var(--ease-out-quint);
+}
+
+.reveal-stagger.is-visible > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
+.reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
+.reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
+.reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
+.reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.45s; }
+.reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 0.55s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-stagger > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    .hero-title, .hero-subtitle, .hero-buttons {
+        animation: none !important;
+        opacity: 1 !important;
+    }
+}
+
+/* =============================================
+   Scroll-to-top button — premium
+   ============================================= */
+.scroll-to-top {
+    background: linear-gradient(135deg, var(--gold-core), var(--gold-bright)) !important;
+    color: #0a1230 !important;
+    box-shadow: 0 8px 28px -8px rgba(201, 162, 39, 0.6) !important;
+    transition: all 0.4s var(--ease-out-quint) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 14px 40px -10px rgba(201, 162, 39, 0.85) !important;
+}
+
+/* =============================================
+   Timeline / events refinements
+   ============================================= */
+.tl-badge {
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.tl-btn {
+    background: linear-gradient(135deg, var(--navy-700), var(--navy-800)) !important;
+    box-shadow: 0 6px 18px -6px rgba(26, 42, 94, 0.5);
+}
+
+.tl-btn:hover {
+    background: linear-gradient(135deg, var(--gold-core), var(--gold-bright)) !important;
+    color: #0a1230 !important;
+    box-shadow: 0 10px 28px -8px rgba(201, 162, 39, 0.6) !important;
+}
+
+/* =============================================
+   Page hero (sub-pages) — consistent premium look
+   ============================================= */
+.page-hero,
+.partenaires-hero,
+.soutenir-hero,
+.evenements-hero,
+.intervenant-hero {
+    background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-700) 50%, var(--navy-800) 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-hero::before,
+.partenaires-hero::before,
+.soutenir-hero::before,
+.evenements-hero::before,
+.intervenant-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 40% at 30% 40%, rgba(201, 162, 39, 0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 70% 60%, rgba(42, 61, 122, 0.4) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+/* =============================================
+   Utilities
+   ============================================= */
+.gradient-text {
+    background: linear-gradient(135deg, var(--navy-700), var(--gold-core));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.glow-gold { box-shadow: var(--glow-gold); }
+.glow-navy { box-shadow: var(--glow-navy); }
