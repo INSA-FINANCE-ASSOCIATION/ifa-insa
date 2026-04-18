@@ -272,12 +272,12 @@
         panel = document.createElement('div');
         panel.className = 'ifa-chat-panel';
         panel.setAttribute('role', 'dialog');
-        panel.setAttribute('aria-label', 'Rihno');
+        panel.setAttribute('aria-label', 'Rhino');
         panel.innerHTML = `
             <div class="ifa-chat-header">
                 <div class="ifa-chat-avatar">IFA</div>
                 <div class="ifa-chat-header-text">
-                    <h3 class="ifa-chat-title">Rihno</h3>
+                    <h3 class="ifa-chat-title">Rhino</h3>
                     <div class="ifa-chat-status">Prêt à répondre</div>
                 </div>
                 <button class="ifa-chat-close" aria-label="Fermer"><i class="fas fa-times"></i></button>
