@@ -264,9 +264,18 @@
         launcher = document.createElement('button');
         launcher.className = 'ifa-chat-launcher';
         launcher.setAttribute('aria-label', "Ouvrir l'assistant IFA");
-        launcher.innerHTML = '<i class="fas fa-comments"></i><span class="ifa-chat-badge">1</span>';
+        launcher.innerHTML = '<i class="fas fa-comments"></i><span class="ifa-chat-badge">1</span><span class="ifa-chat-tooltip">Posez-moi vos questions ici<span class="ifa-chat-tooltip-close" aria-label="Fermer">&times;</span></span>';
         launcher.addEventListener('click', togglePanel);
         document.body.appendChild(launcher);
+
+        // Tooltip close button (dismiss without opening chat)
+        const tooltipClose = launcher.querySelector('.ifa-chat-tooltip-close');
+        if (tooltipClose) {
+            tooltipClose.addEventListener('click', function (e) {
+                e.stopPropagation();
+                launcher.classList.add('tooltip-dismissed');
+            });
+        }
 
         // Panel
         panel = document.createElement('div');
