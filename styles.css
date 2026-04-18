@@ -1923,6 +1923,15 @@ img {
     display: flex;
     gap: 15px;
     justify-content: center;
+    align-items: center;
+}
+
+/* Centre l'entière section "Suivez IFA sur les réseaux" (titre + icônes) */
+.footer-section:has(.social-links) {
+    text-align: center;
+}
+.footer-section:has(.social-links) h4 {
+    text-align: center;
 }
 
 .social-link {
