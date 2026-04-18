@@ -1383,7 +1383,7 @@ img {
    ============================================= */
 .newsletter {
     padding: 80px 0;
-    background: var(--gradient-primary);
+    background: var(--primary-color);
 }
 
 .newsletter-content {
@@ -2529,7 +2529,7 @@ img {
    Stats Section
    ============================================= */
 .stats-section {
-    background: var(--gradient-primary);
+    background: var(--primary-color);
     padding: 70px 0;
     position: relative;
     overflow: hidden;
