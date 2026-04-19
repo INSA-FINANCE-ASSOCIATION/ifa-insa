@@ -437,14 +437,6 @@ section.newsletter h2 {
     to { transform: rotate(360deg); }
 }
 
-/* Membership badge "Gratuit" — refine */
-.membership-free {
-    background: linear-gradient(135deg, var(--gold-core) 0%, var(--gold-bright) 100%) !important;
-    box-shadow: 0 4px 16px -4px rgba(201, 162, 39, 0.55);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
 /* =============================================
    Section dividers — subtle gradient lines
    ============================================= */
