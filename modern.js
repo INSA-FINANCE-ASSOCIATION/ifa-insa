@@ -62,18 +62,18 @@
         if (!stats.length) return;
 
         const parse = (txt) => {
-            const m = txt.match(/(\d+)(.*)/);
+            const m = txt.match(/^(\D*)(\d+)(.*)$/);
             if (!m) return null;
-            return { target: parseInt(m[1], 10), suffix: m[2] };
+            return { prefix: m[1], target: parseInt(m[2], 10), suffix: m[3] };
         };
 
-        const animate = (el, target, suffix, duration = 1600) => {
+        const animate = (el, prefix, target, suffix, duration = 1600) => {
             const start = performance.now();
             const step = (now) => {
                 const t = Math.min(1, (now - start) / duration);
                 const eased = 1 - Math.pow(1 - t, 3);
                 const val = Math.round(target * eased);
-                el.textContent = val + suffix;
+                el.textContent = prefix + val + suffix;
                 if (t < 1) requestAnimationFrame(step);
             };
             requestAnimationFrame(step);
@@ -85,8 +85,8 @@
                     const el = entry.target;
                     const parsed = parse(el.textContent.trim());
                     if (parsed) {
-                        el.textContent = '0' + parsed.suffix;
-                        animate(el, parsed.target, parsed.suffix);
+                        el.textContent = parsed.prefix + '0' + parsed.suffix;
+                        animate(el, parsed.prefix, parsed.target, parsed.suffix);
                     }
                     io.unobserve(el);
                 }

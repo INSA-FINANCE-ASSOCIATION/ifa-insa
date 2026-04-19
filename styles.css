@@ -2571,6 +2571,17 @@ img {
     pointer-events: none;
 }
 
+.stats-intro {
+    text-align: center;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+    font-weight: 600;
+    margin: 0 0 35px;
+    position: relative;
+    letter-spacing: 0.02em;
+}
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
