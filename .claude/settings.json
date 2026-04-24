@@ -20,7 +20,19 @@
       "Bash(curl -s \"http://localhost:8765/\")",
       "Bash(curl -s \"http://localhost:8765/modern.css\")",
       "Bash(curl -s -I -o - \"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920\")",
-      "Bash(pkill -f \"http.server 8765\")"
+      "Bash(pkill -f \"http.server 8765\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(curl -s http://localhost:8765/index.html)",
+      "Bash(kill %1)",
+      "Bash(jobs -p)",
+      "Bash(xargs -r kill)",
+      "Bash(exit 0)",
+      "Bash(git checkout *)"
+    ],
+    "additionalDirectories": [
+      "\\tmp"
     ]
   }
 }

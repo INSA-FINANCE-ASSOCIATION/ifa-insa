@@ -4,7 +4,8 @@
       "Bash(python.exe --version)",
       "Bash(python3.exe --version)",
       "Bash(node.exe --version)",
-      "Bash(npx.cmd --version)"
+      "Bash(npx.cmd --version)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
