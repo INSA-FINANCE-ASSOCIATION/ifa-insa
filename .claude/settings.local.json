@@ -5,7 +5,9 @@
       "Bash(python3.exe --version)",
       "Bash(node.exe --version)",
       "Bash(npx.cmd --version)",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "Bash(python -m http.server 8765 --directory \"c:/Users/Carolina/OneDrive/Bureau/PABLO/Site Web_V1 - B - Copie\")",
+      "Bash(curl -s http://localhost:8765/script.js)"
     ]
   }
 }
