@@ -533,6 +533,46 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
         .catch(() => {}); // Garde les stats codées en dur si erreur
 })();
 
+// --- Conseil d'Administration ---
+(function loadCA() {
+    const grid = document.getElementById('ca-grid');
+    if (!grid) return;
+
+    fetch(SHEET_API_URL + '?sheet=CA')
+        .then(r => r.json())
+        .then(rawRows => {
+            const rows = (rawRows || []).map(normalizeRow);
+            if (!rows.length) return;
+
+            const members = rows.map(m => ({
+                photo: m['Photo'] || m['Image'] || '',
+                nom: m['Nom'] || m['Nom et prénom'] || m['Nom et Prénom'] || '',
+                poste: m['Poste'] || m['Rôle'] || ''
+            }));
+
+            const figures = members.map(m => {
+                const visual = m.photo
+                    ? `<img src="${m.photo}" alt="${m.nom}" loading="lazy">`
+                    : `<div class="ca-figure-placeholder"><i class="fas fa-user" aria-hidden="true"></i></div>`;
+                return `<div class="ca-figure">${visual}</div>`;
+            }).join('');
+
+            const legend = members.map(m => `
+                <div class="ca-legend-item">
+                    <span class="ca-nom">${m.nom}</span>
+                    <span class="ca-poste">${m.poste}</span>
+                </div>`
+            ).join('');
+
+            grid.innerHTML = `
+                <div class="ca-showcase">
+                    <div class="ca-lineup">${figures}</div>
+                    <div class="ca-legend">${legend}</div>
+                </div>`;
+        })
+        .catch(() => {}); // Garde le bandeau "en construction" si erreur
+})();
+
 // =========================================
 // Bureau Members Carousel - initialisation
 // =========================================

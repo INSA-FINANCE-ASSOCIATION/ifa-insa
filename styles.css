@@ -1969,6 +1969,132 @@ img {
     background: var(--bg-color);
 }
 
+/* Conseil d'Administration */
+.ca-grid {
+    margin-top: 48px;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ca-showcase {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(26, 42, 94, 0.18);
+}
+
+.ca-lineup {
+    position: relative;
+    background:
+        radial-gradient(ellipse at 50% 110%, rgba(201, 162, 39, 0.28), transparent 55%),
+        linear-gradient(135deg, var(--primary-color) 0%, #2d4a8c 55%, var(--primary-color) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0;
+    padding: 40px 16px 0;
+    min-height: 340px;
+}
+.ca-lineup::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+}
+
+.ca-figure {
+    flex: 1 1 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 0;
+    position: relative;
+}
+.ca-figure img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
+    transition: transform 0.3s ease;
+}
+.ca-figure:hover img {
+    transform: translateY(-6px);
+}
+.ca-figure-placeholder {
+    width: 120px;
+    height: 200px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 3rem;
+}
+
+.ca-legend {
+    display: flex;
+    background: #fff;
+    padding: 24px 16px 28px;
+}
+.ca-legend-item {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+    padding: 0 6px;
+    min-width: 0;
+}
+.ca-nom {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1.25;
+}
+.ca-poste {
+    font-size: 0.75rem;
+    color: var(--gold-accessible, var(--gold));
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+@media (max-width: 900px) {
+    .ca-lineup { min-height: 260px; padding: 28px 10px 0; }
+    .ca-figure img { max-width: 140px; max-height: 260px; }
+    .ca-nom { font-size: 0.88rem; }
+    .ca-poste { font-size: 0.68rem; }
+    .ca-legend { padding: 18px 8px 22px; }
+    .ca-legend-item { padding: 0 3px; }
+}
+
+@media (max-width: 640px) {
+    .ca-showcase { border-radius: 14px; }
+    .ca-lineup {
+        flex-wrap: wrap;
+        min-height: 0;
+        padding: 24px 10px 10px;
+        gap: 8px;
+    }
+    .ca-figure { flex: 0 0 calc(33.33% - 8px); }
+    .ca-figure img { max-width: 100%; max-height: 180px; }
+    .ca-legend {
+        flex-wrap: wrap;
+        gap: 14px 0;
+        padding: 20px 10px 22px;
+    }
+    .ca-legend-item { flex: 0 0 33.33%; }
+}
+
 .fondateur-section {
     display: grid;
     grid-template-columns: 300px 1fr;
