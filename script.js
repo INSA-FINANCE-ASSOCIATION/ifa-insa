@@ -544,10 +544,28 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
             const rows = (rawRows || []).map(normalizeRow);
             if (!rows.length) return;
 
+            const pick = (obj, ...keys) => {
+                const map = {};
+                Object.keys(obj).forEach(k => { map[k.toLowerCase()] = obj[k]; });
+                for (const k of keys) {
+                    const v = map[k.toLowerCase()];
+                    if (v) return v;
+                }
+                return '';
+            };
+
+            // Convertit un lien Drive (partage ou open) en URL d'image directe
+            const driveUrl = (url) => {
+                if (!url) return '';
+                const m = String(url).match(/(?:\/d\/|id=|\/file\/d\/)([A-Za-z0-9_-]{15,})/);
+                if (m) return `https://lh3.googleusercontent.com/d/${m[1]}=w800`;
+                return url;
+            };
+
             const members = rows.map(m => ({
-                photo: m['Photo'] || m['Image'] || '',
-                nom: m['Nom'] || m['Nom et prénom'] || m['Nom et Prénom'] || '',
-                poste: m['Poste'] || m['Rôle'] || ''
+                photo: driveUrl(pick(m, 'Photo', 'Image', 'photo', 'image')),
+                nom: pick(m, 'Nom', 'Nom et prénom', 'Nom et Prénom', 'nom'),
+                poste: pick(m, 'Poste', 'Rôle', 'poste')
             }));
 
             const figures = members.map(m => {
@@ -566,7 +584,10 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
 
             grid.innerHTML = `
                 <div class="ca-showcase">
-                    <div class="ca-lineup">${figures}</div>
+                    <div class="ca-band">
+                        <h3 class="ca-band-title">Notre Conseil d'Administration</h3>
+                        <div class="ca-lineup">${figures}</div>
+                    </div>
                     <div class="ca-legend">${legend}</div>
                 </div>`;
         })
