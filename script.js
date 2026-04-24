@@ -753,23 +753,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (!href || href.length < 2) return;
+            const target = document.querySelector(href);
+            if (!target) return;
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                let offsetTop = target.offsetTop - 80;
 
+            const computeOffset = () => {
+                const rect = target.getBoundingClientRect();
+                const absoluteTop = window.pageYOffset + rect.top;
                 if (target.id === 'newsletter-inscription') {
-                    const targetRect = target.getBoundingClientRect();
-                    const absoluteTop = window.pageYOffset + targetRect.top;
-                    offsetTop = absoluteTop - (window.innerHeight / 2) + (targetRect.height / 2);
-                    offsetTop = Math.max(0, offsetTop);
+                    return Math.max(0, absoluteTop - (window.innerHeight / 2) + (rect.height / 2));
                 }
+                return Math.max(0, absoluteTop - 80);
+            };
 
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
+            window.scrollTo({ top: computeOffset(), behavior: 'smooth' });
+
+            // Re-calibre si du contenu async (articles, partenaires, CA) modifie la
+            // hauteur des sections au-dessus pendant l'animation.
+            setTimeout(() => {
+                window.scrollTo({ top: computeOffset(), behavior: 'smooth' });
+            }, 700);
         });
     });
     
