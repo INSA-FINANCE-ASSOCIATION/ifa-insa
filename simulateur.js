@@ -56,9 +56,17 @@
        ========================================================== */
     const Y_SEARCH = 'https://query1.finance.yahoo.com/v1/finance/search?quotesCount=8&newsCount=0&q=';
     const Y_CHART  = 'https://query1.finance.yahoo.com/v8/finance/chart/';
+
+    /* ---------- PROXY DÉDIÉ (Cloudflare Worker) ----------
+       Pour avoir une recherche quasi instantanée en production, déployer le
+       Worker fourni dans worker.js puis coller son URL ci-dessous (sans slash final).
+       Pour DÉSACTIVER : laisser une chaîne vide -> fallback automatique sur les
+       proxies publics (comportement avant Cloudflare).                           */
+    const CLOUDFLARE_WORKER_URL = 'https://ifa-yahoo.insa-finance.workers.dev';
+
     // Yahoo bloque très souvent les requêtes navigateur (CORS).
-    // On lance le fetch direct + tous les proxies EN PARALLÈLE et on garde
-    // la première réponse JSON valide (Promise.any). Latence = le plus rapide.
+    // On lance le fetch direct + (le Worker s'il est configuré) + tous les proxies
+    // EN PARALLÈLE et on garde la première réponse JSON valide (Promise.any).
     const PROXIES = [
         url => 'https://corsproxy.io/?' + encodeURIComponent(url),
         url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
@@ -87,11 +95,12 @@
 
     function fetchJson(url) {
         if (fetchCache.has(url)) return fetchCache.get(url);
-        // Direct + tous les proxies en parallèle, premier OK gagne.
-        const attempts = [
-            tryFetchJson(url),
-            ...PROXIES.map(wrap => tryFetchJson(wrap(url)))
-        ];
+        // Direct + Worker (si configuré) + tous les proxies en parallèle, premier OK gagne.
+        const attempts = [tryFetchJson(url)];
+        if (CLOUDFLARE_WORKER_URL) {
+            attempts.push(tryFetchJson(CLOUDFLARE_WORKER_URL.replace(/\/$/, '') + '/?url=' + encodeURIComponent(url)));
+        }
+        for (const wrap of PROXIES) attempts.push(tryFetchJson(wrap(url)));
         const p = Promise.any(attempts).catch(err => {
             fetchCache.delete(url); // ne pas garder un échec en cache
             throw new Error('fetch failed: all sources down');
