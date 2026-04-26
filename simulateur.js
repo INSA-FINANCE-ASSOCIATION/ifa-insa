@@ -57,35 +57,47 @@
     const Y_SEARCH = 'https://query1.finance.yahoo.com/v1/finance/search?quotesCount=8&newsCount=0&q=';
     const Y_CHART  = 'https://query1.finance.yahoo.com/v8/finance/chart/';
     // Yahoo bloque très souvent les requêtes navigateur (CORS).
-    // On essaie plusieurs proxies CORS publics en cascade pour maximiser la fiabilité.
+    // On lance le fetch direct + tous les proxies EN PARALLÈLE et on garde
+    // la première réponse JSON valide (Promise.any). Latence = le plus rapide.
     const PROXIES = [
         url => 'https://corsproxy.io/?' + encodeURIComponent(url),
         url => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
         url => 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url),
-        url => 'https://thingproxy.freeboard.io/fetch/' + url
+        url => 'https://thingproxy.freeboard.io/fetch/' + url,
+        url => 'https://proxy.cors.sh/' + url,
+        url => 'https://cors.eu.org/' + url
     ];
 
-    async function fetchJson(url) {
-        // 1) Tentative directe (passe rarement à cause du CORS, mais on tente)
-        try {
-            const r = await fetch(url, { mode: 'cors' });
-            if (r.ok) return await r.json();
-        } catch (_) { /* on bascule sur les proxies */ }
+    const ATTEMPT_TIMEOUT_MS = 3500;
+    const fetchCache = new Map(); // url -> Promise<json>
 
-        // 2) Cascade de proxies publics
-        let lastErr = null;
-        for (const wrap of PROXIES) {
-            try {
-                const r = await fetch(wrap(url));
-                if (!r.ok) { lastErr = new Error('http ' + r.status); continue; }
-                const text = await r.text();
-                try { return JSON.parse(text); }
-                catch { lastErr = new Error('bad json'); continue; }
-            } catch (e) {
-                lastErr = e;
-            }
-        }
-        throw new Error('fetch failed: ' + (lastErr?.message || 'all proxies down'));
+    function fetchWithTimeout(url, ms) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), ms);
+        return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(t));
+    }
+
+    async function tryFetchJson(url) {
+        const r = await fetchWithTimeout(url, ATTEMPT_TIMEOUT_MS);
+        if (!r.ok) throw new Error('http ' + r.status);
+        const text = await r.text();
+        const json = JSON.parse(text); // throws if invalid
+        return json;
+    }
+
+    function fetchJson(url) {
+        if (fetchCache.has(url)) return fetchCache.get(url);
+        // Direct + tous les proxies en parallèle, premier OK gagne.
+        const attempts = [
+            tryFetchJson(url),
+            ...PROXIES.map(wrap => tryFetchJson(wrap(url)))
+        ];
+        const p = Promise.any(attempts).catch(err => {
+            fetchCache.delete(url); // ne pas garder un échec en cache
+            throw new Error('fetch failed: all sources down');
+        });
+        fetchCache.set(url, p);
+        return p;
     }
 
     async function searchTickers(q) {
