@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
+    <!-- SEO Meta Tags -->
+    <title>Simulateur d'investissement | INSA Finance Association</title>
+    <meta name="description" content="Simulateur d'investissement pédagogique de l'INSA Finance Association : composez votre portefeuille, simulez le DCA et visualisez la magie des intérêts composés sur 5, 10 ou 15 ans.">
+    <meta name="keywords" content="simulateur investissement, DCA, intérêts composés, portefeuille, ETF, actions, INSA Finance Association, IFA, finance étudiants Lyon">
+    <meta name="author" content="INSA Finance Association">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="-r4h7PGOY6tXsFGfKJ_zu3PhO-uX9Tx03nq3KKQY0s4" />
+
+    <link rel="canonical" href="https://insa-finance.fr/simulateur.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://insa-finance.fr/simulateur.html">
+    <meta property="og:title" content="Simulateur d'investissement | INSA Finance Association">
+    <meta property="og:description" content="Composez votre portefeuille, simulez le DCA et visualisez la magie des intérêts composés. Outil pédagogique IFA.">
+    <meta property="og:image" content="https://insa-finance.fr/assets/logo.png">
+    <meta property="og:image:alt" content="Logo IFA INSA Finance Association">
+    <meta property="og:site_name" content="INSA Finance Association">
+    <meta property="og:locale" content="fr_FR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://insa-finance.fr/simulateur.html">
+    <meta name="twitter:title" content="Simulateur d'investissement | INSA Finance Association">
+    <meta name="twitter:description" content="Composez votre portefeuille, simulez le DCA et visualisez les intérêts composés. Outil pédagogique IFA.">
+    <meta name="twitter:image" content="https://insa-finance.fr/assets/logo.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="any" href="assets/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern.css">
+    <link rel="stylesheet" href="chatbot.css">
+    <link rel="stylesheet" href="simulateur.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&subset=latin,latin-ext&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="inner-page sim-body">
+    <!-- Mobile Menu Overlay -->
+    <div id="navOverlay" class="nav-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo" title="IFA - INSA Finance Association - Accueil">
+                <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img">
+                <span class="logo-text">I.F.A.</span>
+            </a>
+            <ul class="nav-links">
+                <li class="has-submenu">
+                    <a href="index.html">Accueil</a>
+                    <ul class="submenu">
+                        <li><a href="index.html#apropos">À propos de nous</a></li>
+                        <li><a href="index.html#articles">Notre newsletter</a></li>
+                        <li><a href="index.html#rejoindre">Nous rejoindre</a></li>
+                        <li><a href="index.html#actualites">Nos actus</a></li>
+                        <li><a href="index.html#equipe">Qui sommes-nous</a></li>
+                        <li><a href="index.html#contact">Nous contacter</a></li>
+                    </ul>
+                </li>
+                <li><a href="evenements.html">Nos événements</a></li>
+                <li><a href="simulateur.html" class="active">Simulateur</a></li>
+                <li><a href="intervenant.html">Devenir intervenant</a></li>
+                <li><a href="partenaires.html">Nos partenaires</a></li>
+                <li><a href="soutenir.html">Nous soutenir</a></li>
+            </ul>
+            <div class="nav-social">
+                <a href="https://www.instagram.com/insa.finance.asso?igsh=cHZ6cHI5bWo3a3Jp" target="_blank" class="instagram-link" rel="noopener" aria-label="Instagram IFA INSA Finance">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/insa-finance-association" target="_blank" class="linkedin-link" rel="noopener" aria-label="LinkedIn IFA INSA Finance">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <header class="sim-hero">
+        <div class="sim-hero-bg" aria-hidden="true"></div>
+        <div class="container sim-hero-inner">
+            <div class="sim-hero-eyebrow"><i class="fas fa-chart-line"></i> Outil pédagogique IFA</div>
+            <h1 class="sim-hero-title">Simulateur d'investissement</h1>
+            <p class="sim-hero-subtitle">Composez votre portefeuille, simulez le DCA et visualisez la magie des intérêts composés sur 5, 10 ou 15 ans.</p>
+            <div class="sim-hero-meta">
+                <span><i class="fas fa-search-dollar"></i> Recherche multi-marchés</span>
+                <span><i class="fas fa-coins"></i> DCA & intérêts composés</span>
+                <span><i class="fas fa-file-excel"></i> Export Excel & CSV</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="sim-main container">
+
+        <!-- ===== STEP 1 — RECHERCHE & PORTEFEUILLE ===== -->
+        <section class="sim-card sim-step">
+            <div class="sim-step-header">
+                <span class="sim-step-num">01</span>
+                <div>
+                    <h2>Composez votre portefeuille</h2>
+                    <p>Recherchez n'importe quelle action, ETF ou indice par ticker ou par nom. Données fournies par Yahoo Finance.</p>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-input-wrap">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Ex : AAPL, Microsoft, CW8.PA, BTC-USD..." autocomplete="off" spellcheck="false">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                <div class="search-suggest">
+                    <span class="suggest-label">Populaires :</span>
+                    <button class="chip" data-symbol="AAPL" data-name="Apple Inc.">AAPL</button>
+                    <button class="chip" data-symbol="MSFT" data-name="Microsoft Corp.">MSFT</button>
+                    <button class="chip" data-symbol="^GSPC" data-name="S&P 500">S&amp;P 500</button>
+                    <button class="chip" data-symbol="CW8.PA" data-name="Amundi MSCI World ETF">CW8 (MSCI World)</button>
+                    <button class="chip" data-symbol="MC.PA" data-name="LVMH">LVMH</button>
+                    <button class="chip" data-symbol="TSLA" data-name="Tesla Inc.">TSLA</button>
+                    <button class="chip" data-symbol="BTC-USD" data-name="Bitcoin">Bitcoin</button>
+                </div>
+            </div>
+
+            <!-- Allocation mode toggle -->
+            <div class="mode-toggle">
+                <span class="mode-label">Mode de répartition :</span>
+                <div class="mode-pills" role="tablist">
+                    <button class="mode-pill active" data-mode="weight" role="tab" aria-selected="true">
+                        <i class="fas fa-percentage"></i> Pondération en %
+                    </button>
+                    <button class="mode-pill" data-mode="dca" role="tab" aria-selected="false">
+                        <i class="fas fa-euro-sign"></i> Montant € par mois
+                    </button>
+                </div>
+                <span class="mode-help" id="mode-help">Le total doit faire 100 %. Le versement mensuel global sera réparti selon ces poids.</span>
+            </div>
+
+            <!-- Portfolio table -->
+            <div class="portfolio-wrap">
+                <table class="portfolio-table" id="portfolio-table">
+                    <thead>
+                        <tr>
+                            <th class="th-ticker">Ticker</th>
+                            <th class="th-name">Nom</th>
+                            <th class="th-cagr">Rendement annuel <span class="th-info" tabindex="0" data-tip="CAGR historique calculé sur les données disponibles, plafonné raisonnablement. Modifiable."><i class="fas fa-info-circle"></i></span></th>
+                            <th class="th-alloc" id="alloc-header">Pondération</th>
+                            <th class="th-actions"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="portfolio-body">
+                        <tr class="empty-row"><td colspan="5">
+                            <div class="empty-state">
+                                <i class="fas fa-folder-open"></i>
+                                <p>Votre portefeuille est vide. Recherchez un ticker ou cliquez sur une suggestion pour commencer.</p>
+                            </div>
+                        </td></tr>
+                    </tbody>
+                </table>
+                <div class="portfolio-footer" id="portfolio-footer" hidden>
+                    <div class="alloc-total">
+                        <span>Total</span>
+                        <strong id="alloc-total-value">0&nbsp;%</strong>
+                        <span class="alloc-status" id="alloc-status"></span>
+                    </div>
+                    <button class="btn-ghost" id="normalize-btn" type="button"><i class="fas fa-balance-scale"></i> Normaliser à 100 %</button>
+                    <button class="btn-ghost" id="share-btn" type="button" title="Copier un lien qui restitue ce portefeuille à l'identique"><i class="fas fa-share-alt"></i> Partager</button>
+                    <button class="btn-ghost btn-ghost-danger" id="clear-btn" type="button"><i class="fas fa-trash-alt"></i> Vider</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== STEP 2 — PARAMÈTRES ===== -->
+        <section class="sim-card sim-step">
+            <div class="sim-step-header">
+                <span class="sim-step-num">02</span>
+                <div>
+                    <h2>Vos paramètres d'investissement</h2>
+                    <p>Combien, combien de temps, et dans quelles conditions.</p>
+                </div>
+            </div>
+
+            <div class="params-grid">
+                <div class="param">
+                    <label for="p-initial">Capital initial <span class="th-info" tabindex="0" data-tip="Le montant que vous investissez tout de suite, en une seule fois (avant les versements mensuels). C'est votre point de départ."><i class="fas fa-info-circle"></i></span></label>
+                    <div class="input-currency">
+                        <input type="number" id="p-initial" min="0" step="100" value="1000">
+                        <span class="suffix">€</span>
+                    </div>
+                </div>
+
+                <div class="param">
+                    <label for="p-monthly">Versement mensuel (DCA) <span class="th-info" tabindex="0" data-tip="DCA = Dollar Cost Averaging : on investit la même somme chaque mois, quoi qu'il arrive. Cela lisse le prix d'achat et réduit le risque de mal timer le marché."><i class="fas fa-info-circle"></i></span></label>
+                    <div class="input-currency">
+                        <input type="number" id="p-monthly" min="0" step="10" value="200">
+                        <span class="suffix">€/mois</span>
+                    </div>
+                </div>
+
+                <div class="param">
+                    <label for="p-years">Horizon <span class="th-info" tabindex="0" data-tip="Durée de l'investissement. Plus l'horizon est long, plus l'effet des intérêts composés est puissant. Pour bénéficier pleinement des actions, viser au moins 8 à 10 ans."><i class="fas fa-info-circle"></i></span></label>
+                    <div class="years-pills" id="years-pills">
+                        <button data-y="5">5 ans</button>
+                        <button data-y="10" class="active">10 ans</button>
+                        <button data-y="15">15 ans</button>
+                        <button data-y="20">20 ans</button>
+                        <button data-y="30">30 ans</button>
+                    </div>
+                    <input type="hidden" id="p-years" value="10">
+                </div>
+
+                <div class="param">
+                    <label for="p-inflation">Inflation annuelle <span class="param-hint">(valeur réelle)</span> <span class="th-info" tabindex="0" data-tip="Hausse moyenne des prix par an. 1 000 € aujourd'hui ne valent pas 1 000 € dans 10 ans. La projection en '€ constants' montre le pouvoir d'achat réel de votre capital final."><i class="fas fa-info-circle"></i></span></label>
+                    <div class="input-currency">
+                        <input type="number" id="p-inflation" min="0" max="20" step="0.1" value="2.0">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+
+                <div class="param">
+                    <label for="p-fees">Frais annuels (TER / courtage) <span class="th-info" tabindex="0" data-tip="TER = Total Expense Ratio : frais annuels d'un ETF (souvent 0,1 % à 0,4 %). Pour un courtier classique, on ajoute les frais de transaction. Ces frais sont déduits chaque année du rendement brut."><i class="fas fa-info-circle"></i></span></label>
+                    <div class="input-currency">
+                        <input type="number" id="p-fees" min="0" max="5" step="0.05" value="0.30">
+                        <span class="suffix">%</span>
+                    </div>
+                </div>
+
+                <div class="param">
+                    <label for="p-tax">Fiscalité <span class="th-info" tabindex="0" data-tip="PEA : enveloppe française défiscalisée après 5 ans (seuls 17,2 % de prélèvements sociaux restent dus). Plafond 150 000 €, actions UE uniquement. CTO : Compte-Titres Ordinaire, soumis à la flat tax de 30 % (PFU). Le PEA est très avantageux long terme."><i class="fas fa-info-circle"></i></span></label>
+                    <select id="p-tax">
+                        <option value="0">PEA — exonéré (après 5 ans)</option>
+                        <option value="17.2">PEA — prélèvements sociaux (17,2 %)</option>
+                        <option value="30" selected>CTO — flat tax (30 %)</option>
+                        <option value="0_custom">Aucune fiscalité</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== STEP 3 — RÉSULTATS ===== -->
+        <section class="sim-card sim-step results-card" id="results-section">
+            <div class="sim-step-header">
+                <span class="sim-step-num">03</span>
+                <div>
+                    <h2>Résultats de la projection</h2>
+                    <p>Synthèse, projection médiane / pessimiste / optimiste, et détail année par année.</p>
+                </div>
+                <div class="results-actions">
+                    <button class="btn-export" id="export-xlsx" type="button">
+                        <i class="fas fa-file-excel"></i> Exporter Excel
+                    </button>
+                    <button class="btn-export btn-export-light" id="export-csv" type="button">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="kpi-grid">
+                <div class="kpi kpi-primary">
+                    <span class="kpi-label">Capital final estimé</span>
+                    <span class="kpi-value" id="kpi-final">—</span>
+                    <span class="kpi-sub" id="kpi-final-real">—</span>
+                </div>
+                <div class="kpi">
+                    <span class="kpi-label">Total versé</span>
+                    <span class="kpi-value" id="kpi-invested">—</span>
+                    <span class="kpi-sub">Apport personnel</span>
+                </div>
+                <div class="kpi kpi-gold">
+                    <span class="kpi-label">Plus-value (intérêts)</span>
+                    <span class="kpi-value" id="kpi-gain">—</span>
+                    <span class="kpi-sub" id="kpi-gain-pct">—</span>
+                </div>
+                <div class="kpi">
+                    <span class="kpi-label">Rendement pondéré</span>
+                    <span class="kpi-value" id="kpi-cagr">—</span>
+                    <span class="kpi-sub">Net de frais</span>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="chart-block">
+                <div class="chart-header">
+                    <h3><i class="fas fa-chart-area"></i> Évolution dans le temps</h3>
+                    <div class="chart-legend-toggle">
+                        <label><input type="checkbox" id="toggle-scenarios" checked> Scénarios pessimiste / optimiste</label>
+                        <label><input type="checkbox" id="toggle-real"> Afficher en € constants (inflation)</label>
+                    </div>
+                </div>
+                <div class="chart-canvas-wrap">
+                    <canvas id="growth-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Two-column: pie + DCA comparison -->
+            <div class="dual-grid">
+                <div class="chart-block chart-block-sm">
+                    <h3><i class="fas fa-chart-pie"></i> Répartition du portefeuille</h3>
+                    <div class="chart-canvas-wrap chart-canvas-pie">
+                        <canvas id="pie-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-block chart-block-sm">
+                    <h3><i class="fas fa-balance-scale-right"></i> DCA vs apport unique</h3>
+                    <div class="comparison" id="comparison-block">
+                        <div class="comp-row">
+                            <div class="comp-dot comp-dca"></div>
+                            <div class="comp-text">
+                                <span class="comp-label">Avec DCA mensuel</span>
+                                <span class="comp-value" id="cmp-dca">—</span>
+                            </div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-dot comp-lump"></div>
+                            <div class="comp-text">
+                                <span class="comp-label">Apport initial seul (sans DCA)</span>
+                                <span class="comp-value" id="cmp-lump">—</span>
+                            </div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-dot comp-livret"></div>
+                            <div class="comp-text">
+                                <span class="comp-label">Équivalent Livret A (3 %)</span>
+                                <span class="comp-value" id="cmp-livret">—</span>
+                            </div>
+                        </div>
+                        <div class="comp-row">
+                            <div class="comp-dot comp-cash"></div>
+                            <div class="comp-text">
+                                <span class="comp-label">Sans investir (cash)</span>
+                                <span class="comp-value" id="cmp-cash">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Year table -->
+            <div class="table-block">
+                <div class="chart-header">
+                    <h3><i class="fas fa-table"></i> Détail année par année</h3>
+                    <span class="table-hint">Valeurs nominales, nettes de frais, avant fiscalité de sortie.</span>
+                </div>
+                <div class="year-table-wrap">
+                    <table class="year-table" id="year-table">
+                        <thead>
+                            <tr>
+                                <th>Année</th>
+                                <th>Versé sur l'année</th>
+                                <th>Total versé</th>
+                                <th>Intérêts de l'année</th>
+                                <th>Capital fin d'année</th>
+                                <th>Plus-value cumulée</th>
+                            </tr>
+                        </thead>
+                        <tbody id="year-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <p class="disclaimer">
+                <i class="fas fa-info-circle"></i>
+                <strong>Avertissement.</strong> Cet outil est pédagogique. Les rendements passés ne préjugent pas des rendements futurs. Les calculs supposent un rendement constant, sans tenir compte de la volatilité réelle. Ne constitue pas un conseil en investissement.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img">
+                        <span>I.F.A.</span>
+                    </div>
+                    <p>IFA - INSA Finance Association Lyon - L'association de finance de l'INSA Lyon qui sensibilise les étudiants-ingénieurs aux marchés financiers et à l'économie.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liens rapides</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="evenements.html">Nos événements</a></li>
+                        <li><a href="simulateur.html">Simulateur</a></li>
+                        <li><a href="intervenant.html">Devenir intervenant</a></li>
+                        <li><a href="soutenir.html">Nous soutenir</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 IFA - INSA Finance Association Lyon. Tous droits réservés. | Outil pédagogique sans valeur de conseil financier. | <a href="mentions-legales.html">Mentions légales &amp; RGPD</a></p>
+                <p class="footer-update">Dernière mise à jour du site : <span id="site-last-update">Avril 2026</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut de page">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Site scripts -->
+    <script src="script.js"></script>
+    <script src="modern.js" defer></script>
+    <script src="chatbot.js" defer></script>
+
+    <!-- Simulator logic -->
+    <script src="simulateur.js"></script>
+</body>
+</html>
