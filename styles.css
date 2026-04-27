@@ -2146,6 +2146,32 @@ img {
     .ca-nom { font-size: 0.9rem; }
     .ca-poste { font-size: 0.66rem; }
     .ca-legend { padding: 18px 14px 22px; gap: 16px 8px; }
+
+    /* Si le nombre de membres est impair, on centre le dernier (orphelin) */
+    .ca-lineup .ca-figure:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(50% - 4px);
+    }
+    .ca-legend .ca-legend-item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(50% - 4px);
+    }
+}
+
+/* Centrage de l'orphelin sur la grille à 3 colonnes (mobile 461-640px) */
+@media (min-width: 461px) and (max-width: 640px) {
+    .ca-lineup .ca-figure:last-child:nth-child(3n + 1) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(33.333% - 4px);
+    }
+    .ca-legend .ca-legend-item:last-child:nth-child(3n + 1) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc(33.333% - 4px);
+    }
 }
 
 .fondateur-section {
