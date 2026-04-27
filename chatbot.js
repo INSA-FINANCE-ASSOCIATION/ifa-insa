@@ -38,11 +38,11 @@
         },
         {
             keys: ['pea', 'plan epargne action', 'plan epargne en action'],
-            answer: "Le <strong>PEA</strong>, c'est le cadeau fiscal que l'État fait aux Français qui investissent. Franchement : ne pas en ouvrir un quand on est étudiant, c'est comme refuser un kebab offert.<br><br>🎯 Plafond : 150 000 € (t'as un peu de marge 😉)<br>📅 Après 5 ans de détention : zéro impôt sur tes plus-values, juste 17,2% de prélèvements sociaux.<br>🌍 Théoriquement \"Europe only\", mais via les ETF synthétiques tu accèdes au monde entier (S&P 500, Nasdaq, MSCI World…).<br><br>💡 ASTUCE : ouvre-en un MAINTENANT, même avec 10 €. L'horloge des 5 ans démarre à l'ouverture. Quand tu mettras 20 000 € dans 4 ans, tu seras déjà à 1 an de la fiscalité avantageuse. Cadeau du futur toi au futur toi."
+            answer: "Le <strong>PEA</strong>, c'est le cadeau fiscal que l'État fait aux Français qui investissent. Franchement : ne pas en ouvrir un quand on est étudiant, c'est comme refuser un kebab offert.<br><br>🎯 Plafond : 150 000 € (t'as un peu de marge 😉)<br>📅 Après 5 ans de détention : zéro impôt sur tes plus-values, juste 18,6% de prélèvements sociaux.<br>🌍 Théoriquement \"Europe only\", mais via les ETF synthétiques tu accèdes au monde entier (S&P 500, Nasdaq, MSCI World…).<br><br>💡 ASTUCE : ouvre-en un MAINTENANT, même avec 10 €. L'horloge des 5 ans démarre à l'ouverture. Quand tu mettras 20 000 € dans 4 ans, tu seras déjà à 1 an de la fiscalité avantageuse. Cadeau du futur toi au futur toi."
         },
         {
             keys: ['cto', 'compte titre', 'compte-titre', 'compte titres'],
-            answer: "Le <strong>CTO</strong> (Compte-Titres Ordinaire), c'est la Ferrari sans limiteur : pas de plafond, accès mondial, toutes les actions, tous les pays, crypto ETF, actions US, japonaises, tout.<br><br>💰 Mais : <strong>flat tax de 30%</strong> sur les plus-values et dividendes (vs 17,2% sur PEA >5 ans). L'addition est salée.<br><br>🎯 Quand l'utiliser : quand ton PEA est plein, pour acheter des titres non-éligibles PEA (US directs, obligations, matières premières), ou pour trader. Sinon, priorise le PEA."
+            answer: "Le <strong>CTO</strong> (Compte-Titres Ordinaire), c'est la Ferrari sans limiteur : pas de plafond, accès mondial, toutes les actions, tous les pays, crypto ETF, actions US, japonaises, tout.<br><br>💰 Mais : <strong>flat tax de 31,4%</strong> sur les plus-values et dividendes (12,8% IR + 18,6% PS), vs 18,6% sur PEA >5 ans. L'addition est salée.<br><br>🎯 Quand l'utiliser : quand ton PEA est plein, pour acheter des titres non-éligibles PEA (US directs, obligations, matières premières), ou pour trader. Sinon, priorise le PEA."
         },
         {
             keys: ['assurance vie', 'assurance-vie', 'av'],
@@ -123,7 +123,7 @@
         },
         {
             keys: ['fiscalite', 'flat tax', 'pfu', 'impot plus value', 'prelevement forfaitaire'],
-            answer: "Tableau récap' <strong>fiscalité</strong> placements en France (2026) :<br><br>💼 <strong>CTO, crypto</strong> : flat tax (PFU) <strong>30%</strong> = 17,2% PS + 12,8% IR<br>🎯 <strong>PEA > 5 ans</strong> : 17,2% PS uniquement (0% IR)<br>📆 <strong>Assurance-vie > 8 ans</strong> : abattement 4 600 €/an sur gains (9 200 € couple) + 17,2% PS<br>💰 <strong>Livret A, LDDS, LEP, Livret Jeune</strong> : totalement exonérés 🎉<br>🏠 <strong>Immobilier locatif</strong> : IR + PS + CSG, jusqu'à 62,2% dans le pire des cas 🤡<br>💎 <strong>PER</strong> : déduction entrée, imposition sortie<br><br>⚙️ Option : imposition au barème IR si plus avantageuse pour toi (étudiant non-imposable → gros intérêt sur plus-values PEA/CTO en cochant cette case)."
+            answer: "Tableau récap' <strong>fiscalité</strong> placements en France (2026) :<br><br>💼 <strong>CTO, crypto</strong> : flat tax (PFU) <strong>31,4%</strong> = 18,6% PS + 12,8% IR<br>🎯 <strong>PEA > 5 ans</strong> : 18,6% PS uniquement (0% IR)<br>📆 <strong>Assurance-vie > 8 ans</strong> : abattement 4 600 €/an sur gains (9 200 € couple) + 18,6% PS<br>💰 <strong>Livret A, LDDS, LEP, Livret Jeune</strong> : totalement exonérés 🎉<br>🏠 <strong>Immobilier locatif</strong> : IR + PS + CSG, jusqu'à 63,6% dans le pire des cas 🤡<br>💎 <strong>PER</strong> : déduction entrée, imposition sortie<br><br>⚙️ Option : imposition au barème IR si plus avantageuse pour toi (étudiant non-imposable → gros intérêt sur plus-values PEA/CTO en cochant cette case)."
         },
         {
             keys: ['epargne precaution', 'epargne de precaution', 'urgence', 'fonds urgence', 'matelas securite'],
@@ -131,7 +131,7 @@
         },
         {
             keys: ['immobilier', 'investissement locatif', 'locatif', 'achat immobilier', 'acheter appart'],
-            answer: "L'<strong>immobilier locatif</strong>, le grand mythe français. La vérité nuancée :<br><br>✅ <strong>Atouts</strong> :<br>• Effet de levier du crédit (tu achètes 200 k€ avec 20 k€)<br>• Actif tangible que tu comprends<br>• Revenus potentiellement réguliers<br>• Parfois plus-value à la revente<br><br>⚠️ <strong>Galères</strong> :<br>• Vacance locative (2-3 mois sans loyer = rentabilité flinguée)<br>• Impayés, dégradations, syndic incompétent<br>• Travaux : chaudière HS à 4 000 €, fuite à 15 000 €<br>• Fiscalité brutale : loyers imposés à ta TMI + 17,2% PS (sauf LMNP et ses amortissements)<br>• Zéro liquidité : 3 mois pour vendre, 7% de frais<br><br>💡 Pour un étudiant, la priorité est probablement ton ACHAT de résidence principale quand tu auras un CDI. Le locatif, c'est après."
+            answer: "L'<strong>immobilier locatif</strong>, le grand mythe français. La vérité nuancée :<br><br>✅ <strong>Atouts</strong> :<br>• Effet de levier du crédit (tu achètes 200 k€ avec 20 k€)<br>• Actif tangible que tu comprends<br>• Revenus potentiellement réguliers<br>• Parfois plus-value à la revente<br><br>⚠️ <strong>Galères</strong> :<br>• Vacance locative (2-3 mois sans loyer = rentabilité flinguée)<br>• Impayés, dégradations, syndic incompétent<br>• Travaux : chaudière HS à 4 000 €, fuite à 15 000 €<br>• Fiscalité brutale : loyers imposés à ta TMI + 18,6% PS (sauf LMNP et ses amortissements)<br>• Zéro liquidité : 3 mois pour vendre, 7% de frais<br><br>💡 Pour un étudiant, la priorité est probablement ton ACHAT de résidence principale quand tu auras un CDI. Le locatif, c'est après."
         },
         {
             keys: ['lmnp', 'loueur meuble', 'loueur non professionnel'],
@@ -316,7 +316,7 @@
         },
         {
             keys: ['pel', 'cel', 'plan epargne logement'],
-            answer: "Le <strong>PEL</strong> (Plan d'Épargne Logement) : relique des années 90 qui n'est plus très attractive.<br><br>📅 PEL 2025 : taux ~1,75% brut, bloqué 10 ans max<br>🏠 Droit à prêt immobilier à taux PEL + 1,2%, peu intéressant quand les taux du marché baissent<br>💸 Fiscalité : flat tax 30% sur les intérêts (plus d'exonération depuis 2018)<br><br>💡 Aujourd'hui : livret A + LEP (si éligible) battent le PEL. Le CEL (Compte Épargne Logement) encore moins intéressant. Hérité de tes parents ? Garde-le s'il est ancien à taux fixe 4%+, sinon ferme."
+            answer: "Le <strong>PEL</strong> (Plan d'Épargne Logement) : relique des années 90 qui n'est plus très attractive.<br><br>📅 PEL 2025 : taux ~1,75% brut, bloqué 10 ans max<br>🏠 Droit à prêt immobilier à taux PEL + 1,2%, peu intéressant quand les taux du marché baissent<br>💸 Fiscalité : flat tax 31,4% sur les intérêts (plus d'exonération depuis 2018)<br><br>💡 Aujourd'hui : livret A + LEP (si éligible) battent le PEL. Le CEL (Compte Épargne Logement) encore moins intéressant. Hérité de tes parents ? Garde-le s'il est ancien à taux fixe 4%+, sinon ferme."
         },
         {
             keys: ['pee', 'perco', 'actionnariat salarie', 'participation'],
@@ -991,8 +991,8 @@
             answer: "L'<strong>alternance</strong> 🎯 : combo études + entreprise (3 semaines / 1 semaine, ou 50/50). Rémunération : 43-100% du SMIC selon âge + année. Avantage massif : expérience pro + 0 frais scolaires (l'entreprise paie). Inconvénient : rythme ultra-intense. À l'INSA, surtout sur les masters et filières spécifiques (FAS)."
         },
         {
-            keys: ['csg', 'prelevements sociaux', 'ps 17 2'],
-            answer: "<strong>CSG + CRDS + prélèvements sociaux</strong> = <strong>17,2%</strong> sur tes gains financiers en 2026 (hors livrets réglementés). CSG : 9,2%, CRDS : 0,5%, Prélèvement de solidarité : 7,5%. Oui, c'est beaucoup. Mais c'est la même chose pour tout le monde. À combiner avec la flat tax ou l'IR selon ton placement."
+            keys: ['csg', 'prelevements sociaux', 'ps 18 6', 'ps 17 2'],
+            answer: "<strong>CSG + CRDS + prélèvements sociaux</strong> = <strong>18,6%</strong> sur tes gains financiers en 2026 (hors livrets réglementés). Composantes : CSG, CRDS et prélèvement de solidarité. Oui, c'est beaucoup. Mais c'est la même chose pour tout le monde. À combiner avec la flat tax ou l'IR selon ton placement."
         },
         {
             keys: ['tva', 'taxe valeur ajoutee'],

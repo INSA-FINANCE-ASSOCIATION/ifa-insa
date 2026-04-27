@@ -15,7 +15,7 @@
             years: 10,
             inflation: 2.0,
             fees: 0.30,
-            tax: 30
+            tax: 31.4
         },
         lastResult: null
     };
