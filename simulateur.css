@@ -1115,15 +1115,39 @@
 }
 
 @media (max-width: 640px) {
-    .sim-hero { padding: 110px 0 50px; }
-    .mode-help { text-align: left; }
-    .chart-canvas-wrap { height: 300px; }
+    /* Hero plus compact */
+    .sim-hero { padding: 100px 0 42px; }
+    .sim-hero-eyebrow { font-size: 0.74rem; padding: 6px 14px; margin-bottom: 16px; }
+    .sim-hero-meta { gap: 10px 16px; font-size: 0.82rem; }
+
+    /* Cartes plus aérées */
+    .sim-main { gap: 18px; margin: -32px auto 56px; }
+    .sim-card { padding: 22px 16px; border-radius: 16px; }
+    .sim-step-header { gap: 12px; margin-bottom: 20px; }
+    .sim-step-num { width: 40px; height: 40px; font-size: 1rem; border-radius: 10px; }
+    .sim-step-header h2 { font-size: 1.3rem; }
+    .sim-step-header p { font-size: 0.88rem; }
+    .sim-step-header > div:nth-child(2) { min-width: 0; flex: 1 1 100%; }
+
+    /* Mode toggle (Pondération / Montant) */
+    .mode-toggle { padding: 12px 14px; gap: 10px 14px; margin-bottom: 18px; }
+    .mode-help { text-align: left; flex: 1 1 100%; min-width: 0; font-size: 0.78rem; }
+    .mode-pill { padding: 7px 12px; font-size: 0.82rem; }
+
+    /* Recherche & chips */
+    #search-input { padding: 14px 16px 14px 42px; font-size: 0.95rem; }
+    .search-input-wrap > i { left: 14px; }
+    .search-suggest { gap: 6px; }
+    .suggest-label { width: 100%; margin-right: 0; }
+    .chip { padding: 6px 12px; font-size: 0.8rem; }
+
+    /* Portefeuille : carte 2 colonnes pour les inputs */
     .portfolio-table thead { display: none; }
     .portfolio-table tr {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding: 12px 16px;
+        gap: 8px 10px;
+        padding: 12px 14px;
         border-bottom: 1px solid rgba(26, 42, 94, 0.08);
     }
     .portfolio-table td {
@@ -1131,9 +1155,60 @@
         border: none;
     }
     .portfolio-table .ticker-cell { grid-column: 1; }
-    .portfolio-table .name-cell { grid-column: 2; text-align: right; }
+    .portfolio-table .name-cell {
+        grid-column: 2;
+        text-align: right;
+        max-width: none;
+    }
     .portfolio-table .cagr-cell { grid-column: 1; }
     .portfolio-table .alloc-cell { grid-column: 2; text-align: right; }
     .portfolio-table .actions-cell { grid-column: 1 / -1; text-align: right; }
     .empty-row { display: block !important; }
+    .cell-input { width: 100%; max-width: 110px; padding: 7px 10px; font-size: 0.88rem; }
+
+    /* Pills d'horizon : tout sur une ligne sur mobile */
+    .years-pills { gap: 5px; }
+    .years-pills button { min-width: 0; padding: 9px 4px; font-size: 0.82rem; }
+
+    /* KPIs : plus serrés */
+    .kpi-grid { gap: 12px; margin-bottom: 24px; }
+    .kpi { padding: 16px 18px; }
+
+    /* Graphes */
+    .chart-canvas-wrap { height: 280px; }
+    .chart-canvas-pie { height: 220px; max-width: 260px; }
+
+    /* DCA vs apport unique */
+    .comp-row { padding: 12px 14px; gap: 10px; }
+    .comp-text { gap: 4px 10px; }
+    .comp-label { font-size: 0.85rem; }
+    .comp-value { font-size: 0.98rem; }
+
+    /* Tableau année par année : plus compact pour limiter le scroll horizontal */
+    .year-table { font-size: 0.85rem; }
+    .year-table th,
+    .year-table td { padding: 10px 12px; }
+    .year-table thead th { font-size: 0.72rem; }
+
+    /* Avertissement */
+    .disclaimer { padding: 14px 16px; font-size: 0.82rem; margin-top: 22px; }
+
+    /* Boutons exporter */
+    .btn-export { padding: 10px 14px; font-size: 0.84rem; }
+}
+
+@media (max-width: 420px) {
+    .sim-hero { padding: 96px 0 36px; }
+    .sim-hero-meta {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        max-width: 240px;
+        margin: 0 auto;
+    }
+    .sim-card { padding: 20px 13px; }
+    .sim-step-header h2 { font-size: 1.2rem; }
+    .years-pills button { padding: 8px 2px; font-size: 0.78rem; }
+    .chart-canvas-pie { height: 200px; max-width: 220px; }
+    .cell-input { padding: 6px 8px; font-size: 0.85rem; }
 }
