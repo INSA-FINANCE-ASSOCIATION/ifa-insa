@@ -217,9 +217,31 @@
         return rows;
     }
 
+    /**
+     * Applique la fiscalité sur la plus-value.
+     * Les contributions ne sont pas taxées ; seul le gain l'est, comme à la sortie.
+     * Recalcule balance, gainCum et interestYear de manière cohérente.
+     */
+    function applyTax(rows, taxRate) {
+        if (!taxRate) return rows;
+        let prevTaxedGain = 0;
+        return rows.map(row => {
+            const taxedGain = row.gainCum * (1 - taxRate);
+            const newRow = {
+                ...row,
+                balance: row.contributedTotal + taxedGain,
+                gainCum: taxedGain,
+                interestYear: taxedGain - prevTaxedGain
+            };
+            prevTaxedGain = taxedGain;
+            return newRow;
+        });
+    }
+
     function compute() {
         const wRate = weightedCAGR(); // decimal
         const fees = (Number(state.params.fees) || 0) / 100;
+        const tax = (Number(state.params.tax) || 0) / 100;
         const netAnnualPct = (wRate - fees) * 100;
         const years = Number(state.params.years) || 10;
         const initial = Number(state.params.initial) || 0;
@@ -232,12 +254,19 @@
             monthly = Number(state.params.monthly) || 0;
         }
 
-        const median = projectGrowth(netAnnualPct, years, initial, monthly);
-        const optim = projectGrowth(netAnnualPct + 2.0, years, initial, monthly); // +2pp
-        const pessim = projectGrowth(Math.max(-50, netAnnualPct - 3.0), years, initial, monthly); // -3pp
+        // Projection brute (avant fiscalité)
+        const medianGross = projectGrowth(netAnnualPct, years, initial, monthly);
+        const optimGross = projectGrowth(netAnnualPct + 2.0, years, initial, monthly); // +2pp
+        const pessimGross = projectGrowth(Math.max(-50, netAnnualPct - 3.0), years, initial, monthly); // -3pp
+        const lumpGross = projectGrowth(netAnnualPct, years, initial, 0);
 
-        // Comparisons
-        const lump = projectGrowth(netAnnualPct, years, initial, 0);
+        // Application de la fiscalité (PEA 18,6 % / CTO 31,4 % / aucune)
+        const median = applyTax(medianGross, tax);
+        const optim = applyTax(optimGross, tax);
+        const pessim = applyTax(pessimGross, tax);
+        const lump = applyTax(lumpGross, tax);
+
+        // Livret A : exonéré d'impôts en France → pas de fiscalité appliquée
         const livret = projectGrowth(3.0, years, initial, monthly);
         const cashRows = (() => {
             // No interest, but add monthly contributions
