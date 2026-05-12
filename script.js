@@ -50,9 +50,14 @@ function toTypeCode(typeNom) {
                 const jour = parseInt(ev['Jour']) || 1;
                 const annee = parseInt(ev['Année']) || now.getFullYear();
                 const evDate = (moisIdx !== undefined) ? new Date(annee, moisIdx, jour) : null;
+                ev._date = evDate;
                 if (!evDate || evDate >= now) upcoming.push(ev);
                 else past.push(ev);
             });
+
+            // Tri : à venir = du plus proche au plus lointain, passés = du plus récent au plus ancien
+            upcoming.sort((a, b) => (a._date || 0) - (b._date || 0));
+            past.sort((a, b) => (b._date || 0) - (a._date || 0));
 
             // Abréviation du mois en français — clés sans accents pour compatibilité mobile
             const moisAbbr = {
