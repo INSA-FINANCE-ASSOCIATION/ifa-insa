@@ -2043,6 +2043,10 @@ img {
     min-width: 0;
     position: relative;
 }
+/* Chevauchement : chaque figure recouvre légèrement sa voisine.
+   Combiné au z-index (posé en inline par script.js d'après la distance au centre),
+   ça met le membre central au premier plan et empile les autres derrière. */
+.ca-lineup .ca-figure + .ca-figure { margin-left: -36px; }
 .ca-figure img {
     width: 100%;
     max-width: 200px;
@@ -2104,6 +2108,7 @@ img {
     .ca-band-title { margin-bottom: 14px; }
     .ca-lineup { min-height: 220px; }
     .ca-figure img { max-width: 140px; height: 200px; }
+    .ca-lineup .ca-figure + .ca-figure { margin-left: -22px; }
     .ca-nom { font-size: 0.88rem; }
     .ca-poste { font-size: 0.68rem; }
     .ca-legend { padding: 18px 8px 22px; }
@@ -2129,6 +2134,8 @@ img {
         gap: 10px 6px;
         padding-bottom: 4px;
     }
+    /* En grille mobile, on annule le chevauchement desktop */
+    .ca-lineup .ca-figure + .ca-figure { margin-left: 0; }
     .ca-figure { flex: initial; }
     .ca-figure img {
         max-width: 100%;

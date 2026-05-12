@@ -594,11 +594,15 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
                 poste: pick(m, 'Poste', 'Rôle', 'poste')
             }));
 
-            const figures = members.map(m => {
+            // z-index décroissant à partir du centre : la personne centrale passe devant,
+            // puis chaque voisin glisse derrière son voisin plus central.
+            const centerIdx = (members.length - 1) / 2;
+            const figures = members.map((m, i) => {
                 const visual = m.photo
                     ? `<img src="${m.photo}" alt="${m.nom}" loading="lazy">`
                     : `<div class="ca-figure-placeholder"><i class="fas fa-user" aria-hidden="true"></i></div>`;
-                return `<div class="ca-figure">${visual}</div>`;
+                const zi = members.length - Math.round(Math.abs(i - centerIdx));
+                return `<div class="ca-figure" style="z-index:${zi}">${visual}</div>`;
             }).join('');
 
             const legend = members.map(m => `
