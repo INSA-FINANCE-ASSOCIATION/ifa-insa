@@ -566,12 +566,11 @@ img {
 }
 .tl-item:last-child { border-bottom: none; }
 
-/* Événements passés : look "archive" grisé et désaturé */
+/* Événements passés : look "archive" grisé et désaturé (le point doré reste normal) */
 .tl-past { filter: grayscale(0.6); opacity: 0.85; }
 .tl-past .tl-title { color: #4b5563; }
 .tl-past .tl-day   { color: #374151; }
 .tl-past .tl-month { color: #6b7280; }
-.tl-past .tl-dot { background: #c7ccd6; box-shadow: 0 0 0 4px #eef0f4; }
 .tl-past .tl-content { background: #f7f8fa; }
 .tl-past .tl-badge { background: #e5e7eb !important; color: #4b5563 !important; }
 .tl-past .tl-btn { background: #b6bccb; color: #fff; }
