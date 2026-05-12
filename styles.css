@@ -575,6 +575,8 @@ img {
 .tl-past .tl-badge { background: #e5e7eb !important; color: #4b5563 !important; }
 .tl-past .tl-btn { background: #b6bccb; color: #fff; }
 .tl-past .tl-btn:hover { background: #9aa1b3; }
+/* Force la suppression de tout fond/ombre sur le container .tl-dot — évite le rectangle parasite */
+.tl-past .tl-dot { background: transparent !important; box-shadow: none !important; outline: none !important; }
 .tl-past:hover { filter: grayscale(0.2); opacity: 1; }
 
 /* Date à gauche */
