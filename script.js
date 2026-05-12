@@ -41,17 +41,13 @@ function toTypeCode(typeNom) {
                 return;
             }
 
-            // Séparer à venir / passés (si colonne Année présente, sinon tout en "à venir")
+            // Séparer à venir / passés à partir de la colonne unique "Date"
             const now = new Date();
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const upcoming = [], past = [];
             rows.forEach(ev => {
-                const moisMap = {janvier:0,fevrier:1,mars:2,avril:3,mai:4,juin:5,juillet:6,aout:7,septembre:8,octobre:9,novembre:10,decembre:11};
-                const moisIdx = moisMap[stripAccents((ev['Mois']||'').toLowerCase())];
-                const jour = parseInt(ev['Jour']) || 1;
-                const annee = parseInt(ev['Année']) || now.getFullYear();
-                const evDate = (moisIdx !== undefined) ? new Date(annee, moisIdx, jour) : null;
-                ev._date = evDate;
-                if (!evDate || evDate >= now) upcoming.push(ev);
+                ev._date = parseEventDate(ev['Date']);
+                if (!ev._date || ev._date >= todayStart) upcoming.push(ev);
                 else past.push(ev);
             });
 
@@ -59,12 +55,8 @@ function toTypeCode(typeNom) {
             upcoming.sort((a, b) => (a._date || 0) - (b._date || 0));
             past.sort((a, b) => (b._date || 0) - (a._date || 0));
 
-            // Abréviation du mois en français — clés sans accents pour compatibilité mobile
-            const moisAbbr = {
-                'janvier':'JAN','fevrier':'FÉV','mars':'MAR','avril':'AVR',
-                'mai':'MAI','juin':'JUI','juillet':'JUI','aout':'AOÛ',
-                'septembre':'SEP','octobre':'OCT','novembre':'NOV','decembre':'DÉC'
-            };
+            // Abréviation des mois — index 0 = janvier
+            const moisAbbr = ['JAN','FÉV','MAR','AVR','MAI','JUI','JUI','AOÛ','SEP','OCT','NOV','DÉC'];
 
             function renderTimeline(list, isPast) {
                 return list.map(ev => {
@@ -77,15 +69,12 @@ function toTypeCode(typeNom) {
                     const lieuTexte   = ev['Lieu'] || '';
                     const lieuUrl     = lieuTexte ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lieuTexte)}` : '';
                     const lieu        = lieuTexte ? `<div class="tl-meta"><i class="fas fa-map-marker-alt"></i><a href="${lieuUrl}" target="_blank" rel="noopener" class="tl-lieu-link">${lieuTexte}</a></div>` : '';
-                    const titre        = (ev['Titre'] || '').trim();
-                    const infosRaw     = (ev['Infos'] || '').trim();
-                    const descRaw      = (ev['Description'] || '').trim();
-                    const infos        = (infosRaw && infosRaw !== titre) ? `<div class="tl-meta"><i class="fas fa-info-circle"></i><span>${infosRaw}</span></div>` : '';
-                    const description  = (descRaw && descRaw !== titre)  ? `<p class="tl-description">${descRaw}</p>` : '';
+                    const titre       = (ev['Titre'] || '').trim();
+                    const infosRaw    = (ev['Infos'] || '').trim();
+                    const infos       = (infosRaw && infosRaw !== titre) ? `<div class="tl-meta"><i class="fas fa-info-circle"></i><span>${infosRaw}</span></div>` : '';
                     const lienBtn     = ev['Lien']        ? `<a href="${ev['Lien']}" class="tl-btn" target="_blank" rel="noopener">S'inscrire <i class="fas fa-arrow-right"></i></a>` : '';
-                    const jourNum     = ev['Jour'] || '—';
-                    const moisNom     = stripAccents((ev['Mois'] || '').toLowerCase());
-                    const moisText    = moisAbbr[moisNom] || stripAccents(ev['Mois'] || '').substring(0,3).toUpperCase();
+                    const jourNum     = ev._date ? ev._date.getDate() : '—';
+                    const moisText    = ev._date ? moisAbbr[ev._date.getMonth()] : '';
 
                     // Cercles photos (haut droite) — uniquement si photo existe
                     const circle1 = imgUrl  ? `<div class="tl-circle" style="background-image:url('${imgUrl}')"></div>`  : '';
@@ -103,7 +92,6 @@ function toTypeCode(typeNom) {
                             ${(circle1 || circle2) ? `<div class="tl-circles">${circle1}${circle2}</div>` : ''}
                             <h3 class="tl-title">${titre}</h3>
                             <div class="tl-metas">${intervenant}${heure}${lieu}${infos}</div>
-                            ${description}
                             ${lienBtn}
                         </div>
                     </div>`;
@@ -125,6 +113,39 @@ function toTypeCode(typeNom) {
             container.innerHTML = '<p style="text-align:center;color:#888;">Impossible de charger les événements.</p>';
         });
 })();
+
+// Parse une date d'événement depuis la colonne "Date" du Google Sheet.
+// Accepte : objet Date, ISO 8601, "Mon Apr 27 2026 ...", "27/04/2026",
+// ou texte français "lundi 27 avril" / "27 avril 2026".
+// Si l'année est absente, prend l'année courante (et passe à l'année suivante
+// si la date résultante est >6 mois dans le passé, pour gérer la bascule fin/début d'année).
+function parseEventDate(raw) {
+    if (raw === null || raw === undefined || raw === '') return null;
+    if (raw instanceof Date) return isNaN(raw) ? null : raw;
+
+    const s = String(raw).trim();
+
+    // Format DD/MM/YYYY (jamais ambigu avec ISO car ISO commence par 4 chiffres)
+    const dmy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if (dmy) return new Date(parseInt(dmy[3]), parseInt(dmy[2]) - 1, parseInt(dmy[1]));
+
+    // Texte français : "lundi 27 avril" ou "27 avril 2026" (avec ou sans jour de semaine)
+    const moisMap = {janvier:0,fevrier:1,mars:2,avril:3,mai:4,juin:5,juillet:6,aout:7,septembre:8,octobre:9,novembre:10,decembre:11};
+    const fr = stripAccents(s.toLowerCase()).match(/(\d{1,2})\s+([a-z]+)(?:\s+(\d{4}))?/);
+    if (fr && moisMap[fr[2]] !== undefined) {
+        const jour = parseInt(fr[1]);
+        const moisIdx = moisMap[fr[2]];
+        if (fr[3]) return new Date(parseInt(fr[3]), moisIdx, jour);
+        const now = new Date();
+        let d = new Date(now.getFullYear(), moisIdx, jour);
+        if ((d - now) / 86400000 < -180) d = new Date(now.getFullYear() + 1, moisIdx, jour);
+        return d;
+    }
+
+    // Fallback JS Date (ISO 8601, "Mon Apr 27 2026 00:00:00 GMT+...")
+    const parsed = new Date(s);
+    return isNaN(parsed) ? null : parsed;
+}
 
 // Convertit un lien Google Drive "view" en lien image direct
 function getDriveImageUrl(url) {
