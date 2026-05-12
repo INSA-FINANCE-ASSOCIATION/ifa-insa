@@ -785,9 +785,10 @@
             datasets.push({
                 label: 'Optimiste (+2 pts)',
                 data: optimSeries,
-                borderColor: 'rgba(72, 187, 120, 0.55)',
-                backgroundColor: 'rgba(72, 187, 120, 0.0)',
-                borderDash: [4, 4],
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34, 197, 94, 0.10)',
+                borderDash: [6, 4],
+                borderWidth: 2,
                 fill: false,
                 pointRadius: 0,
                 tension: 0.3
@@ -795,9 +796,10 @@
             datasets.push({
                 label: 'Pessimiste (-3 pts)',
                 data: pessimSeries,
-                borderColor: 'rgba(237, 137, 54, 0.55)',
-                backgroundColor: 'rgba(237, 137, 54, 0.0)',
-                borderDash: [4, 4],
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239, 68, 68, 0.10)',
+                borderDash: [6, 4],
+                borderWidth: 2,
                 fill: false,
                 pointRadius: 0,
                 tension: 0.3
@@ -880,8 +882,19 @@
         } else {
             values = state.portfolio.map(p => Number(p.weight) || 0);
         }
-        // IFA palette: navy + gold variants
-        const palette = ['#1a2a5e', '#c9a227', '#2a3d7a', '#d4af37', '#5d6b82', '#e6c85a', '#0f1a3d', '#7a5c00', '#4a5568', '#a89060'];
+        // Palette colorée et distincte (lisibilité maximale entre les segments)
+        const palette = [
+            '#1a2a5e', // navy IFA
+            '#c9a227', // gold IFA
+            '#e53e3e', // rouge
+            '#38a169', // vert
+            '#3182ce', // bleu clair
+            '#805ad5', // violet
+            '#dd6b20', // orange
+            '#319795', // teal
+            '#d53f8c', // rose
+            '#718096'  // gris bleuté
+        ];
         const colors = labels.map((_, i) => palette[i % palette.length]);
 
         if (pieChart) pieChart.destroy();
