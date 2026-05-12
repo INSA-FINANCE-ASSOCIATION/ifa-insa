@@ -875,7 +875,23 @@
             if (pieChart) { pieChart.destroy(); pieChart = null; }
             return;
         }
-        const labels = state.portfolio.map(p => p.symbol);
+        // Affiche un nom court (tronqué) dans la légende ; le ticker reste dans le tooltip
+        const shortenName = (name, max = 22) => {
+            if (!name) return '';
+            const cleaned = name
+                .replace(/\bUCITS ETF\b/gi, '')
+                .replace(/\bUCITS\b/gi, '')
+                .replace(/\bETF\b/gi, '')
+                .replace(/\bUSD\b/gi, '')
+                .replace(/\bEUR\b/gi, '')
+                .replace(/\bAcc\b/gi, '')
+                .replace(/\bDist\b/gi, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            return cleaned.length > max ? cleaned.slice(0, max - 1).trimEnd() + '…' : cleaned;
+        };
+        const labels = state.portfolio.map(p => shortenName(p.name || p.symbol));
+        const tickers = state.portfolio.map(p => p.symbol);
         let values;
         if (state.mode === 'dca') {
             values = state.portfolio.map(p => Number(p.dca) || 0);
@@ -913,8 +929,10 @@
                             label: c => {
                                 const total = c.dataset.data.reduce((s, v) => s + v, 0) || 1;
                                 const pct = (c.parsed / total) * 100;
-                                if (state.mode === 'dca') return `${c.label}: ${fmtEUR(c.parsed)}/mois (${pct.toFixed(1)} %)`;
-                                return `${c.label}: ${pct.toFixed(1)} %`;
+                                const ticker = tickers[c.dataIndex] || '';
+                                const prefix = ticker ? `${c.label} (${ticker})` : c.label;
+                                if (state.mode === 'dca') return `${prefix}: ${fmtEUR(c.parsed)}/mois (${pct.toFixed(1)} %)`;
+                                return `${prefix}: ${pct.toFixed(1)} %`;
                             }
                         }
                     }
