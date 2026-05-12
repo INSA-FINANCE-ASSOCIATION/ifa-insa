@@ -604,6 +604,15 @@ img {
     letter-spacing: 0.5px;
     margin-top: 3px;
 }
+/* Année — affichée uniquement sur les événements passés (rendu archive) */
+.tl-year {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
 
 /* Point sur la ligne */
 .tl-dot {

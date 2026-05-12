@@ -80,11 +80,14 @@ function toTypeCode(typeNom) {
                     const circle1 = imgUrl  ? `<div class="tl-circle" style="background-image:url('${imgUrl}')"></div>`  : '';
                     const circle2 = imgUrl2 ? `<div class="tl-circle" style="background-image:url('${imgUrl2}')"></div>` : '';
 
+                    const annee = (isPast && ev._date) ? `<span class="tl-year">${ev._date.getFullYear()}</span>` : '';
+
                     return `
                     <div class="tl-item${isPast ? ' tl-past' : ''}">
                         <div class="tl-date">
                             <span class="tl-day">${jourNum}</span>
                             <span class="tl-month">${moisText}</span>
+                            ${annee}
                         </div>
                         <div class="tl-dot"></div>
                         <div class="tl-content">
