@@ -61,7 +61,14 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8765/index.html\")",
       "Bash(git pull *)",
       "Bash(git stash *)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8765/evenements.html\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:8765/evenements.html\")",
+      "PowerShell(node --version)",
+      "PowerShell(python --version)",
+      "PowerShell(python -m http.server 8765)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:8765/chatbot.js\" -UseBasicParsing)",
+      "PowerShell(\\(Invoke-WebRequest -Uri \"http://localhost:8765/chatbot.js\" -UseBasicParsing\\).Content.Substring\\(0,200\\))",
+      "PowerShell(python _test_matcher.py)",
+      "PowerShell($files = @\\('simulateur.html','evenements.html','article.html','partenaires.html','intervenant.html','soutenir.html','mentions-legales.html'\\); foreach \\($f in $files\\) { $c = Get-Content $f -Raw; $new = $c.Replace\\('<script src=\"chatbot.js\" defer></script>', '<script src=\"chatbot.js?v=20260513\" defer></script>'\\); if \\($c -ne $new\\) { Set-Content -Path $f -Value $new -NoNewline -Encoding utf8; Write-Output \"updated: $f\" } else { Write-Output \"unchanged: $f\" } })"
     ]
   }
 }
