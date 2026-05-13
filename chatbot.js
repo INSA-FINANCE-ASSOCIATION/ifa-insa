@@ -19,6 +19,71 @@
         "Note : même Warren Buffett se trompe parfois. Donc moi aussi. Croise toujours tes sources.",
     ];
 
+    // ---------- Simulator nudge ----------
+    // Quand l'utilisateur pose une question sur un sujet que le simulateur IFA
+    // peut illustrer concrètement (PEA, CTO, ETF, indices, DCA, portefeuille…),
+    // on ajoute un petit lien d'invitation à la fin de la réponse.
+    const SIMU_NUDGES = [
+        "<br><br>💡 Envie de voir ce que ça donne <em>concrètement</em> sur ton capital ? Teste-le sur notre <a href=\"simulateur.html\">simulateur d'investissement</a> 📊 — tu composes ton portefeuille, choisis PEA ou CTO, et tu simules sur 5 à 15 ans.",
+        "<br><br>📊 Pour visualiser tout ça : direction notre <a href=\"simulateur.html\">simulateur IFA</a>. Tu ajoutes tes ETF/actions, tu règles DCA + horizon + fiscalité, et tu vois la courbe des intérêts composés en direct.",
+        "<br><br>🧮 Tu veux faire les maths sur ton propre scénario ? Le <a href=\"simulateur.html\">simulateur IFA</a> est fait pour ça : DCA, PEA vs CTO, comparaison Livret A, en quelques clics.",
+        "<br><br>🦏 Petit conseil de Rhino : passe par notre <a href=\"simulateur.html\">simulateur</a> pour mettre des chiffres concrets sur ce que je viens de t'expliquer. Tu y choisis tes supports, ton horizon, et tu vois la différence.",
+    ];
+
+    // ---------- Conseil d'Administration (chargé depuis le Google Sheet du site) ----------
+    const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby2-LIVHfWSChiuc8gYC42BlfFClFIkgNKRcIgp3KzQNZYWj27xIHclL_40YhbsAMZmYg/exec';
+    let caMembers = null;
+    let caFetchPromise = null;
+
+    function fetchCAMembers() {
+        if (caMembers) return Promise.resolve(caMembers);
+        if (caFetchPromise) return caFetchPromise;
+        caFetchPromise = fetch(SHEET_API_URL + '?sheet=CA')
+            .then(r => r.json())
+            .then(rawRows => {
+                const pick = (obj, ...keys) => {
+                    const map = {};
+                    Object.keys(obj).forEach(k => {
+                        map[k.trim().toLowerCase()] = obj[k];
+                    });
+                    for (const k of keys) {
+                        const v = map[k.toLowerCase()];
+                        if (v) return typeof v === 'string' ? v.trim() : v;
+                    }
+                    return '';
+                };
+                caMembers = (rawRows || []).map(m => ({
+                    nom: pick(m, 'Nom', 'Nom et prénom', 'Nom et Prénom', 'nom'),
+                    poste: pick(m, 'Poste', 'Rôle', 'poste'),
+                })).filter(m => m.nom);
+                return caMembers;
+            })
+            .catch(() => { caMembers = []; return caMembers; });
+        return caFetchPromise;
+    }
+
+    function buildCAAnswer(members) {
+        if (!members || !members.length) {
+            return "Hmm 🤔 je n'arrive pas à récupérer la liste du <strong>Conseil d'Administration</strong> pour le moment. Tu peux la voir sur la <a href=\"index.html#equipe\">page d'accueil</a>, section <em>Qui sommes-nous</em>.";
+        }
+        const lines = members.map(m =>
+            `• <strong>${escapeHtml(m.nom)}</strong>${m.poste ? ' — ' + escapeHtml(m.poste) : ''}`
+        ).join('<br>');
+        return `Voici notre <strong>Conseil d'Administration</strong> 🦏 :<br><br>${lines}<br><br>👉 Tu peux les retrouver en photo sur la <a href="index.html#equipe">page d'accueil</a>, section <em>Qui sommes-nous</em>.`;
+    }
+
+    // Mots-clés (first key des entrées KB) qui déclenchent la suggestion du simulateur.
+    const SIMU_TRIGGERS = new Set([
+        'action', 'obligation', 'etf', 'pea', 'cto', 'assurance vie',
+        'livret a', 'per', 'interet compose', 'diversification', 'dividende',
+        'dca', 'fiscalite', 'capitalisation',
+        'cac 40', 'sp500', 'nasdaq', 'msci world', 'dow jones', 'emergents',
+        'or', '10 euros', 'portefeuille', 'rebalancing',
+        'etudiant', 'first step', 'combien temps investir',
+        'apple', 'microsoft', 'nvidia', 'tesla', 'amazon', 'alphabet', 'meta',
+        'berkshire', 'lvmh', 'total', 'airbus',
+    ]);
+
     // ---------- Knowledge base ----------
     // Ton : humour étudiant, pédagogique, vulgarisation pro. Chaque réponse doit donner le sourire
     // tout en étant exacte. On parle à un étudiant INSA, pas à un gestionnaire de hedge fund.
@@ -368,6 +433,21 @@
         {
             keys: ['ifa', 'insa finance', 'association', 'qui etes vous'],
             answer: "L'<strong>INSA Finance Association (IFA)</strong> est l'association de finance de l'INSA Lyon.<br><br>🎯 Notre mission : sensibiliser les étudiants aux multiples facettes de la finance via conférences, afterworks, tables rondes, articles, newsletter.<br><br>👋 Envie de nous rejoindre ? Direction la section <a href=\"index.html#rejoindre\">Nous rejoindre</a> de l'accueil !"
+        },
+        {
+            keys: [
+                'conseil administration', 'conseil d administration', 'ca ifa', 'le ca',
+                'membres ca', 'membre ca', 'membre du ca', 'membres du ca',
+                'qui est au ca', 'qui sont membres', 'qui sont les membres', 'qui compose ifa',
+                'qui dirige ifa', 'bureau ifa', 'bureau executif', 'equipe ifa', 'equipe dirigeante',
+                'organigramme', 'organigramme ifa',
+                'president ifa', 'presidente ifa', 'vice president ifa', 'vice presidente ifa',
+                'tresorier ifa', 'tresoriere ifa', 'secretaire ifa', 'secretaire general',
+                'responsable pole', 'responsables poles'
+            ],
+            dynamic: 'ca',
+            smalltalk: true, // pas de disclaimer financier sur une info de présentation
+            answer: "" // construit dynamiquement via buildCAAnswer()
         },
         {
             keys: ['rejoindre', 'membre', 'adherer', 'adhesion', 'inscription'],
@@ -1599,6 +1679,9 @@
         if (!hasGreeted) {
             hasGreeted = true;
             setTimeout(() => addBotMessage(pickRandom(GREETINGS), false), 400);
+            // Prefetch en tâche de fond pour que la réponse "qui est au CA"
+            // soit instantanée si l'utilisateur la demande.
+            fetchCAMembers();
         }
         setTimeout(() => inputEl.focus(), 400);
     }
@@ -1668,7 +1751,26 @@
 
         const match = findAnswer(text);
         if (match) {
-            addBotMessage(match.answer, !match.smalltalk);
+            if (match.dynamic === 'ca') {
+                showTyping();
+                const respond = (members) => {
+                    hideTyping();
+                    addMessage(buildCAAnswer(members), 'bot');
+                };
+                if (caMembers) {
+                    setTimeout(() => respond(caMembers), 400);
+                } else {
+                    fetchCAMembers().then(respond);
+                }
+                renderChips(pickRandomSuggestions(4));
+                return;
+            }
+            let html = match.answer;
+            if (!match.smalltalk && Array.isArray(match.keys)
+                && match.keys.some(k => SIMU_TRIGGERS.has(k))) {
+                html += pickRandom(SIMU_NUDGES);
+            }
+            addBotMessage(html, !match.smalltalk);
         } else {
             const html = pickRandom(NO_MATCH);
             addBotMessage(html, false);
@@ -1696,6 +1798,7 @@
             "Livret A ou LEP ?",
             "Fiscalité des placements",
             "Rejoindre l'IFA",
+            "Qui est au CA de l'IFA ?",
             "Les dividendes",
             "C'est quoi un bear market ?",
             "Warren Buffett ?",
