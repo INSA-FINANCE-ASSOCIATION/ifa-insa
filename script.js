@@ -9,7 +9,7 @@
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby2-LIVHfWSChiuc8gYC42BlfFClFIkgNKRcIgp3KzQNZYWj27xIHclL_40YhbsAMZmYg/exec';
 
 // Mois de la dernière mise à jour du site — à modifier manuellement à chaque mise à jour significative
-const SITE_LAST_UPDATE = 'Avril 2026';
+const SITE_LAST_UPDATE = 'Mai 2026';
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('#site-last-update, .site-last-update').forEach(function (el) {
         el.textContent = SITE_LAST_UPDATE;
