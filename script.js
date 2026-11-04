@@ -795,9 +795,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const computeOffset = () => {
                 const rect = target.getBoundingClientRect();
                 const absoluteTop = window.pageYOffset + rect.top;
-                if (target.id === 'newsletter-inscription') {
-                    return Math.max(0, absoluteTop - (window.innerHeight / 2) + (rect.height / 2));
-                }
                 return Math.max(0, absoluteTop - 80);
             };
 
@@ -899,9 +896,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const forms = document.querySelectorAll('form');
     
     forms.forEach(form => {
-        // Skip poll form and newsletter (handled separately with custom validation)
+        // Skip poll form (handled separately)
         if (form.id === 'poll-form') return;
-        if (form.id === 'newsletter-inscription') return;
         
         form.addEventListener('submit', function(e) {
             const requiredFields = form.querySelectorAll('[required]');
@@ -987,8 +983,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
-    
-    // Newsletter : le spinner est géré dans le handler de validation ci-dessous
     
     // =========================================
     // Membership form - type selection highlight
@@ -1168,7 +1162,7 @@ function throttle(func, limit) {
 }
 
 // =========================================
-// Google Sheets Integration for Adhesion + Newsletter
+// Google Sheets Integration for Adhesion
 // =========================================
 document.addEventListener('DOMContentLoaded', function() {
     // =========================================
@@ -1269,84 +1263,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // =========================================
-    // Custom Validation for Newsletter Form
-    // =========================================
-    const newsletterForm = document.getElementById('newsletter-inscription');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            let isValid = true;
-            
-            const emailInput = document.getElementById('newsletter-email');
-            const rgpdCheckbox = document.getElementById('newsletter-rgpd');
-            const emailError = document.getElementById('newsletter-email-error');
-            const rgpdError = document.getElementById('newsletter-rgpd-error');
-            
-            // Reset errors
-            emailError.style.display = 'none';
-            rgpdError.style.display = 'none';
-            emailInput.style.border = 'none';
-            
-            // Validate Email
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailInput.value || !emailRegex.test(emailInput.value)) {
-                emailError.style.display = 'block';
-                emailInput.style.border = '2px solid #ff6b6b';
-                isValid = false;
-            }
-            
-            // Validate Checkbox
-            if (!rgpdCheckbox.checked) {
-                rgpdError.style.display = 'block';
-                isValid = false;
-            }
-            
-            // Toujours empêcher la redirection Brevo
-            e.preventDefault();
-
-            if (!isValid) return;
-
-            // Validation OK : soumettre via fetch (pas de redirection)
-            const btn = newsletterForm.querySelector('button[type="submit"]');
-            if (btn) {
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                btn.disabled = true;
-            }
-
-            fetch(newsletterForm.action, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: new FormData(newsletterForm)
-            })
-            .then(() => {
-                // Remplacer le contenu du formulaire par un message de succès
-                newsletterForm.innerHTML = `
-                    <div style="text-align:center; padding: 20px 0;">
-                        <i class="fas fa-check-circle" style="font-size:2.5rem; color:#c9a227; margin-bottom:12px; display:block;"></i>
-                        <p style="font-size:1.1rem; font-weight:600; color:#fff; margin:0 0 6px;">Inscription confirmée !</p>
-                        <p style="color:#fff; margin:0;">Vous recevrez bientôt notre newsletter. Merci !</p>
-                    </div>`;
-            })
-            .catch(() => {
-                if (btn) {
-                    btn.innerHTML = "S'inscrire";
-                    btn.disabled = false;
-                }
-                alert('Erreur lors de l\'inscription. Veuillez réessayer.');
-            });
-        });
-
-        // Hide error when user starts typing/clicking
-        const emailInput = document.getElementById('newsletter-email');
-        const rgpdCheckbox = document.getElementById('newsletter-rgpd');
-        
-        emailInput.addEventListener('input', function() {
-            document.getElementById('newsletter-email-error').style.display = 'none';
-            this.style.border = 'none';
-        });
-        
-        rgpdCheckbox.addEventListener('change', function() {
-            document.getElementById('newsletter-rgpd-error').style.display = 'none';
-        });
-    }
 });

@@ -14,7 +14,6 @@
         '.about-card',
         '.articles-grid',
         '.membership-card',
-        '.newsletter-content',
         '.events-list',
         '.team-grid',
         '.contact-content',

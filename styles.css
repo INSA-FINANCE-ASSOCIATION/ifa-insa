@@ -1400,114 +1400,6 @@ img {
 }
 
 /* =============================================
-   Newsletter Section
-   ============================================= */
-.newsletter {
-    padding: 80px 0;
-    background: var(--primary-color);
-}
-
-.newsletter-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    flex-wrap: wrap;
-}
-
-.newsletter-text {
-    flex: 1;
-    min-width: 300px;
-}
-
-.newsletter-text h2 {
-    color: #fff;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.newsletter-text p {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1rem;
-}
-
-.newsletter-form {
-    flex: 1;
-    min-width: 300px;
-}
-
-.newsletter-form .form-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.newsletter-form input[type="email"] {
-    flex: 1;
-    min-width: 150px;
-    padding: 16px 20px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    font-family: inherit;
-}
-
-.newsletter-form .btn {
-    background: var(--gold);
-    color: var(--primary-dark);
-    white-space: nowrap;
-    font-weight: 700;
-}
-
-.newsletter-form .btn:hover {
-    background: var(--gold-light);
-}
-
-.newsletter-form .input--hidden {
-    display: none;
-}
-
-.newsletter-consent {
-    margin-top: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.consent-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.consent-row input[type="checkbox"] {
-    margin-top: 4px;
-    width: 16px;
-    height: 16px;
-    padding: 0;
-    border: none;
-    min-width: 16px;
-    accent-color: var(--gold);
-    flex: 0 0 auto;
-}
-
-.consent-row label {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.newsletter-error {
-    display: none;
-    color: #ff6b6b;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-/* =============================================
    Adhésion Section
    ============================================= */
 .adhesion {
@@ -2430,11 +2322,6 @@ img {
         left: -22px;
     }
     
-    .newsletter-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
     .contact-content {
         grid-template-columns: 1fr;
     }
@@ -2867,7 +2754,7 @@ img {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
     text-align: center;
     position: relative;
@@ -2909,12 +2796,14 @@ img {
 
 @media (max-width: 768px) {
     .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: 8px;
     }
-    .stat-item:nth-child(2)::after,
-    .stat-item:nth-child(4)::after {
-        display: none;
+    .stat-item {
+        padding: 12px 4px;
+    }
+    .stat-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.4px;
     }
 }
 

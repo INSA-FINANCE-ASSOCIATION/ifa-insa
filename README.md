@@ -42,7 +42,7 @@ https://VOTRE-USERNAME.github.io/ifa-insa/
 
 ## 📧 Configuration de Formspree (Formulaires)
 
-Les formulaires (newsletter, adhésion, contact) utilisent **Formspree** pour envoyer les réponses par email.
+Les formulaires (adhésion, contact) utilisent **Formspree** pour envoyer les réponses par email.
 
 ### Étape 1 : Créer un compte Formspree
 1. Allez sur [formspree.io](https://formspree.io)
@@ -50,17 +50,12 @@ Les formulaires (newsletter, adhésion, contact) utilisent **Formspree** pour en
 
 ### Étape 2 : Créer un formulaire
 1. Cliquez sur "New Form"
-2. Donnez un nom (ex: "IFA Newsletter")
+2. Donnez un nom (ex: "IFA Contact")
 3. Entrez votre email pour recevoir les réponses
 4. Copiez l'endpoint (ex: `https://formspree.io/f/xyzabcde`)
 
 ### Étape 3 : Mettre à jour le site
 Dans le fichier `index.html`, remplacez `YOUR_FORMSPREE_ID` par votre endpoint :
-
-**Newsletter** (ligne ~320) :
-```html
-<form class="newsletter-form" action="https://formspree.io/f/VOTRE-ID" method="POST">
-```
 
 **Adhésion** (ligne ~370) :
 ```html
@@ -72,7 +67,7 @@ Dans le fichier `index.html`, remplacez `YOUR_FORMSPREE_ID` par votre endpoint :
 <form class="contact-form" action="https://formspree.io/f/VOTRE-ID" method="POST">
 ```
 
-> 💡 **Conseil** : Vous pouvez créer 3 formulaires différents sur Formspree pour organiser les réponses (Newsletter, Adhésion, Contact).
+> 💡 **Conseil** : Vous pouvez créer 2 formulaires différents sur Formspree pour organiser les réponses (Adhésion, Contact).
 
 ---
 

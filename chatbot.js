@@ -432,7 +432,7 @@
         // ===== Méta / IFA =====
         {
             keys: ['ifa', 'insa finance', 'association', 'qui etes vous'],
-            answer: "L'<strong>INSA Finance Association (IFA)</strong> est l'association de finance de l'INSA Lyon.<br><br>🎯 Notre mission : sensibiliser les étudiants aux multiples facettes de la finance via conférences, afterworks, tables rondes, articles, newsletter.<br><br>👋 Envie de nous rejoindre ? Direction la section <a href=\"index.html#rejoindre\">Nous rejoindre</a> de l'accueil !"
+            answer: "L'<strong>INSA Finance Association (IFA)</strong> est l'association de finance de l'INSA Lyon.<br><br>🎯 Notre mission : sensibiliser les étudiants aux multiples facettes de la finance via conférences, afterworks, tables rondes, articles.<br><br>👋 Envie de nous rejoindre ? Direction la section <a href=\"index.html#rejoindre\">Nous rejoindre</a> de l'accueil !"
         },
         {
             keys: [
@@ -451,11 +451,7 @@
         },
         {
             keys: ['rejoindre', 'membre', 'adherer', 'adhesion', 'inscription'],
-            answer: "Deux façons de rejoindre l'IFA, <strong>toutes les deux gratuites</strong> :<br><br>⭐ <strong>Membre Actif</strong> : participation à l'organisation des événements, rédaction d'articles, pôles (intervenant, communication, activité interne).<br>👤 <strong>Membre Adhérent</strong> : accès aux événements, à la communauté WhatsApp, à la newsletter.<br><br>➡️ Inscription sur <a href=\"index.html#rejoindre\">la page d'accueil</a>, section Nous rejoindre."
-        },
-        {
-            keys: ['newsletter', 'newsletters'],
-            answer: "La <strong>newsletter IFA</strong> arrive chaque semaine avec :<br><br>📊 L'essentiel de l'actualité économique et financière<br>📅 Les événements à venir<br>🎁 Des opportunités exclusives<br>⏱️ Lisible en moins de 15 minutes<br><br>➡️ Inscription en bas de la page d'accueil !"
+            answer: "Deux façons de rejoindre l'IFA, <strong>toutes les deux gratuites</strong> :<br><br>⭐ <strong>Membre Actif</strong> : participation à l'organisation des événements, rédaction d'articles, pôles (intervenant, communication, activité interne).<br>👤 <strong>Membre Adhérent</strong> : accès aux événements, à la communauté WhatsApp.<br><br>➡️ Inscription sur <a href=\"index.html#rejoindre\">la page d'accueil</a>, section Nous rejoindre."
         },
         {
             keys: ['evenement', 'evenements', 'conference', 'conferences', 'afterwork'],
@@ -1022,7 +1018,7 @@
         },
         {
             keys: ['ifa', 'insa finance association', 'ifa insa'],
-            answer: "L'<strong>INSA Finance Association (IFA)</strong> 📊 : association étudiante de finance de l'INSA Lyon, créée en 2026. Mission : sensibiliser les étudiants à la finance via conférences, afterworks, tables rondes, articles, newsletter. Deux types de membres (tous gratuits) : Actif (s'implique) et Adhérent (accède au contenu). Rejoins-nous sur la section <a href=\"index.html#rejoindre\">Nous rejoindre</a>."
+            answer: "L'<strong>INSA Finance Association (IFA)</strong> 📊 : association étudiante de finance de l'INSA Lyon, créée en 2026. Mission : sensibiliser les étudiants à la finance via conférences, afterworks, tables rondes, articles. Deux types de membres (tous gratuits) : Actif (s'implique) et Adhérent (accède au contenu). Rejoins-nous sur la section <a href=\"index.html#rejoindre\">Nous rejoindre</a>."
         },
         {
             keys: ['stage insa', 'stages ingenieur'],
@@ -1510,7 +1506,7 @@
         {
             keys: ['aide', 'help', 'que peux tu faire', 'que sais tu faire', 'a quoi tu sers', 'tes capacites', 'tu connais quoi'],
             smalltalk: true,
-            answer: "Je peux t'aider sur plein de sujets finance :<br><br>📊 <strong>Placements</strong> : PEA, assurance-vie, CTO, SCPI, PER, livrets<br>📈 <strong>Bourse</strong> : ETF, actions, obligations, indices (S&P 500, CAC 40, MSCI World)<br>🪙 <strong>Crypto</strong> : Bitcoin, stablecoins, NFT, arnaques<br>🎓 <strong>Bases</strong> : inflation, intérêts composés, diversification, DCA<br>💼 <strong>Pratique étudiant</strong> : budget, premier investissement, fiscalité<br>🏛️ <strong>IFA</strong> : nous rejoindre, événements, newsletter<br><br>Lance-toi, pose ta question !"
+            answer: "Je peux t'aider sur plein de sujets finance :<br><br>📊 <strong>Placements</strong> : PEA, assurance-vie, CTO, SCPI, PER, livrets<br>📈 <strong>Bourse</strong> : ETF, actions, obligations, indices (S&P 500, CAC 40, MSCI World)<br>🪙 <strong>Crypto</strong> : Bitcoin, stablecoins, NFT, arnaques<br>🎓 <strong>Bases</strong> : inflation, intérêts composés, diversification, DCA<br>💼 <strong>Pratique étudiant</strong> : budget, premier investissement, fiscalité<br>🏛️ <strong>IFA</strong> : nous rejoindre, événements<br><br>Lance-toi, pose ta question !"
         },
         {
             keys: ['blague', 'raconte blague', 'fais moi rire', 'fun fact', 'anecdote'],
