@@ -616,3 +616,17 @@ section + section {
 
 .glow-gold { box-shadow: var(--glow-gold); }
 .glow-navy { box-shadow: var(--glow-navy); }
+
+/* Photo d'équipe — section Qui sommes-nous */
+.team-photo {
+    max-width: 960px;
+    margin: 0 auto 50px;
+    border-radius: var(--border-radius-lg, 16px);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl, 0 20px 40px rgba(0,0,0,.15));
+}
+.team-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
