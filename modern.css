@@ -620,7 +620,7 @@ section + section {
 /* Photo d'équipe — section Qui sommes-nous */
 .team-photo {
     max-width: 960px;
-    margin: 0 auto 50px;
+    margin: 0 auto;
     border-radius: var(--border-radius-lg, 16px);
     overflow: hidden;
     box-shadow: var(--shadow-xl, 0 20px 40px rgba(0,0,0,.15));
