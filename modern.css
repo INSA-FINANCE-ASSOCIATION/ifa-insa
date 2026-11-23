@@ -735,8 +735,3 @@ section + section {
 /* Lien email du bloc contact */
 .contact-item a[href^="mailto:"] { color: inherit; }
 .contact-item a[href^="mailto:"]:hover { color: var(--gold-accessible); }
-
-/* Pied de page : laisser la place au bouton du chatbot sur mobile */
-@media (max-width: 640px) {
-    .footer-bottom { padding-bottom: 72px; }
-}
