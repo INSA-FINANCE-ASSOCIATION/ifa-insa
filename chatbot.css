@@ -78,7 +78,7 @@
     white-space: nowrap;
     box-shadow: 0 10px 30px -8px rgba(10, 18, 48, 0.35), 0 0 0 1px rgba(201, 162, 39, 0.3);
     pointer-events: auto;
-    animation: ifaTooltipBounce 2.5s ease-in-out infinite;
+    animation: ifaTooltipIn 0.5s ease-out 1.5s both;
     cursor: pointer;
 }
 
@@ -119,9 +119,9 @@
     background: rgba(10, 18, 48, 0.18);
 }
 
-@keyframes ifaTooltipBounce {
-    0%, 100% { transform: translateY(-50%) translateX(0); }
-    50% { transform: translateY(-50%) translateX(-6px); }
+@keyframes ifaTooltipIn {
+    from { opacity: 0; transform: translateY(-50%) translateX(8px); }
+    to   { opacity: 1; transform: translateY(-50%) translateX(0); }
 }
 
 .ifa-chat-launcher.is-open .ifa-chat-tooltip,
@@ -129,12 +129,9 @@
     display: none;
 }
 
-@media (max-width: 480px) {
-    .ifa-chat-tooltip {
-        font-size: 0.75rem;
-        padding: 8px 28px 8px 12px;
-        right: calc(100% + 10px);
-    }
+@media (max-width: 640px) {
+    /* Sur mobile la bulle masquait le contenu : on garde seulement le bouton */
+    .ifa-chat-tooltip { display: none; }
 }
 
 /* Panel */

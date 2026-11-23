@@ -9,7 +9,7 @@
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycby2-LIVHfWSChiuc8gYC42BlfFClFIkgNKRcIgp3KzQNZYWj27xIHclL_40YhbsAMZmYg/exec';
 
 // Mois de la dernière mise à jour du site — à modifier manuellement à chaque mise à jour significative
-const SITE_LAST_UPDATE = 'Mai 2026';
+const SITE_LAST_UPDATE = 'Novembre 2026';
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('#site-last-update, .site-last-update').forEach(function (el) {
         el.textContent = SITE_LAST_UPDATE;
@@ -56,7 +56,7 @@ function toTypeCode(typeNom) {
             past.sort((a, b) => (b._date || 0) - (a._date || 0));
 
             // Abréviation des mois — index 0 = janvier
-            const moisAbbr = ['JAN','FÉV','MAR','AVR','MAI','JUI','JUI','AOÛ','SEP','OCT','NOV','DÉC'];
+            const moisAbbr = ['JAN','FÉV','MAR','AVR','MAI','JUIN','JUIL','AOÛ','SEP','OCT','NOV','DÉC'];
 
             function renderTimeline(list, isPast) {
                 return list.map(ev => {
@@ -105,6 +105,17 @@ function toTypeCode(typeNom) {
             if (upcoming.length) {
                 html += `<div class="tl-section-label"><i class="fas fa-calendar-check"></i> Événements à venir</div>
                          <div class="tl-timeline">${renderTimeline(upcoming, false)}</div>`;
+            } else {
+                // Pas d'événement programmé : on le dit clairement au lieu d'afficher uniquement le passé
+                html += `<div class="tl-section-label"><i class="fas fa-calendar-check"></i> Événements à venir</div>
+                         <div class="events-upcoming-empty">
+                            <p class="events-upcoming-empty-title">Les prochains événements arrivent bientôt.</p>
+                            <p>Conférences et rencontres sont annoncées en priorité sur nos réseaux.</p>
+                            <div class="events-upcoming-empty-links">
+                                <a href="https://www.instagram.com/insa.finance.asso" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
+                                <a href="https://www.linkedin.com/company/insa-finance-association" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                            </div>
+                         </div>`;
             }
             if (past.length) {
                 html += `<div class="tl-section-label tl-past-label"><i class="fas fa-history"></i> Événements passés</div>
@@ -339,18 +350,39 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
         const step = cards[0].offsetWidth + gap;
         track.style.transform = `translateX(-${current * step}px)`;
         dotsWrap.querySelectorAll('.actu-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        updateCounter();
+    }
+
+    // Au-delà de 8 positions, une rangée de points devient illisible : compteur + barre de progression
+    const COUNTER_THRESHOLD = 8;
+    function useCounter() { return getMax() + 1 > COUNTER_THRESHOLD; }
+    function updateCounter() {
+        if (!useCounter()) return;
+        const totalPos = getMax() + 1;
+        const pad = n => String(n).padStart(2, '0');
+        dotsWrap.innerHTML = `<div class="actu-counter"><span class="actu-counter-num">${pad(current + 1)}</span>`
+            + `<span class="actu-counter-bar"><span style="width:${((current + 1) / totalPos) * 100}%"></span></span>`
+            + `<span class="actu-counter-num actu-counter-total">${pad(totalPos)}</span></div>`;
+    }
+    function buildDots() {
+        dotsWrap.innerHTML = '';
+        if (useCounter()) { updateCounter(); return; }
+        for (let i = 0; i <= getMax(); i++) {
+            const dot = document.createElement('span');
+            dot.className = 'actu-dot' + (i === current ? ' active' : '');
+            dot.addEventListener('click', () => { goTo(i); startAuto(); });
+            dotsWrap.appendChild(dot);
+        }
     }
 
     function startAuto() { stopAuto(); autoTimer = setInterval(() => goTo(current + 1), 5000); }
     function stopAuto()  { clearInterval(autoTimer); }
 
-    dotsWrap.innerHTML = '';
-    for (let i = 0; i <= getMax(); i++) {
-        const dot = document.createElement('span');
-        dot.className = 'actu-dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => { goTo(i); startAuto(); });
-        dotsWrap.appendChild(dot);
-    }
+    buildDots();
+
+    // Pause du défilement automatique pendant la lecture (survol souris)
+    wrapper.addEventListener('mouseenter', stopAuto);
+    wrapper.addEventListener('mouseleave', () => { if (!mouseDown) startAuto(); });
 
     prevBtn.addEventListener('click', () => { goTo(current - 1); startAuto(); });
     nextBtn.addEventListener('click', () => { goTo(current + 1); startAuto(); });
@@ -437,18 +469,12 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
         if (mouseDragged) { e.preventDefault(); e.stopPropagation(); }
     }, true);
 
+    let lastMax = getMax();
     window.addEventListener('resize', () => {
         const newMax = getMax();
-        if (dotsWrap.children.length !== newMax + 1) {
-            dotsWrap.innerHTML = '';
-            for (let i = 0; i <= newMax; i++) {
-                const dot = document.createElement('span');
-                dot.className = 'actu-dot' + (i === 0 ? ' active' : '');
-                dot.addEventListener('click', () => { goTo(i); startAuto(); });
-                dotsWrap.appendChild(dot);
-            }
-        }
-        goTo(Math.min(current, newMax));
+        current = Math.min(current, newMax);
+        if (newMax !== lastMax) { lastMax = newMax; buildDots(); }
+        goTo(current);
     });
 
     goTo(0);

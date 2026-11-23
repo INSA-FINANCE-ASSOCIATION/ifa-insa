@@ -61,7 +61,7 @@
         },
         "contactPoint": {
             "@type": "ContactPoint",
-            "email": "contact@ifa-insa.fr",
+            "email": "insa.finance@asso-insa-lyon.fr",
             "contactType": "customer service"
         },
         "sameAs": [
@@ -97,9 +97,9 @@
     <link rel="manifest" href="site.webmanifest">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="modern.css">
-    <link rel="stylesheet" href="chatbot.css">
+    <link rel="stylesheet" href="styles.css?v=20261123">
+    <link rel="stylesheet" href="modern.css?v=20261123">
+    <link rel="stylesheet" href="chatbot.css?v=20261123">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&subset=latin,latin-ext&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -115,7 +115,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo" title="IFA - INSA Finance Association - Accueil">
-                <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img" fetchpriority="high">
+                <img src="assets/logo.webp" width="160" height="160" alt="Logo IFA INSA Finance Association Lyon" class="logo-img" fetchpriority="high">
                 <span class="logo-text">I.F.A.</span>
             </a>
             <ul class="nav-links">
@@ -123,6 +123,7 @@
                     <a href="index.html">Accueil</a>
                     <ul class="submenu">
                         <li><a href="#apropos">À propos de nous</a></li>
+                        <li><a href="#articles">Nos articles</a></li>
                         <li><a href="#rejoindre">Nous rejoindre</a></li>
                         <li><a href="#actualites">Nos actus</a></li>
                         <li><a href="#equipe">Qui sommes-nous</a></li>
@@ -220,6 +221,23 @@
         </div>
     </section>
 
+    <!-- Sponsors Platinium -->
+    <section class="home-sponsors" aria-labelledby="home-sponsors-title">
+        <div class="container">
+            <p id="home-sponsors-title" class="home-sponsors-label">Nos sponsors Platinium</p>
+            <div class="home-sponsors-logos">
+                <a href="https://www.hello-prepa.com" target="_blank" rel="noopener" class="home-sponsor" aria-label="Hello Prépa (nouvel onglet)">
+                    <img src="assets/sponsors/hello-prepa.webp" alt="Hello Prépa" width="480" height="328" loading="lazy">
+                </a>
+                <span class="home-sponsors-sep" aria-hidden="true"></span>
+                <a href="https://group.bnpparibas" target="_blank" rel="noopener" class="home-sponsor" aria-label="BNP Paribas (nouvel onglet)">
+                    <img src="assets/sponsors/bnp-paribas.svg" alt="BNP Paribas" width="219" height="45" loading="lazy">
+                </a>
+            </div>
+            <a href="partenaires.html" class="home-sponsors-more">Tous nos partenaires <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+    </section>
+
     <!-- Nos articles Section -->
     <section id="articles" class="actualites" aria-labelledby="articles-title">
         <div class="container">
@@ -273,7 +291,7 @@
                         <i class="fas fa-user"></i>
                     </div>
                     <h3>Membre Adhérent</h3>
-                    <p>Les membres adhérents ne s'impliquent pas dans l'association, mais ont accès au contenu et aux événements qu'elle propose.</p>
+                    <p>Les membres adhérents profitent, sans engagement, de tous les contenus et événements proposés par l'IFA.</p>
                     <ul>
                         <li><i class="fas fa-check"></i> Gratuit</li>
                         <li><i class="fas fa-check"></i> Accès à tous les événements</li>
@@ -350,7 +368,7 @@
             <div class="section-header">
                 <h2 id="actualites-title">Nos actualités</h2>
                 <div class="underline"></div>
-                <p class="section-subtitle">Articles sur l'économie, les marchés financiers et la finance</p>
+                <p class="section-subtitle">Retour sur nos conférences et temps forts, tels que partagés sur LinkedIn</p>
             </div>
             <div class="articles-grid" id="actualites-container">
                 <p style="text-align:center;color:#888;">Chargement des actualités...</p>
@@ -385,7 +403,7 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email</h4>
-                            <p>insa.finance@asso-insa-lyon.fr</p>
+                            <a href="mailto:insa.finance@asso-insa-lyon.fr">insa.finance@asso-insa-lyon.fr</a>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -447,7 +465,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <img src="assets/logo.png" alt="Logo IFA INSA Finance Association Lyon" class="logo-img" loading="lazy">
+                        <img src="assets/logo.webp" width="160" height="160" alt="Logo IFA INSA Finance Association Lyon" class="logo-img" loading="lazy">
                         <span>I.F.A.</span>
                     </div>
                     <p>IFA - INSA Finance Association Lyon - L'association de finance de l'INSA Lyon qui sensibilise les étudiants-ingénieurs aux marchés financiers et à l'économie.</p>
@@ -458,6 +476,7 @@
                         <li><a href="index.html">Accueil</a></li>
                         <li><a href="evenements.html">Nos événements</a></li>
                         <li><a href="intervenant.html">Devenir intervenant</a></li>
+                        <li><a href="partenaires.html">Nos partenaires</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -484,8 +503,9 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 IFA - INSA Finance Association Lyon. Tous droits réservés. | Association finance étudiants INSA | <a href="mentions-legales.html">Mentions légales &amp; RGPD</a></p>
-                <p class="footer-update">Dernière mise à jour du site : <span id="site-last-update">Mai 2026</span></p>
+                <p class="footer-update">Dernière mise à jour du site : <span id="site-last-update">Novembre 2026</span></p>
                 <p class="footer-credit">Créé par Pablo PERROT-GARIN</p>
+                <p class="footer-credit">Webmaster : Théophile JÉRÔME-ROCHER</p>
             </div>
         </div>
     </footer>
@@ -494,9 +514,9 @@
     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut de page">
         <i class="fas fa-chevron-up"></i>
     </button>
-    <script src="script.js"></script>
+    <script src="script.js?v=20261123"></script>
     <script src="modern.js" defer></script>
-    <script src="chatbot.js?v=20261104" defer></script>
+    <script src="chatbot.js?v=20261123" defer></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
       if (document.getElementById('particles-js')) {

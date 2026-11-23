@@ -1613,7 +1613,7 @@
         launcher = document.createElement('button');
         launcher.className = 'ifa-chat-launcher';
         launcher.setAttribute('aria-label', "Ouvrir Rhino, l'assistant finance de l'IFA");
-        launcher.innerHTML = '<i class="fas fa-comments"></i><span class="ifa-chat-badge">1</span><span class="ifa-chat-tooltip">Posez-moi vos questions ici<span class="ifa-chat-tooltip-close" aria-label="Fermer">&times;</span></span>';
+        launcher.innerHTML = '<i class="fas fa-comments"></i><span class="ifa-chat-tooltip">Posez-moi vos questions ici<span class="ifa-chat-tooltip-close" aria-label="Fermer">&times;</span></span>';
         launcher.addEventListener('click', togglePanel);
         document.body.appendChild(launcher);
 
@@ -1625,6 +1625,8 @@
                 launcher.classList.add('tooltip-dismissed');
             });
         }
+        // La bulle d'invite s'efface d'elle-même après quelques secondes
+        setTimeout(function () { launcher.classList.add('tooltip-dismissed'); }, 8000);
 
         // Panel
         panel = document.createElement('div');

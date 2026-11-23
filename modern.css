@@ -588,3 +588,155 @@ section + section {
     width: 100%;
     height: auto;
 }
+
+/* =============================================
+   Évolution — novembre 2026
+   ============================================= */
+
+/* Sponsors Platinium — bandeau d'accueil */
+.home-sponsors {
+    padding: 56px 0 60px;
+    background: #fff;
+    border-bottom: 1px solid #edf0f5;
+    text-align: center;
+}
+.home-sponsors-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin: 0 0 32px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+.home-sponsors-label::before,
+.home-sponsors-label::after {
+    content: '';
+    width: 48px;
+    height: 1px;
+    background: var(--gold-core);
+    opacity: 0.6;
+}
+.home-sponsors-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 56px;
+}
+.home-sponsor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s var(--ease-out-quint), opacity 0.3s ease;
+}
+.home-sponsor:hover { transform: translateY(-2px); }
+.home-sponsor img {
+    height: 72px;
+    width: auto;
+    max-width: 260px;
+    object-fit: contain;
+}
+.home-sponsor img[src$=".svg"] { height: 44px; }
+.home-sponsors-sep {
+    width: 1px;
+    height: 56px;
+    background: #e3e7ee;
+}
+.home-sponsors-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    border-bottom: 1px solid transparent;
+}
+.home-sponsors-more i { font-size: 0.75rem; transition: transform 0.3s var(--ease-out-quint); }
+.home-sponsors-more:hover { border-bottom-color: var(--gold-core); }
+.home-sponsors-more:hover i { transform: translateX(3px); }
+@media (max-width: 640px) {
+    .home-sponsors { padding: 44px 0 48px; }
+    .home-sponsors-label { gap: 12px; letter-spacing: 0.16em; font-size: 0.7rem; }
+    .home-sponsors-label::before,
+    .home-sponsors-label::after { width: 20px; }
+    .home-sponsors-logos { gap: 28px; }
+    .home-sponsor img { height: 56px; max-width: 140px; }
+    .home-sponsor img[src$=".svg"] { height: auto; width: 140px; }
+    .home-sponsors-sep { height: 40px; }
+}
+
+/* Carrousels — compteur quand il y a beaucoup d'éléments */
+.actu-counter {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--primary-color);
+    font-variant-numeric: tabular-nums;
+}
+.actu-counter-total { color: var(--text-muted); }
+.actu-counter-bar {
+    position: relative;
+    width: 160px;
+    height: 2px;
+    background: #dfe4ec;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.actu-counter-bar span {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--gold-core);
+    transition: width 0.45s var(--ease-out-quint);
+}
+
+/* Événements — aucun événement programmé */
+.events-upcoming-empty {
+    max-width: 640px;
+    margin: 8px auto 56px;
+    padding: 32px 36px;
+    background: #fff;
+    border: 1px solid #e6eaf0;
+    border-left: 3px solid var(--gold-core);
+    border-radius: 12px;
+    color: var(--text-light);
+}
+.events-upcoming-empty p { margin: 0 0 6px; }
+.events-upcoming-empty-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--primary-color);
+}
+.events-upcoming-empty-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+}
+.events-upcoming-empty-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid #d8dee8;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+.events-upcoming-empty-links a:hover { border-color: var(--gold-core); color: var(--gold-accessible); }
+
+/* Lien email du bloc contact */
+.contact-item a[href^="mailto:"] { color: inherit; }
+.contact-item a[href^="mailto:"]:hover { color: var(--gold-accessible); }
+
+/* Pied de page : laisser la place au bouton du chatbot sur mobile */
+@media (max-width: 640px) {
+    .footer-bottom { padding-bottom: 72px; }
+}
