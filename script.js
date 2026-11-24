@@ -961,67 +961,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Custom handling for contact form
+            // Formulaire de contact : ouverture de la messagerie avec le message prérempli.
             if (form.classList.contains('contact-form')) {
                 e.preventDefault();
-
-                // Sync _replyto with email field if present
-                const emailField  = form.querySelector('input[type="email"]');
-                const replytoField = form.querySelector('#replyto-field');
-                if (emailField && replytoField) replytoField.value = emailField.value;
-
-                const btn = form.querySelector('button[type="submit"]');
-                const originalText = btn.textContent;
-                btn.textContent = 'Envoi en cours...';
-                btn.disabled = true;
-
-                const formData = new FormData(form);
-
-                fetch(form.action.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/"), {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('http_' + response.status);
-                    return response.json();
-                })
-                .then(data => {
-                    // FormSubmit renvoie success comme string "true" ou booléen true
-                    if (data.success === true || data.success === 'true') {
-                        form.innerHTML = `
-                            <div style="text-align:center; padding: 40px 20px;">
-                                <i class="fas fa-check-circle" style="font-size:3rem; color:var(--gold); margin-bottom:16px; display:block;"></i>
-                                <p style="font-size:1.2rem; font-weight:600; color:var(--primary-color); margin:0 0 8px;">Message envoyé !</p>
-                                <p style="color:var(--text-light); margin:0;">Nous vous répondrons dans les plus brefs délais.</p>
-                            </div>`;
-                    } else {
-                        throw new Error('formsubmit_error');
-                    }
-                })
-                .catch(err => {
-                    // Requête bloquée par le navigateur (CORS / page anti-robots de FormSubmit) ou réseau :
-                    // on bascule sur l'envoi classique du formulaire, qui n'est pas soumis au CORS.
-                    // FormSubmit redirige ensuite vers _next (?envoye=1) où le message de succès s'affiche.
-                    if (err instanceof TypeError && !form.dataset.nativeTried) {
-                        form.dataset.nativeTried = '1';
-                        HTMLFormElement.prototype.submit.call(form);
-                        return;
-                    }
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    let msg = 'Une erreur est survenue. Veuillez réessayer.';
-                    if (err.message === 'formsubmit_error') {
-                        msg = 'Envoi échoué. Vérifiez votre connexion ou réessayez.';
-                    }
-                    let errEl = form.querySelector('.contact-error');
-                    if (!errEl) {
-                        errEl = document.createElement('p');
-                        errEl.className = 'contact-error';
-                        errEl.style.cssText = 'color:#e53e3e; margin-top:12px; font-weight:600;';
-                        btn.after(errEl);
-                    }
-                    errEl.textContent = msg;
+                const dest = (form.getAttribute('action') || '').replace('https://formsubmit.co/', '') || 'insa.finance@asso-insa-lyon.fr';
+                const lignes = [];
+                let sujet = 'Message depuis le site INSA Finance';
+                new FormData(form).forEach((v, k) => {
+                    if (k === '_subject' && v) { sujet = v; return; }
+                    if (k.startsWith('_') || !String(v).trim()) return;
+                    const label = form.querySelector('[name="' + k + '"]');
+                    const nom = (label && (label.getAttribute('placeholder') || label.getAttribute('aria-label'))) || k;
+                    lignes.push(nom + ' : ' + v);
                 });
+                lignes.push('Page : ' + window.location.pathname);
+                window.location.href = 'mailto:' + dest + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(lignes.join('\n'));
+                const btn = form.querySelector('button[type="submit"]');
+                let info = form.querySelector('.form-info');
+                if (!info) { info = document.createElement('p'); info.className = 'form-info'; info.style.marginTop = '12px'; form.appendChild(info); }
+                info.textContent = "Votre messagerie s'ouvre avec le message prêt : il ne reste qu'à l'envoyer. Sinon, écrivez à " + dest + '.';
+                if (btn) btn.disabled = false;
             }
         });
         
