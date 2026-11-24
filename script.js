@@ -857,26 +857,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Formulaire de contact : ouverture de la messagerie avec le message prérempli.
+            // Formulaire de contact : envoi classique vers FormSubmit (pas d'envoi en arrière-plan,
+            // que la protection Cloudflare de FormSubmit bloque). Retour sur ?envoye=1.
             if (form.classList.contains('contact-form')) {
-                e.preventDefault();
-                const dest = (form.getAttribute('action') || '').replace('https://formsubmit.co/', '') || 'insa.finance@asso-insa-lyon.fr';
-                const lignes = [];
-                let sujet = 'Message depuis le site INSA Finance';
-                new FormData(form).forEach((v, k) => {
-                    if (k === '_subject' && v) { sujet = v; return; }
-                    if (k.startsWith('_') || !String(v).trim()) return;
-                    const label = form.querySelector('[name="' + k + '"]');
-                    const nom = (label && (label.getAttribute('placeholder') || label.getAttribute('aria-label'))) || k;
-                    lignes.push(nom + ' : ' + v);
-                });
-                lignes.push('Page : ' + window.location.pathname);
-                window.location.href = 'mailto:' + dest + '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(lignes.join('\n'));
+                const emailField = form.querySelector('input[type="email"]');
+                const replytoField = form.querySelector('#replyto-field');
+                if (emailField && replytoField) replytoField.value = emailField.value;
                 const btn = form.querySelector('button[type="submit"]');
-                let info = form.querySelector('.form-info');
-                if (!info) { info = document.createElement('p'); info.className = 'form-info'; info.style.marginTop = '12px'; form.appendChild(info); }
-                info.textContent = "Votre messagerie s'ouvre avec le message prêt : il ne reste qu'à l'envoyer. Sinon, écrivez à " + dest + '.';
-                if (btn) btn.disabled = false;
+                if (btn) btn.textContent = 'Envoi en cours...';
             }
         });
         
