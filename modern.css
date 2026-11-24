@@ -709,7 +709,7 @@ section + section {
 }
 .events-upcoming-empty p { margin: 0 0 6px; }
 .events-upcoming-empty-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Instrument Serif', serif;
     font-size: 1.3rem;
     color: var(--primary-color);
 }

@@ -97,12 +97,13 @@
     <link rel="manifest" href="site.webmanifest">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="styles.css?v=20261123">
-    <link rel="stylesheet" href="modern.css?v=20261123">
+    <link rel="stylesheet" href="styles.css?v=20261124b">
+    <link rel="stylesheet" href="modern.css?v=20261124b">
+    <link rel="stylesheet" href="refonte.css?v=20261124b">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&subset=latin,latin-ext&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&subset=latin,latin-ext&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
@@ -152,69 +153,35 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="accueil" class="hero" role="banner">
-        <div class="hero-overlay"></div>
-        <div id="particles-js" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></div>
-        <div class="hero-content">
-            <h1 class="hero-title">INSA Finance Association</h1>
-            <p class="hero-subtitle">L'association finance de l'INSA Lyon</p>
-            <div class="hero-buttons">
-                <a href="#rejoindre" class="btn btn-primary">Nous rejoindre</a>
-                <a href="evenements.html" class="btn btn-secondary">Découvrir les événements</a>
-            </div>
-        </div>
-        <div class="hero-scroll">
-            <a href="#apropos" aria-label="Défiler vers la section À propos de nous"><i class="fas fa-chevron-down"></i></a>
-        </div>
-    </section>
-
-    <!-- À propos de nous (partie de l'accueil) -->
-    <section id="apropos" class="equipe" aria-labelledby="apropos-title">
-        <div class="container">
-            <div class="section-header">
-                <h2 id="apropos-title">À propos de nous</h2>
-                <div class="underline"></div>
-            </div>
-            <div class="about-content" style="margin: 20px 0 50px;">
-                <div class="about-text">
-                    <h3 style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 20px;">Notre mission</h3>
-                    <p>L'<strong>INSA Finance Association</strong> a pour mission de sensibiliser les étudiants aux multiples facettes de la finance. Grâce à nos événements, publications et ressources pédagogiques, sur le campus comme au-delà, nous faisons vivre un espace d'apprentissage et de partage dédié aux enjeux financiers et économiques.</p>
-                    <p>Notre association propose :</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-chart-line"></i> Des publications sur l'actualité économique et financière</li>
-                        <li><i class="fas fa-users"></i> Des conférences avec des professionnels</li>
-                        <li><i class="fas fa-comments"></i> Des interviews et tables rondes</li>
-                        <li><i class="fas fa-glass-cheers"></i> Des afterworks et visites</li>
-                        <li><i class="fas fa-poll"></i> Des sondages pour donner la parole aux lecteurs</li>
-                    </ul>
+    <section id="accueil" class="hero-v2" role="banner">
+        <div class="hero-v2-bg" aria-hidden="true"></div>
+        <div class="container hero-v2-inner">
+            <div class="hero-v2-text">
+                <h1 class="hero-v2-title">
+                    <span class="hero-v2-eyebrow">INSA Finance Association &middot; INSA Lyon</span>
+                    Rendre la finance accessible et <em>passionnante</em>.
+                </h1>
+                <p class="hero-v2-lead">L'association finance de l'INSA Lyon&nbsp;: des conférences avec des professionnels, des analyses de l'actualité économique chaque semaine et un réseau d'étudiants-ingénieurs passionnés.</p>
+                <div class="hero-v2-buttons">
+                    <a href="#rejoindre" class="btn btn-primary">Nous rejoindre</a>
+                    <a href="evenements.html" class="btn btn-secondary">Découvrir les événements</a>
                 </div>
-                <div class="about-image">
-                    <div class="about-card">
-                        <i class="fas fa-landmark"></i>
-                        <h3>Notre Vision</h3>
-                        <p>Rendre la finance accessible et passionnante pour tous les étudiants de l'INSA Lyon</p>
+            </div>
+            <div class="hero-v2-stats">
+                <p class="stats-intro">Création en 2025, et déjà</p>
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">+40</span>
+                        <span class="stat-label">Membres actifs</span>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section">
-        <div class="container">
-            <p class="stats-intro">Création en 2025, et déjà</p>
-            <div class="stats-grid" id="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">+40</span>
-                    <span class="stat-label">Membres actifs</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">+15</span>
-                    <span class="stat-label">Événements</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">+160</span>
-                    <span class="stat-label">Membres adhérents</span>
+                    <div class="stat-item">
+                        <span class="stat-number">+15</span>
+                        <span class="stat-label">Événements</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">+160</span>
+                        <span class="stat-label">Membres adhérents</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -237,10 +204,43 @@
         </div>
     </section>
 
+    <!-- À propos de nous (partie de l'accueil) -->
+    <section id="apropos" class="equipe" aria-labelledby="apropos-title">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-eyebrow">Notre mission</span>
+                <h2 id="apropos-title">À propos de nous</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3 class="about-title">Ce que nous faisons</h3>
+                    <p>L'<strong>INSA Finance Association</strong> a pour mission de sensibiliser les étudiants aux multiples facettes de la finance. Grâce à nos événements, publications et ressources pédagogiques, sur le campus comme au-delà, nous faisons vivre un espace d'apprentissage et de partage dédié aux enjeux financiers et économiques.</p>
+                    <p>Notre association propose :</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-chart-line"></i> Des publications sur l'actualité économique et financière</li>
+                        <li><i class="fas fa-users"></i> Des conférences avec des professionnels</li>
+                        <li><i class="fas fa-comments"></i> Des interviews et tables rondes</li>
+                        <li><i class="fas fa-glass-cheers"></i> Des afterworks et visites</li>
+                        <li><i class="fas fa-poll"></i> Des sondages pour donner la parole aux lecteurs</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <div class="about-card">
+                        <i class="fas fa-landmark"></i>
+                        <h3>Notre Vision</h3>
+                        <p>Rendre la finance accessible et passionnante pour tous les étudiants de l'INSA Lyon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Nos articles Section -->
     <section id="articles" class="actualites" aria-labelledby="articles-title">
         <div class="container">
             <div class="section-header">
+                <span class="section-eyebrow">Le blog de l'IFA</span>
                 <h2 id="articles-title">Nos articles</h2>
                 <div class="underline"></div>
                 <p class="section-subtitle">Analyses, décryptages et réflexions rédigés par les membres de l'IFA</p>
@@ -256,6 +256,7 @@
     <section id="rejoindre" class="adhesion" aria-labelledby="rejoindre-title">
         <div class="container">
             <div class="section-header">
+                <span class="section-eyebrow">Adhésion gratuite</span>
                 <h2 id="rejoindre-title">Nous rejoindre</h2>
                 <div class="underline"></div>
                 <p class="section-subtitle">Vous êtes étudiant et la finance vous intéresse ? Devenez membre de l'IFA !</p>
@@ -365,6 +366,7 @@
     <section id="actualites" class="actualites" aria-labelledby="actualites-title">
         <div class="container">
             <div class="section-header">
+                <span class="section-eyebrow">En images</span>
                 <h2 id="actualites-title">Nos actualités</h2>
                 <div class="underline"></div>
                 <p class="section-subtitle">Retour sur nos conférences et temps forts, tels que partagés sur LinkedIn</p>
@@ -379,6 +381,7 @@
     <section id="equipe" class="equipe" aria-labelledby="equipe-title">
         <div class="container">
             <div class="section-header">
+                <span class="section-eyebrow">L'équipe</span>
                 <h2 id="equipe-title">Qui sommes-nous</h2>
                 <div class="underline"></div>
             </div>
@@ -392,6 +395,7 @@
     <section id="contact" class="contact" aria-labelledby="contact-title">
         <div class="container">
             <div class="section-header">
+                <span class="section-eyebrow">Une question ?</span>
                 <h2 id="contact-title">Nous contacter</h2>
                 <div class="underline"></div>
                 <p class="section-subtitle">Contactez l'association finance de l'INSA Lyon</p>
@@ -513,31 +517,7 @@
     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Retour en haut de page">
         <i class="fas fa-chevron-up"></i>
     </button>
-    <script src="script.js?v=20261124"></script>
+    <script src="script.js?v=20261124b"></script>
     <script src="modern.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-      if (document.getElementById('particles-js')) {
-        particlesJS('particles-js', {
-          "particles": {
-            "number": {"value": 25, "density": {"enable": true, "value_area": 800}},
-            "color": {"value": "#c9a227"},
-            "shape": {"type": "circle"},
-            "opacity": {"value": 0.4, "random": false},
-            "size": {"value": 2, "random": true},
-            "line_linked": {"enable": true, "distance": 130, "color": "#c9a227", "opacity": 0.3, "width": 1},
-            "move": {"enable": true, "speed": 1.5, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false}
-          },
-          "interactivity": {
-            "detect_on": "window",
-            "events": {"onhover": {"enable": true, "mode": "grab"}, "onclick": {"enable": false}, "resize": true},
-            "modes": {
-              "grab": {"distance": 180, "line_linked": {"opacity": 0.6}}
-            }
-          },
-          "retina_detect": false
-        });
-      }
-    </script>
 </body>
 </html>
