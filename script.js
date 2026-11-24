@@ -481,67 +481,8 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
     startAuto();
 }
 
-// --- Équipe ---
-(function loadEquipe() {
-    const carousel = document.getElementById('bureauCarousel');
-    if (!carousel) return;
-
-    fetch(SHEET_API_URL + '?sheet=%C3%89quipe')
-        .then(r => r.json())
-        .then(rawRows => {
-            const rows = rawRows.map(normalizeRow);
-            if (!rows || !rows.length) {
-                initBureauCarousel();
-                return;
-            }
-            carousel.innerHTML = rows.map((member, index) => {
-                const photo = member['Photo']
-                    ? `<img src="${member['Photo']}" alt="${member['Nom'] || 'Membre'}" loading="lazy">`
-                    : `<div class="member-placeholder"><i class="fas fa-user fa-3x" style="color:var(--primary-color);"></i></div>`;
-                return `
-                    <div class="bureau-member${index === 0 ? ' active' : ''}">
-                        <div class="member-image">${photo}</div>
-                        <div class="member-info">
-                            <h3>${member['Nom'] || ''}</h3>
-                            <span class="member-role">${member['Rôle'] || ''}</span>
-                            <blockquote class="member-quote">
-                                <i class="fas fa-quote-left"></i>
-                                <p>« ${member['Citation'] || ''} »</p>
-                            </blockquote>
-                        </div>
-                    </div>`;
-            }).join('');
-
-            const indicatorsContainer = document.querySelector('.carousel-indicators');
-            if (indicatorsContainer) {
-                indicatorsContainer.innerHTML = rows.map((_, i) =>
-                    `<span class="indicator${i === 0 ? ' active' : ''}" data-index="${i}"></span>`
-                ).join('');
-            }
-            initBureauCarousel();
-        })
-        .catch(() => initBureauCarousel());
-})();
-
-// --- Stats ---
-(function loadStats() {
-    const grid = document.getElementById('stats-grid');
-    if (!grid) return;
-
-    fetch(SHEET_API_URL + '?sheet=Stats')
-        .then(r => r.json())
-        .then(rawRows => {
-            const rows = rawRows.map(normalizeRow);
-            if (!rows || !rows.length) return;
-            grid.innerHTML = rows.map(stat => `
-                <div class="stat-item">
-                    <span class="stat-number">${stat['Valeur'] || ''}</span>
-                    <span class="stat-label">${stat['Label'] || ''}</span>
-                </div>`
-            ).join('');
-        })
-        .catch(() => {}); // Garde les stats codées en dur si erreur
-})();
+// --- Équipe (bureau écrit dans la page) ---
+if (document.getElementById('bureauCarousel')) initBureauCarousel();
 
 // --- Conseil d'Administration ---
 (function loadCA() {
