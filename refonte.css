@@ -1,6 +1,6 @@
 /* =============================================
    IFA — Modernisation (novembre 2026)
-   Couche chargée en dernier : typographie Instrument Serif + Manrope,
+   Couche chargée en dernier : typographie IBM Plex Serif + IBM Plex Sans,
    surfaces épurées, filets fins, identité bleu marine & or conservée.
    ============================================= */
 
@@ -19,8 +19,8 @@
     --r-muted: #5a6378;
     --r-radius: 16px;
     --r-ease: cubic-bezier(0.22, 1, 0.36, 1);
-    --r-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-    --r-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --r-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+    --r-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 html { font-synthesis: none; }
@@ -33,7 +33,7 @@ body {
     line-height: 1.65;
 }
 
-h1, h2, h3, h4, h5, h6 { font-family: var(--r-serif); font-weight: 400; letter-spacing: -0.01em; }
+h1, h2, h3, h4, h5, h6 { font-family: var(--r-serif); font-weight: 500; letter-spacing: -0.015em; }
 h3, h4 { font-family: var(--r-sans); font-weight: 700; letter-spacing: -0.01em; }
 
 /* Titres de section : couleur pleine (fin du dégradé dans le texte) */
@@ -54,7 +54,7 @@ section h2 {
     box-shadow: none !important;
     padding: 12px 0;
 }
-.logo-text { font-family: var(--r-serif); font-weight: 400; font-size: 1.6rem; letter-spacing: 0.01em; }
+.logo-text { font-family: var(--r-serif); font-weight: 600; font-size: 1.4rem; letter-spacing: 0.02em; }
 .nav-links a { font-family: var(--r-sans); font-weight: 500; font-size: 0.9rem; color: rgba(255, 255, 255, 0.78); }
 .nav-links a:hover { color: #fff; }
 .nav-links > li > a::after { background: var(--r-gold) !important; height: 1px !important; bottom: -8px !important; }
@@ -139,22 +139,21 @@ section h2 {
     font-family: var(--r-sans);
     font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--r-gold-soft);
 }
-.hero-v2-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--r-gold); }
 .hero-v2-title {
     font-family: var(--r-serif);
-    font-weight: 400;
-    font-size: clamp(2.9rem, 6.2vw, 5.6rem);
-    line-height: 1.02;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 4.8vw, 4.3rem);
+    line-height: 1.08;
     letter-spacing: -0.025em;
     color: #fff;
     margin: 0 0 28px;
     animation: rFadeUp 0.9s var(--r-ease) both;
 }
-.hero-v2-title em { font-style: italic; color: var(--r-gold-soft); }
+.hero-v2-title em { font-style: normal; color: inherit; }
 .hero-v2-lead {
     max-width: 560px;
     font-size: 1.08rem;
@@ -195,8 +194,8 @@ section h2 {
 .hero-v2-stats .stat-number {
     order: 2;
     font-family: var(--r-serif);
-    font-weight: 400;
-    font-size: clamp(2.4rem, 3.6vw, 3.2rem);
+    font-weight: 500;
+    font-size: clamp(2.1rem, 3vw, 2.7rem);
     line-height: 1;
     color: #fff !important;
     background: none !important;
@@ -238,13 +237,11 @@ section h2 {
     font-family: var(--r-sans);
     font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--r-gold-text);
 }
-.section-eyebrow::before,
-.section-eyebrow::after { content: ''; width: 20px; height: 1px; background: var(--r-gold); opacity: 0.7; }
-.section-header h2 { font-size: clamp(2.3rem, 4.4vw, 3.4rem); line-height: 1.08; margin-bottom: 14px; }
+.section-header h2 { font-size: clamp(2rem, 3.4vw, 2.75rem); line-height: 1.12; margin-bottom: 14px; }
 .underline { display: none !important; }
 .section-subtitle { max-width: 640px; margin: 0 auto; color: var(--r-muted); font-size: 1.05rem; }
 
@@ -252,7 +249,8 @@ section h2 {
 .equipe, .about, .contact, .adhesion, .programme { background: var(--r-paper); }
 .actualites { background: var(--r-ivory) !important; }
 #apropos, #equipe { background: var(--r-paper); }
-#contact { background: var(--r-ivory); }
+#contact { background: var(--r-paper); }
+#equipe { padding-top: 0; }
 
 /* ---------- À propos ---------- */
 .about-content { margin: 0; gap: 64px; align-items: center; }
@@ -277,7 +275,7 @@ section h2 {
 .about-card::before { display: none !important; }
 .about-card i { color: var(--r-gold) !important; font-size: 1.6rem; margin-bottom: 22px; animation: none !important; }
 .about-card h3 { color: rgba(255, 255, 255, 0.6); font-family: var(--r-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 12px; }
-.about-card p { font-family: var(--r-serif); font-size: 1.9rem; line-height: 1.2; color: #fff; }
+.about-card p { font-family: var(--r-serif); font-weight: 500; font-size: 1.5rem; line-height: 1.3; color: #fff; }
 
 /* ---------- Sponsors (accueil) ---------- */
 .home-sponsors { background: var(--r-paper); border-bottom: 1px solid var(--r-line); }
@@ -315,9 +313,9 @@ section h2 {
 .article-date { color: var(--r-muted); font-size: 0.8rem; font-weight: 500; }
 .article-content h3 {
     font-family: var(--r-serif);
-    font-weight: 400;
-    font-size: 1.45rem;
-    line-height: 1.18;
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.3;
     letter-spacing: -0.01em;
     color: var(--r-ink);
 }
@@ -359,7 +357,7 @@ section h2 {
 }
 .membership-icon::after { display: none !important; }
 .membership-icon i { color: var(--r-gold) !important; font-size: 1.25rem !important; }
-.membership-card h3 { font-family: var(--r-serif) !important; font-weight: 400 !important; font-size: 2rem !important; color: var(--r-ink) !important; }
+.membership-card h3 { font-family: var(--r-serif) !important; font-weight: 500 !important; font-size: 1.6rem !important; color: var(--r-ink) !important; }
 .membership-card ul li i { color: var(--r-gold) !important; }
 .membership-poles-icons i { color: var(--r-gold) !important; }
 
@@ -370,8 +368,8 @@ section h2 {
     box-shadow: none !important;
 }
 .tl-content:hover { box-shadow: 0 18px 40px -28px rgba(15, 23, 48, 0.35) !important; }
-.tl-title { font-family: var(--r-serif) !important; font-weight: 400 !important; font-size: 1.55rem !important; line-height: 1.2; }
-.tl-day { font-family: var(--r-serif) !important; font-weight: 400 !important; }
+.tl-title { font-family: var(--r-serif) !important; font-weight: 500 !important; font-size: 1.3rem !important; line-height: 1.3; }
+.tl-day { font-family: var(--r-serif) !important; font-weight: 500 !important; }
 .tl-section-label { font-family: var(--r-sans); letter-spacing: 0.16em; }
 
 /* ---------- Partenaires ---------- */
@@ -436,9 +434,9 @@ section h2 {
 .page-hero::after { display: none !important; }
 .page-hero-content h1 {
     font-family: var(--r-serif);
-    font-weight: 400;
-    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
-    line-height: 1.05;
+    font-weight: 500;
+    font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+    line-height: 1.1;
     letter-spacing: -0.02em;
     background: none !important;
     -webkit-text-fill-color: #fff !important;
@@ -465,7 +463,7 @@ section h2 {
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.5) !important;
 }
-.footer-logo span { font-family: var(--r-serif); font-weight: 400; font-size: 1.6rem; }
+.footer-logo span { font-family: var(--r-serif); font-weight: 600; font-size: 1.4rem; }
 .footer .social-link { background: transparent !important; border: 1px solid var(--r-line-dark); }
 .footer .social-link:hover { border-color: var(--r-gold); }
 .footer-bottom { border-top: 1px solid var(--r-line-dark) !important; }
@@ -490,3 +488,6 @@ section h2 {
     letter-spacing: 0.18em !important;
 }
 .sponsor-tier-badge i { color: var(--r-gold); }
+
+/* Sans tirets décoratifs */
+.home-sponsors-label::before, .home-sponsors-label::after { display: none !important; }

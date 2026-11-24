@@ -65,7 +65,7 @@
 }
 
 .sim-hero-title {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: clamp(2.2rem, 4.5vw, 3.6rem);
     font-weight: 700;
     line-height: 1.15;
@@ -133,7 +133,7 @@
     height: 48px;
     background: var(--gradient-primary);
     color: var(--gold-light);
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-weight: 700;
     font-size: 1.2rem;
     border-radius: 12px;
@@ -148,7 +148,7 @@
 }
 
 .sim-step-header h2 {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: 1.55rem;
     color: var(--primary-color);
     margin-bottom: 4px;
@@ -184,7 +184,7 @@
 #search-input {
     width: 100%;
     padding: 16px 18px 16px 48px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1rem;
     background: var(--bg-light);
     border: 2px solid transparent;
@@ -237,7 +237,7 @@
 }
 
 .search-result-symbol {
-    font-family: 'Manrope', monospace;
+    font-family: 'IBM Plex Sans', monospace;
     font-weight: 700;
     color: var(--primary-color);
     font-size: 0.95rem;
@@ -287,7 +287,7 @@
     background: var(--bg-light);
     border: 1px solid rgba(26, 42, 94, 0.1);
     color: var(--primary-color);
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 500;
     font-size: 0.85rem;
     padding: 7px 14px;
@@ -333,7 +333,7 @@
     background: transparent;
     border: none;
     padding: 8px 16px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.88rem;
     font-weight: 600;
     color: var(--text-muted);
@@ -428,7 +428,7 @@
     padding: 12px 16px;
     background: linear-gradient(135deg, #1a2a5e 0%, #2a3d7a 100%);
     color: #fff;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.82rem;
     font-weight: 400;
     line-height: 1.5;
@@ -489,7 +489,7 @@
 .portfolio-table tr:last-child td { border-bottom: none; }
 
 .portfolio-table .ticker-cell {
-    font-family: 'Manrope', monospace;
+    font-family: 'IBM Plex Sans', monospace;
     font-weight: 700;
     color: var(--primary-color);
 }
@@ -515,7 +515,7 @@
     padding: 8px 12px;
     border: 1px solid rgba(26, 42, 94, 0.15);
     border-radius: 8px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.92rem;
     background: #fff;
     color: var(--text-color);
@@ -603,7 +603,7 @@
 }
 
 .alloc-total strong {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: 1.3rem;
     color: var(--primary-color);
 }
@@ -629,7 +629,7 @@
     background: transparent;
     border: 1px solid rgba(26, 42, 94, 0.15);
     color: var(--primary-color);
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 600;
     font-size: 0.85rem;
     padding: 9px 16px;
@@ -696,7 +696,7 @@
     background: transparent;
     border: none;
     padding: 13px 14px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: var(--primary-color);
@@ -719,7 +719,7 @@
     background: var(--bg-light);
     border: 2px solid transparent;
     border-radius: 10px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-size: 0.95rem;
     color: var(--primary-color);
     font-weight: 500;
@@ -751,7 +751,7 @@
     background: var(--bg-light);
     border: 2px solid transparent;
     color: var(--text-color);
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 600;
     font-size: 0.88rem;
     padding: 11px 10px;
@@ -784,7 +784,7 @@
     background: var(--gold);
     color: var(--primary-dark);
     border: none;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     font-weight: 600;
     font-size: 0.88rem;
     padding: 11px 18px;
@@ -867,7 +867,7 @@
 }
 
 .kpi-value {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-weight: 700;
     font-size: clamp(1.6rem, 2.6vw, 2rem);
     color: var(--primary-color);
@@ -890,7 +890,7 @@
 }
 
 .chart-block h3 {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: 1.15rem;
     color: var(--primary-color);
     margin-bottom: 4px;
@@ -993,7 +993,7 @@
 }
 
 .comp-value {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-weight: 700;
     font-size: 1.05rem;
     color: var(--primary-color);

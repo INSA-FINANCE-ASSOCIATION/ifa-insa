@@ -839,12 +839,12 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { font: { family: 'Manrope', size: 12 }, usePointStyle: true, padding: 16 }
+                        labels: { font: { family: 'IBM Plex Sans', size: 12 }, usePointStyle: true, padding: 16 }
                     },
                     tooltip: {
                         backgroundColor: '#1a2a5e',
-                        titleFont: { family: 'Instrument Serif', size: 13 },
-                        bodyFont: { family: 'Manrope', size: 12 },
+                        titleFont: { family: 'IBM Plex Serif', size: 13 },
+                        bodyFont: { family: 'IBM Plex Sans', size: 12 },
                         padding: 12,
                         callbacks: {
                             label: c => `${c.dataset.label}: ${fmtEUR(c.parsed.y)}`
@@ -854,12 +854,12 @@
                 scales: {
                     x: {
                         grid: { display: false },
-                        ticks: { font: { family: 'Manrope', size: 11 }, color: '#5d6b82' }
+                        ticks: { font: { family: 'IBM Plex Sans', size: 11 }, color: '#5d6b82' }
                     },
                     y: {
                         grid: { color: 'rgba(26, 42, 94, 0.06)' },
                         ticks: {
-                            font: { family: 'Manrope', size: 11 },
+                            font: { family: 'IBM Plex Sans', size: 11 },
                             color: '#5d6b82',
                             callback: v => fmtEUR(v).replace(/\u00a0/g, ' ')
                         }
@@ -922,7 +922,7 @@
                 maintainAspectRatio: false,
                 cutout: '55%',
                 plugins: {
-                    legend: { position: 'bottom', labels: { font: { family: 'Manrope', size: 12 }, usePointStyle: true, padding: 12 } },
+                    legend: { position: 'bottom', labels: { font: { family: 'IBM Plex Sans', size: 12 }, usePointStyle: true, padding: 12 } },
                     tooltip: {
                         backgroundColor: '#1a2a5e',
                         callbacks: {

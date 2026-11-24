@@ -45,7 +45,7 @@ html {
 }
 
 body {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     color: var(--text-color);
     background-color: var(--bg-color);
     line-height: 1.6;
@@ -56,7 +56,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-weight: 600;
     line-height: 1.3;
 }
@@ -130,7 +130,7 @@ img {
 }
 
 .logo-text {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: #fff;
@@ -1848,7 +1848,7 @@ img {
 }
 
 .footer-logo span {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: 1.3rem;
     font-weight: 700;
 }
@@ -1986,7 +1986,7 @@ img {
 .ca-band-title {
     text-align: center;
     color: #fff;
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: clamp(1.3rem, 2vw, 1.7rem);
     font-weight: 600;
     margin: 0 0 20px;
@@ -2053,7 +2053,7 @@ img {
     min-width: 0;
 }
 .ca-nom {
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: 1rem;
     font-weight: 700;
     color: var(--primary-color);
@@ -2808,7 +2808,7 @@ img {
 .stats-intro {
     text-align: center;
     color: #fff;
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     font-size: clamp(1.4rem, 2.2vw, 1.8rem);
     font-weight: 600;
     margin: 0 0 35px;
@@ -2844,7 +2844,7 @@ img {
     display: block;
     font-size: clamp(2.5rem, 4vw, 3.5rem);
     font-weight: 700;
-    font-family: 'Instrument Serif', serif;
+    font-family: 'IBM Plex Serif', serif;
     color: var(--gold);
     line-height: 1;
     margin-bottom: 12px;
