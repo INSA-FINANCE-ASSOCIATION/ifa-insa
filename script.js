@@ -920,6 +920,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // =========================================
     
     const forms = document.querySelectorAll('form');
+
+    // Retour de FormSubmit après un envoi classique : afficher la confirmation
+    if (new URLSearchParams(window.location.search).get('envoye') === '1') {
+        const sentForm = document.querySelector('form.contact-form');
+        if (sentForm) {
+            sentForm.innerHTML = `
+                <div style="text-align:center; padding: 40px 20px;">
+                    <i class="fas fa-check-circle" style="font-size:3rem; color:var(--gold); margin-bottom:16px; display:block;"></i>
+                    <p style="font-size:1.2rem; font-weight:600; color:var(--primary-color); margin:0 0 8px;">Message envoyé !</p>
+                    <p style="color:var(--text-light); margin:0;">Nous vous répondrons dans les plus brefs délais.</p>
+                </div>`;
+            setTimeout(() => sentForm.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+        }
+        // Nettoie l'URL pour qu'un rechargement ne réaffiche pas la confirmation
+        history.replaceState(null, '', window.location.pathname + window.location.hash);
+    }
     
     forms.forEach(form => {
         // Skip poll form (handled separately)
@@ -983,6 +999,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 })
                 .catch(err => {
+                    // Requête bloquée par le navigateur (CORS / page anti-robots de FormSubmit) ou réseau :
+                    // on bascule sur l'envoi classique du formulaire, qui n'est pas soumis au CORS.
+                    // FormSubmit redirige ensuite vers _next (?envoye=1) où le message de succès s'affiche.
+                    if (err instanceof TypeError && !form.dataset.nativeTried) {
+                        form.dataset.nativeTried = '1';
+                        HTMLFormElement.prototype.submit.call(form);
+                        return;
+                    }
                     btn.textContent = originalText;
                     btn.disabled = false;
                     let msg = 'Une erreur est survenue. Veuillez réessayer.';
