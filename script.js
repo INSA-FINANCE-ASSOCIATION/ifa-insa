@@ -481,51 +481,6 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
     startAuto();
 }
 
-// --- Partenaires ---
-(function loadPartenaires() {
-    const container = document.getElementById('partenaires-container');
-    if (!container) return;
-
-    fetch(SHEET_API_URL + '?sheet=Partenaires')
-        .then(r => r.json())
-        .then(rawRows => {
-            const rows = rawRows.map(normalizeRow).filter(r => !/aml\s*training/i.test(Object.values(r).join(' ')));
-            if (!rows.length) {
-                container.innerHTML = `
-                    <div class="partenaires-empty">
-                        <i class="fas fa-handshake"></i>
-                        <p>Aucun partenaire pour le moment.</p>
-                    </div>`;
-                return;
-            }
-
-            const escapeHtml = s => String(s || '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
-            const nl2br = s => escapeHtml(s).replace(/\r\n|\r|\n/g, '<br>');
-
-            const cards = rows.map(p => {
-                const logoUrl = getDriveImageUrl(p['Logo'] || '');
-                const logoBlock = logoUrl
-                    ? `<img src="${logoUrl}" alt="${escapeHtml(p['Nom'])}" class="partenaire-logo" loading="lazy">`
-                    : `<div class="partenaire-logo-placeholder"><i class="fas fa-building"></i></div>`;
-                return `
-                    <div class="partenaire-card">
-                        ${logoBlock}
-                        <div class="partenaire-nom">${escapeHtml(p['Nom'])}</div>
-                        <p class="partenaire-description">${nl2br(p['Description'])}</p>
-                    </div>`;
-            }).join('');
-
-            container.innerHTML = `<div class="partenaires-grid">${cards}</div>`;
-        })
-        .catch(() => {
-            container.innerHTML = '<p style="text-align:center;color:#888;">Impossible de charger les partenaires.</p>';
-        });
-})();
-
 // --- Équipe ---
 (function loadEquipe() {
     const carousel = document.getElementById('bureauCarousel');
