@@ -30,7 +30,7 @@ function toTypeCode(typeNom) {
     fetch(SHEET_API_URL + '?sheet=Ev%C3%A9nements')
         .then(r => r.json())
         .then(rawRows => {
-            const rows = rawRows.map(normalizeRow).filter(r => !/aml\s*training/i.test(Object.values(r).join(' ')));
+            const rows = rawRows.map(normalizeRow);
             if (!rows.length) {
                 container.innerHTML = `
                     <div class="events-empty">
@@ -489,7 +489,7 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
     fetch(SHEET_API_URL + '?sheet=%C3%89quipe')
         .then(r => r.json())
         .then(rawRows => {
-            const rows = rawRows.map(normalizeRow).filter(r => !/aml\s*training/i.test(Object.values(r).join(' ')));
+            const rows = rawRows.map(normalizeRow);
             if (!rows || !rows.length) {
                 initBureauCarousel();
                 return;
@@ -531,7 +531,7 @@ function initCarousel(wrapperId, trackId, prevId, nextId, dotsId, total) {
     fetch(SHEET_API_URL + '?sheet=Stats')
         .then(r => r.json())
         .then(rawRows => {
-            const rows = rawRows.map(normalizeRow).filter(r => !/aml\s*training/i.test(Object.values(r).join(' ')));
+            const rows = rawRows.map(normalizeRow);
             if (!rows || !rows.length) return;
             grid.innerHTML = rows.map(stat => `
                 <div class="stat-item">
